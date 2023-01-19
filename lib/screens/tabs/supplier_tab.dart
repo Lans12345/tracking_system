@@ -9,6 +9,7 @@ class SupplierTab extends StatelessWidget {
   Widget build(BuildContext context) {
     return Container(
       child: Column(
+        crossAxisAlignment: CrossAxisAlignment.start,
         children: [
           Padding(
             padding: const EdgeInsets.only(left: 30, right: 100),
@@ -115,6 +116,150 @@ class SupplierTab extends StatelessWidget {
               ],
             ),
           ),
+          Divider(),
+          Padding(
+            padding: const EdgeInsets.only(left: 30),
+            child: TextBold(
+                text: 'Products Available', fontSize: 24, color: Colors.black),
+          ),
+          SizedBox(
+            height: 20,
+          ),
+          Expanded(
+            child: SizedBox(
+              child: GridView.builder(
+                  gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
+                      crossAxisCount: 4),
+                  itemBuilder: ((context, index) {
+                    return Padding(
+                      padding: const EdgeInsets.all(5.0),
+                      child: Card(
+                        elevation: 3,
+                        child: Container(
+                          child: Padding(
+                            padding: const EdgeInsets.fromLTRB(10, 5, 10, 5),
+                            child: Column(
+                              crossAxisAlignment: CrossAxisAlignment.start,
+                              children: [
+                                TextBold(
+                                    text: 'Supplier X',
+                                    fontSize: 18,
+                                    color: Colors.black),
+                                SizedBox(
+                                  height: 10,
+                                ),
+                                Row(
+                                  mainAxisAlignment:
+                                      MainAxisAlignment.spaceBetween,
+                                  children: [
+                                    TextBold(
+                                        text: 'Quantity',
+                                        fontSize: 14,
+                                        color: Colors.black),
+                                    TextRegular(
+                                        text: '21',
+                                        fontSize: 12,
+                                        color: Colors.black)
+                                  ],
+                                ),
+                                SizedBox(
+                                  height: 5,
+                                ),
+                                Row(
+                                  mainAxisAlignment:
+                                      MainAxisAlignment.spaceBetween,
+                                  children: [
+                                    TextBold(
+                                        text: 'Kind',
+                                        fontSize: 14,
+                                        color: Colors.black),
+                                    TextRegular(
+                                        text: 'Original',
+                                        fontSize: 12,
+                                        color: Colors.black)
+                                  ],
+                                ),
+                                SizedBox(
+                                  height: 5,
+                                ),
+                                Row(
+                                  mainAxisAlignment:
+                                      MainAxisAlignment.spaceBetween,
+                                  children: [
+                                    TextBold(
+                                        text: 'Price',
+                                        fontSize: 14,
+                                        color: Colors.black),
+                                    TextRegular(
+                                        text: '25.00',
+                                        fontSize: 12,
+                                        color: Colors.black)
+                                  ],
+                                ),
+                                SizedBox(
+                                  height: 5,
+                                ),
+                                Row(
+                                  mainAxisAlignment:
+                                      MainAxisAlignment.spaceBetween,
+                                  children: [
+                                    TextBold(
+                                        text: 'Price (w/ %)',
+                                        fontSize: 14,
+                                        color: Colors.black),
+                                    TextRegular(
+                                        text: '50.00',
+                                        fontSize: 12,
+                                        color: Colors.black)
+                                  ],
+                                ),
+                                SizedBox(
+                                  height: 5,
+                                ),
+                                TextBold(
+                                    text: 'Customer/Unit name:',
+                                    fontSize: 14,
+                                    color: Colors.black),
+                                TextRegular(
+                                    text: 'John Doe',
+                                    fontSize: 12,
+                                    color: Colors.black),
+                                SizedBox(
+                                  height: 5,
+                                ),
+                                TextBold(
+                                    text: 'Item Description:',
+                                    fontSize: 14,
+                                    color: Colors.black),
+                                TextRegular(
+                                    text: 'Lorem Ipsum',
+                                    fontSize: 12,
+                                    color: Colors.black),
+                                SizedBox(
+                                  height: 20,
+                                ),
+                                Center(
+                                  child: MaterialButton(
+                                      child: TextRegular(
+                                          text: 'Add to canvass',
+                                          fontSize: 12,
+                                          color: Colors.white),
+                                      minWidth: 200,
+                                      color: Colors.blue[800],
+                                      onPressed: (() {})),
+                                )
+                              ],
+                            ),
+                          ),
+                          height: 400,
+                          width: 100,
+                          decoration: BoxDecoration(color: Colors.black12),
+                        ),
+                      ),
+                    );
+                  })),
+            ),
+          )
         ],
       ),
     );
