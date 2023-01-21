@@ -2,17 +2,20 @@ import 'package:flutter/material.dart';
 import 'package:tracking_system/utils/colors.dart';
 import 'package:tracking_system/widgets/text_widget.dart';
 
-class CanvassTab extends StatefulWidget {
+class OrderTab extends StatefulWidget {
   @override
-  State<CanvassTab> createState() => _CanvassTabState();
+  State<OrderTab> createState() => _OrderTabState();
 }
 
-class _CanvassTabState extends State<CanvassTab> {
+class _OrderTabState extends State<OrderTab> {
   var dropItem = ['Date', 'Name', 'Price'];
 
   var dropValue = 0;
+  var dropValue2 = 0;
 
   late List<bool> check = [];
+
+  var paymentModes = ['COD', 'Bank Payment'];
 
   @override
   Widget build(BuildContext context) {
@@ -108,7 +111,7 @@ class _CanvassTabState extends State<CanvassTab> {
                                   color: Colors.black)),
                           DataColumn(
                               label: TextRegular(
-                                  text: 'Availability',
+                                  text: 'Payment Mode',
                                   fontSize: 14,
                                   color: Colors.black)),
                           DataColumn(
@@ -145,10 +148,31 @@ class _CanvassTabState extends State<CanvassTab> {
                                       text: 'Original',
                                       fontSize: 12,
                                       color: Colors.black)),
-                                  DataCell(TextRegular(
-                                      text: 'Yes',
-                                      fontSize: 12,
-                                      color: Colors.black)),
+                                  DataCell(Padding(
+                                    padding: const EdgeInsets.only(
+                                        left: 10, right: 10),
+                                    child: DropdownButton(
+                                        value: dropValue2,
+                                        items: [
+                                          for (int i = 0;
+                                              i < paymentModes.length;
+                                              i++)
+                                            DropdownMenuItem(
+                                              onTap: () {},
+                                              value: i,
+                                              child: TextRegular(
+                                                  text: paymentModes[i],
+                                                  fontSize: 12,
+                                                  color: Colors.black),
+                                            ),
+                                        ],
+                                        onChanged: ((value) {
+                                          setState(() {
+                                            dropValue2 =
+                                                int.parse(value.toString());
+                                          });
+                                        })),
+                                  )),
                                   DataCell(TextRegular(
                                       text: '250',
                                       fontSize: 12,
@@ -207,30 +231,63 @@ class _CanvassTabState extends State<CanvassTab> {
                         )),
                   ],
                 ),
-                Column(
+                Row(
                   children: [
-                    SizedBox(
-                      height: 10,
+                    Column(
+                      children: [
+                        SizedBox(
+                          height: 10,
+                        ),
+                        SizedBox(
+                            width: 180,
+                            height: 30,
+                            child: TextBold(
+                                text: 'Total: ',
+                                fontSize: 14,
+                                color: Colors.black)),
+                        SizedBox(
+                          height: 10,
+                        ),
+                        SizedBox(
+                            width: 180,
+                            height: 30,
+                            child: TextBold(
+                                text: 'Total Quantity: ',
+                                fontSize: 14,
+                                color: Colors.black)),
+                      ],
                     ),
-                    MaterialButton(
-                        height: 40,
-                        minWidth: 200,
-                        child: TextRegular(
-                            text: 'Add to canvass',
-                            fontSize: 12,
-                            color: Colors.white),
-                        color: blueAccent,
-                        onPressed: (() {})),
                     SizedBox(
-                      height: 10,
+                      width: 20,
                     ),
-                    MaterialButton(
-                        height: 40,
-                        minWidth: 200,
-                        child: TextRegular(
-                            text: 'Remove', fontSize: 12, color: Colors.white),
-                        color: redAccent,
-                        onPressed: (() {})),
+                    Column(
+                      children: [
+                        SizedBox(
+                          height: 10,
+                        ),
+                        MaterialButton(
+                            height: 40,
+                            minWidth: 200,
+                            child: TextRegular(
+                                text: 'Add to canvass',
+                                fontSize: 12,
+                                color: Colors.white),
+                            color: blueAccent,
+                            onPressed: (() {})),
+                        SizedBox(
+                          height: 10,
+                        ),
+                        MaterialButton(
+                            height: 40,
+                            minWidth: 200,
+                            child: TextRegular(
+                                text: 'Remove',
+                                fontSize: 12,
+                                color: Colors.white),
+                            color: redAccent,
+                            onPressed: (() {})),
+                      ],
+                    ),
                   ],
                 ),
               ],
