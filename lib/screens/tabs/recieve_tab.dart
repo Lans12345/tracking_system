@@ -153,31 +153,10 @@ class _ReceiveTabState extends State<ReceiveTab> {
                                       text: 'Original',
                                       fontSize: 12,
                                       color: Colors.black)),
-                                  DataCell(Padding(
-                                    padding: const EdgeInsets.only(
-                                        left: 10, right: 10),
-                                    child: DropdownButton(
-                                        value: dropValue2,
-                                        items: [
-                                          for (int i = 0;
-                                              i < paymentModes.length;
-                                              i++)
-                                            DropdownMenuItem(
-                                              onTap: () {},
-                                              value: i,
-                                              child: TextRegular(
-                                                  text: paymentModes[i],
-                                                  fontSize: 12,
-                                                  color: Colors.black),
-                                            ),
-                                        ],
-                                        onChanged: ((value) {
-                                          setState(() {
-                                            dropValue2 =
-                                                int.parse(value.toString());
-                                          });
-                                        })),
-                                  )),
+                                  DataCell(TextRegular(
+                                      text: 'COD',
+                                      fontSize: 12,
+                                      color: Colors.black)),
                                   DataCell(TextRegular(
                                       text: '250',
                                       fontSize: 12,
