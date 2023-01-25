@@ -2,6 +2,7 @@ import 'package:easy_sidemenu/easy_sidemenu.dart';
 import 'package:flutter/material.dart';
 import 'package:tracking_system/screens/tabs/canvass_tab.dart';
 import 'package:tracking_system/screens/tabs/order_tab.dart';
+import 'package:tracking_system/screens/tabs/recieve_tab.dart';
 import 'package:tracking_system/screens/tabs/ship_tab.dart';
 import 'package:tracking_system/screens/tabs/supplier_tab.dart';
 import 'package:tracking_system/utils/colors.dart';
@@ -151,7 +152,8 @@ class HomeScreen extends StatelessWidget {
                         CanvassTab(),
                         OrderTab(),
                         ShipTab(),
-                        for (int i = 1; i < 5; i++)
+                        ReceiveTab(),
+                        for (int i = 1; i < 4; i++)
                           Container(
                             child: Center(
                               child: Text(i.toString()),
