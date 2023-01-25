@@ -302,30 +302,29 @@ class _ShipTabState extends State<ShipTab> {
                       width: 20,
                     ),
                     Column(
+                      mainAxisAlignment: MainAxisAlignment.center,
                       children: [
                         SizedBox(
                           height: 10,
                         ),
-                        MaterialButton(
-                            height: 40,
-                            minWidth: 200,
-                            child: TextRegular(
-                                text: 'Add to canvass',
-                                fontSize: 12,
-                                color: Colors.white),
-                            color: blueAccent,
-                            onPressed: (() {})),
                         SizedBox(
-                          height: 10,
+                            height: 30,
+                            width: 200,
+                            child: TextFormField(
+                              decoration:
+                                  InputDecoration(labelText: 'Waybill No.'),
+                            )),
+                        SizedBox(
+                          height: 20,
                         ),
                         MaterialButton(
                             height: 40,
                             minWidth: 200,
                             child: TextRegular(
-                                text: 'Remove',
+                                text: 'Confirm',
                                 fontSize: 12,
                                 color: Colors.white),
-                            color: redAccent,
+                            color: blueAccent,
                             onPressed: (() {})),
                       ],
                     ),
