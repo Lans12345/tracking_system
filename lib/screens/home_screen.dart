@@ -4,6 +4,7 @@ import 'package:tracking_system/screens/tabs/canvass_tab.dart';
 import 'package:tracking_system/screens/tabs/deliver_tab.dart';
 import 'package:tracking_system/screens/tabs/order_tab.dart';
 import 'package:tracking_system/screens/tabs/recieve_tab.dart';
+import 'package:tracking_system/screens/tabs/return_tab.dart';
 import 'package:tracking_system/screens/tabs/ship_tab.dart';
 import 'package:tracking_system/screens/tabs/supplier_tab.dart';
 import 'package:tracking_system/utils/colors.dart';
@@ -24,7 +25,7 @@ class HomeScreen extends StatelessWidget {
       SideMenuItem(
         // Priority of item to show on SideMenu, lower value is displayed at the top
         priority: 1,
-        icon: Icon(Icons.add),
+        icon: const Icon(Icons.add),
 
         title: 'Add Supplier',
         onTap: () => page.jumpToPage(1),
@@ -70,6 +71,9 @@ class HomeScreen extends StatelessWidget {
       body: Column(
         children: [
           Container(
+            height: 120,
+            width: double.infinity,
+            decoration: BoxDecoration(color: primary),
             child: Padding(
               padding: const EdgeInsets.only(left: 20),
               child: Row(
@@ -100,9 +104,6 @@ class HomeScreen extends StatelessWidget {
                 ],
               ),
             ),
-            height: 120,
-            width: double.infinity,
-            decoration: BoxDecoration(color: primary),
           ),
           Expanded(
             child: SizedBox(
@@ -120,9 +121,9 @@ class HomeScreen extends StatelessWidget {
                           hoverColor: Colors.brown[100],
                           selectedIconColor: Colors.white,
                           unselectedIconColor: Colors.white,
-                          selectedTitleTextStyle: TextStyle(
+                          selectedTitleTextStyle: const TextStyle(
                               color: Colors.white, fontFamily: 'QBold'),
-                          unselectedTitleTextStyle: TextStyle(
+                          unselectedTitleTextStyle: const TextStyle(
                               color: Colors.white, fontFamily: 'QRegular'),
                           selectedColor: Colors.black26,
                           iconSize: 20,
@@ -155,12 +156,7 @@ class HomeScreen extends StatelessWidget {
                         ShipTab(),
                         ReceiveTab(),
                         DeliverTab(),
-                        for (int i = 1; i < 3; i++)
-                          Container(
-                            child: Center(
-                              child: Text(i.toString()),
-                            ),
-                          ),
+                        const ReturnTab(),
                       ],
                     ),
                   ),
