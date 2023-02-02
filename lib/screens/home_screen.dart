@@ -12,60 +12,76 @@ import 'package:tracking_system/widgets/text_widget.dart';
 
 class HomeScreen extends StatelessWidget {
   PageController page = PageController();
+  SideMenuController page1 = SideMenuController();
 
   @override
   Widget build(BuildContext context) {
     List<SideMenuItem> items = [
       SideMenuItem(
-        // Priority of item to show on SideMenu, lower value is displayed at the top
-        priority: 0,
-        title: 'Supplier',
-        onTap: () => page.jumpToPage(0),
-      ),
+          // Priority of item to show on SideMenu, lower value is displayed at the top
+          priority: 0,
+          title: 'Supplier',
+          onTap: ((p0, p1) {
+            page.jumpToPage(0);
+            page1.changePage(0);
+          })),
       SideMenuItem(
-        // Priority of item to show on SideMenu, lower value is displayed at the top
-        priority: 1,
-        icon: const Icon(Icons.add),
-
-        title: 'Add Supplier',
-        onTap: () => page.jumpToPage(1),
-      ),
+          // Priority of item to show on SideMenu, lower value is displayed at the top
+          priority: 1,
+          icon: const Icon(Icons.add),
+          title: 'Add Supplier',
+          onTap: ((p0, p1) {
+            page.jumpToPage(1);
+            page1.changePage(1);
+          })),
       SideMenuItem(
-        // Priority of item to show on SideMenu, lower value is displayed at the top
-        priority: 2,
-        title: 'For Canvass',
-        onTap: () => page.jumpToPage(2),
-      ),
+          // Priority of item to show on SideMenu, lower value is displayed at the top
+          priority: 2,
+          title: 'For Canvass',
+          onTap: ((p0, p1) {
+            page.jumpToPage(2);
+            page1.changePage(2);
+          })),
       SideMenuItem(
-        // Priority of item to show on SideMenu, lower value is displayed at the top
-        priority: 3,
-        title: 'To Order',
-        onTap: () => page.jumpToPage(3),
-      ),
+          // Priority of item to show on SideMenu, lower value is displayed at the top
+          priority: 3,
+          title: 'To Order',
+          onTap: ((p0, p1) {
+            page.jumpToPage(3);
+            page1.changePage(3);
+          })),
       SideMenuItem(
-        // Priority of item to show on SideMenu, lower value is displayed at the top
-        priority: 4,
-        title: 'To Ship (To CDO)',
-        onTap: () => page.jumpToPage(4),
-      ),
+          // Priority of item to show on SideMenu, lower value is displayed at the top
+          priority: 4,
+          title: 'To Ship (To CDO)',
+          onTap: ((p0, p1) {
+            page.jumpToPage(4);
+            page1.changePage(4);
+          })),
       SideMenuItem(
-        // Priority of item to show on SideMenu, lower value is displayed at the top
-        priority: 5,
-        title: 'To Receive (Courier to Agora)',
-        onTap: () => page.jumpToPage(5),
-      ),
+          // Priority of item to show on SideMenu, lower value is displayed at the top
+          priority: 5,
+          title: 'To Receive (Courier to Agora)',
+          onTap: ((p0, p1) {
+            page.jumpToPage(5);
+            page1.changePage(5);
+          })),
       SideMenuItem(
-        // Priority of item to show on SideMenu, lower value is displayed at the top
-        priority: 6,
-        title: 'To Deliver (Agora to Shop)',
-        onTap: () => page.jumpToPage(6),
-      ),
+          // Priority of item to show on SideMenu, lower value is displayed at the top
+          priority: 6,
+          title: 'To Deliver (Agora to Shop)',
+          onTap: ((p0, p1) {
+            page.jumpToPage(6);
+            page1.changePage(6);
+          })),
       SideMenuItem(
-        // Priority of item to show on SideMenu, lower value is displayed at the top
-        priority: 7,
-        title: 'To Return',
-        onTap: () => page.jumpToPage(7),
-      ),
+          // Priority of item to show on SideMenu, lower value is displayed at the top
+          priority: 7,
+          title: 'To Return',
+          onTap: ((p0, p1) {
+            page.jumpToPage(7);
+            page1.changePage(7);
+          })),
     ];
     return Scaffold(
       body: Column(
@@ -83,7 +99,7 @@ class HomeScreen extends StatelessWidget {
                     'assets/images/logo.png',
                     height: 100,
                   ),
-                  SizedBox(
+                  const SizedBox(
                     width: 10,
                   ),
                   Column(
@@ -96,7 +112,7 @@ class HomeScreen extends StatelessWidget {
                           text: 'Parts and accessories',
                           fontSize: 15,
                           color: Colors.white),
-                      SizedBox(
+                      const SizedBox(
                         height: 20,
                       ),
                     ],
@@ -134,7 +150,7 @@ class HomeScreen extends StatelessWidget {
                               const EdgeInsets.symmetric(horizontal: 10.0),
                           toggleColor: Colors.black54),
                       // Page controller to manage a PageView
-                      controller: page,
+                      controller: page1,
                       // Will shows on top of all items, it can be a logo or a Title text
 
                       // Will show on bottom of SideMenu when displayMode was SideMenuDisplayMode.open

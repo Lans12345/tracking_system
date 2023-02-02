@@ -1,7 +1,13 @@
+import 'package:firedart/firestore/firestore.dart';
 import 'package:flutter/material.dart';
 import 'package:tracking_system/screens/home_screen.dart';
 
-void main() {
+const apiKey = 'AIzaSyD1wT4D93-Rz5pmb_UEjFBh1_QD1lX5g0U';
+const projectId = 'autoworkx-tracking-system';
+
+void main() async {
+  Firestore.initialize(projectId);
+
   runApp(const MyApp());
 }
 
