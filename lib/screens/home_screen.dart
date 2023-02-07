@@ -38,7 +38,7 @@ class HomeScreen extends StatelessWidget {
           })),
       SideMenuItem(
           // Priority of item to show on SideMenu, lower value is displayed at the top
-          priority: 1,
+          priority: 2,
           title: 'All Items',
           onTap: ((p0, p1) {
             page.jumpToPage(2);
@@ -46,7 +46,7 @@ class HomeScreen extends StatelessWidget {
           })),
       SideMenuItem(
           // Priority of item to show on SideMenu, lower value is displayed at the top
-          priority: 2,
+          priority: 3,
           title: 'For Canvass',
           onTap: ((p0, p1) {
             page.jumpToPage(3);
@@ -54,7 +54,7 @@ class HomeScreen extends StatelessWidget {
           })),
       SideMenuItem(
           // Priority of item to show on SideMenu, lower value is displayed at the top
-          priority: 3,
+          priority: 4,
           title: 'To Order',
           onTap: ((p0, p1) {
             page.jumpToPage(4);
@@ -62,7 +62,7 @@ class HomeScreen extends StatelessWidget {
           })),
       SideMenuItem(
           // Priority of item to show on SideMenu, lower value is displayed at the top
-          priority: 4,
+          priority: 5,
           title: 'To Ship (To CDO)',
           onTap: ((p0, p1) {
             page.jumpToPage(5);
@@ -70,7 +70,7 @@ class HomeScreen extends StatelessWidget {
           })),
       SideMenuItem(
           // Priority of item to show on SideMenu, lower value is displayed at the top
-          priority: 5,
+          priority: 6,
           title: 'To Receive (Courier to Agora)',
           onTap: ((p0, p1) {
             page.jumpToPage(6);
@@ -78,7 +78,7 @@ class HomeScreen extends StatelessWidget {
           })),
       SideMenuItem(
           // Priority of item to show on SideMenu, lower value is displayed at the top
-          priority: 6,
+          priority: 7,
           title: 'To Deliver (Agora to Shop)',
           onTap: ((p0, p1) {
             page.jumpToPage(7);
@@ -86,7 +86,7 @@ class HomeScreen extends StatelessWidget {
           })),
       SideMenuItem(
           // Priority of item to show on SideMenu, lower value is displayed at the top
-          priority: 7,
+          priority: 8,
           title: 'To Return',
           onTap: ((p0, p1) {
             page.jumpToPage(8);
