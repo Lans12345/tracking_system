@@ -21,7 +21,7 @@ class _OrderTabState extends State<OrderTab> {
   Widget build(BuildContext context) {
     return Column(
       children: [
-        SizedBox(
+        const SizedBox(
           height: 20,
         ),
         Padding(
@@ -35,20 +35,20 @@ class _OrderTabState extends State<OrderTab> {
                   child: TextFormField(
                     decoration: InputDecoration(
                         hintText: 'Search here',
-                        prefixIcon: Icon(Icons.search),
+                        prefixIcon: const Icon(Icons.search),
                         fillColor: Colors.grey[300],
                         filled: true,
                         border: InputBorder.none),
                   )),
-              SizedBox(
+              const SizedBox(
                 width: 20,
               ),
               MaterialButton(
-                  child: TextRegular(
-                      text: 'Search', fontSize: 12, color: Colors.white),
                   color: primary,
-                  onPressed: (() {})),
-              Expanded(
+                  onPressed: (() {}),
+                  child: TextRegular(
+                      text: 'Search', fontSize: 12, color: Colors.white)),
+              const Expanded(
                 child: SizedBox(
                   width: 30,
                 ),
@@ -65,7 +65,7 @@ class _OrderTabState extends State<OrderTab> {
                             onTap: () {},
                             value: i,
                             child: TextRegular(
-                                text: "Sort by: " + dropItem[i],
+                                text: "Sort by: ${dropItem[i]}",
                                 fontSize: 12,
                                 color: Colors.black),
                           ),
@@ -181,13 +181,33 @@ class _OrderTabState extends State<OrderTab> {
                                       text: '500',
                                       fontSize: 12,
                                       color: Colors.black)),
-                                  DataCell(Builder(builder: (context) {
-                                    return Checkbox(
-                                        value: true,
-                                        onChanged: ((value) {
-                                          setState(() {});
-                                        }));
-                                  })),
+                                  DataCell(
+                                    Row(
+                                      children: [
+                                        MaterialButton(
+                                            height: 35,
+                                            minWidth: 80,
+                                            color: blueAccent,
+                                            onPressed: (() {}),
+                                            child: TextRegular(
+                                                text: 'Add to Ship',
+                                                fontSize: 10,
+                                                color: Colors.white)),
+                                        const SizedBox(
+                                          width: 20,
+                                        ),
+                                        MaterialButton(
+                                            height: 35,
+                                            minWidth: 80,
+                                            color: redAccent,
+                                            onPressed: (() {}),
+                                            child: TextRegular(
+                                                text: 'Delete',
+                                                fontSize: 10,
+                                                color: Colors.white)),
+                                      ],
+                                    ),
+                                  ),
                                 ])
                         ]),
                       )
@@ -199,6 +219,10 @@ class _OrderTabState extends State<OrderTab> {
           ),
         ),
         Container(
+          height: 100,
+          margin: const EdgeInsets.only(left: 30, right: 30, bottom: 20),
+          width: double.infinity,
+          color: Colors.grey[300],
           child: Padding(
             padding: const EdgeInsets.only(
               left: 50,
@@ -211,19 +235,19 @@ class _OrderTabState extends State<OrderTab> {
                 Column(
                   crossAxisAlignment: CrossAxisAlignment.start,
                   children: [
-                    SizedBox(
+                    const SizedBox(
                       height: 10,
                     ),
                     TextBold(
                         text: 'Supplier X', fontSize: 24, color: Colors.black),
-                    SizedBox(
+                    const SizedBox(
                       height: 10,
                     ),
                     SizedBox(
                         width: 250,
                         height: 35,
                         child: TextFormField(
-                          decoration: InputDecoration(
+                          decoration: const InputDecoration(
                               fillColor: Colors.white,
                               filled: true,
                               hintText: 'Customer/Unit name',
@@ -235,7 +259,7 @@ class _OrderTabState extends State<OrderTab> {
                   children: [
                     Column(
                       children: [
-                        SizedBox(
+                        const SizedBox(
                           height: 10,
                         ),
                         SizedBox(
@@ -245,7 +269,7 @@ class _OrderTabState extends State<OrderTab> {
                                 text: 'Total: ',
                                 fontSize: 14,
                                 color: Colors.black)),
-                        SizedBox(
+                        const SizedBox(
                           height: 10,
                         ),
                         SizedBox(
@@ -257,46 +281,14 @@ class _OrderTabState extends State<OrderTab> {
                                 color: Colors.black)),
                       ],
                     ),
-                    SizedBox(
+                    const SizedBox(
                       width: 20,
-                    ),
-                    Column(
-                      children: [
-                        SizedBox(
-                          height: 10,
-                        ),
-                        MaterialButton(
-                            height: 40,
-                            minWidth: 200,
-                            child: TextRegular(
-                                text: 'Add to canvass',
-                                fontSize: 12,
-                                color: Colors.white),
-                            color: blueAccent,
-                            onPressed: (() {})),
-                        SizedBox(
-                          height: 10,
-                        ),
-                        MaterialButton(
-                            height: 40,
-                            minWidth: 200,
-                            child: TextRegular(
-                                text: 'Remove',
-                                fontSize: 12,
-                                color: Colors.white),
-                            color: redAccent,
-                            onPressed: (() {})),
-                      ],
                     ),
                   ],
                 ),
               ],
             ),
           ),
-          height: 100,
-          margin: EdgeInsets.only(left: 30, right: 30, bottom: 20),
-          width: double.infinity,
-          color: Colors.grey[300],
         ),
       ],
     );

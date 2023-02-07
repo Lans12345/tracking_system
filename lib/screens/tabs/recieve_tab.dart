@@ -26,7 +26,7 @@ class _ReceiveTabState extends State<ReceiveTab> {
   Widget build(BuildContext context) {
     return Column(
       children: [
-        SizedBox(
+        const SizedBox(
           height: 20,
         ),
         Padding(
@@ -40,20 +40,20 @@ class _ReceiveTabState extends State<ReceiveTab> {
                   child: TextFormField(
                     decoration: InputDecoration(
                         hintText: 'Search here',
-                        prefixIcon: Icon(Icons.search),
+                        prefixIcon: const Icon(Icons.search),
                         fillColor: Colors.grey[300],
                         filled: true,
                         border: InputBorder.none),
                   )),
-              SizedBox(
+              const SizedBox(
                 width: 20,
               ),
               MaterialButton(
-                  child: TextRegular(
-                      text: 'Search', fontSize: 12, color: Colors.white),
                   color: primary,
-                  onPressed: (() {})),
-              Expanded(
+                  onPressed: (() {}),
+                  child: TextRegular(
+                      text: 'Search', fontSize: 12, color: Colors.white)),
+              const Expanded(
                 child: SizedBox(
                   width: 30,
                 ),
@@ -70,7 +70,7 @@ class _ReceiveTabState extends State<ReceiveTab> {
                             onTap: () {},
                             value: i,
                             child: TextRegular(
-                                text: "Sort by: " + dropItem[i],
+                                text: "Sort by: ${dropItem[i]}",
                                 fontSize: 12,
                                 color: Colors.black),
                           ),
@@ -165,13 +165,33 @@ class _ReceiveTabState extends State<ReceiveTab> {
                                       text: '500',
                                       fontSize: 12,
                                       color: Colors.black)),
-                                  DataCell(Builder(builder: (context) {
-                                    return Checkbox(
-                                        value: true,
-                                        onChanged: ((value) {
-                                          setState(() {});
-                                        }));
-                                  })),
+                                  DataCell(
+                                    Row(
+                                      children: [
+                                        MaterialButton(
+                                            height: 35,
+                                            minWidth: 80,
+                                            color: blueAccent,
+                                            onPressed: (() {}),
+                                            child: TextRegular(
+                                                text: 'Add to Deliver',
+                                                fontSize: 10,
+                                                color: Colors.white)),
+                                        const SizedBox(
+                                          width: 20,
+                                        ),
+                                        MaterialButton(
+                                            height: 35,
+                                            minWidth: 80,
+                                            color: redAccent,
+                                            onPressed: (() {}),
+                                            child: TextRegular(
+                                                text: 'Delete',
+                                                fontSize: 10,
+                                                color: Colors.white)),
+                                      ],
+                                    ),
+                                  ),
                                 ])
                         ]),
                       )
@@ -183,6 +203,10 @@ class _ReceiveTabState extends State<ReceiveTab> {
           ),
         ),
         Container(
+          height: 100,
+          margin: const EdgeInsets.only(left: 30, right: 30, bottom: 20),
+          width: double.infinity,
+          color: Colors.grey[300],
           child: Padding(
             padding: const EdgeInsets.only(
               left: 50,
@@ -195,12 +219,12 @@ class _ReceiveTabState extends State<ReceiveTab> {
                 Column(
                   crossAxisAlignment: CrossAxisAlignment.start,
                   children: [
-                    SizedBox(
+                    const SizedBox(
                       height: 10,
                     ),
                     TextBold(
                         text: 'Supplier X', fontSize: 24, color: Colors.black),
-                    SizedBox(
+                    const SizedBox(
                       height: 10,
                     ),
                     Row(
@@ -210,7 +234,7 @@ class _ReceiveTabState extends State<ReceiveTab> {
                             text: 'Customer/Unit name: ',
                             fontSize: 14,
                             color: Colors.black),
-                        SizedBox(
+                        const SizedBox(
                           width: 100,
                         ),
                         TextBold(
@@ -225,7 +249,7 @@ class _ReceiveTabState extends State<ReceiveTab> {
                   children: [
                     Column(
                       children: [
-                        SizedBox(
+                        const SizedBox(
                           height: 10,
                         ),
                         SizedBox(
@@ -235,7 +259,7 @@ class _ReceiveTabState extends State<ReceiveTab> {
                                 text: 'Total: ',
                                 fontSize: 14,
                                 color: Colors.black)),
-                        SizedBox(
+                        const SizedBox(
                           height: 10,
                         ),
                         SizedBox(
@@ -247,7 +271,7 @@ class _ReceiveTabState extends State<ReceiveTab> {
                                 color: Colors.black)),
                       ],
                     ),
-                    SizedBox(
+                    const SizedBox(
                       width: 20,
                     ),
                     Column(
@@ -258,18 +282,6 @@ class _ReceiveTabState extends State<ReceiveTab> {
                             text: 'Waybill No: ',
                             fontSize: 14,
                             color: Colors.black),
-                        SizedBox(
-                          height: 10,
-                        ),
-                        MaterialButton(
-                            height: 40,
-                            minWidth: 200,
-                            child: TextRegular(
-                                text: 'Received',
-                                fontSize: 12,
-                                color: Colors.white),
-                            color: greenAccent,
-                            onPressed: (() {})),
                       ],
                     ),
                   ],
@@ -277,10 +289,6 @@ class _ReceiveTabState extends State<ReceiveTab> {
               ],
             ),
           ),
-          height: 100,
-          margin: EdgeInsets.only(left: 30, right: 30, bottom: 20),
-          width: double.infinity,
-          color: Colors.grey[300],
         ),
       ],
     );

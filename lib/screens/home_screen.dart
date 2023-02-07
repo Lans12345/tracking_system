@@ -1,7 +1,9 @@
 import 'package:easy_sidemenu/easy_sidemenu.dart';
 import 'package:flutter/material.dart';
+import 'package:tracking_system/screens/tabs/add_supplier_tab.dart';
 import 'package:tracking_system/screens/tabs/canvass_tab.dart';
 import 'package:tracking_system/screens/tabs/deliver_tab.dart';
+import 'package:tracking_system/screens/tabs/items_tab.dart';
 import 'package:tracking_system/screens/tabs/order_tab.dart';
 import 'package:tracking_system/screens/tabs/recieve_tab.dart';
 import 'package:tracking_system/screens/tabs/return_tab.dart';
@@ -36,51 +38,59 @@ class HomeScreen extends StatelessWidget {
           })),
       SideMenuItem(
           // Priority of item to show on SideMenu, lower value is displayed at the top
-          priority: 2,
-          title: 'For Canvass',
+          priority: 1,
+          title: 'All Items',
           onTap: ((p0, p1) {
             page.jumpToPage(2);
             page1.changePage(2);
           })),
       SideMenuItem(
           // Priority of item to show on SideMenu, lower value is displayed at the top
-          priority: 3,
-          title: 'To Order',
+          priority: 2,
+          title: 'For Canvass',
           onTap: ((p0, p1) {
             page.jumpToPage(3);
             page1.changePage(3);
           })),
       SideMenuItem(
           // Priority of item to show on SideMenu, lower value is displayed at the top
-          priority: 4,
-          title: 'To Ship (To CDO)',
+          priority: 3,
+          title: 'To Order',
           onTap: ((p0, p1) {
             page.jumpToPage(4);
             page1.changePage(4);
           })),
       SideMenuItem(
           // Priority of item to show on SideMenu, lower value is displayed at the top
-          priority: 5,
-          title: 'To Receive (Courier to Agora)',
+          priority: 4,
+          title: 'To Ship (To CDO)',
           onTap: ((p0, p1) {
             page.jumpToPage(5);
             page1.changePage(5);
           })),
       SideMenuItem(
           // Priority of item to show on SideMenu, lower value is displayed at the top
-          priority: 6,
-          title: 'To Deliver (Agora to Shop)',
+          priority: 5,
+          title: 'To Receive (Courier to Agora)',
           onTap: ((p0, p1) {
             page.jumpToPage(6);
             page1.changePage(6);
           })),
       SideMenuItem(
           // Priority of item to show on SideMenu, lower value is displayed at the top
-          priority: 7,
-          title: 'To Return',
+          priority: 6,
+          title: 'To Deliver (Agora to Shop)',
           onTap: ((p0, p1) {
             page.jumpToPage(7);
             page1.changePage(7);
+          })),
+      SideMenuItem(
+          // Priority of item to show on SideMenu, lower value is displayed at the top
+          priority: 7,
+          title: 'To Return',
+          onTap: ((p0, p1) {
+            page.jumpToPage(8);
+            page1.changePage(8);
           })),
     ];
     return Scaffold(
@@ -166,7 +176,8 @@ class HomeScreen extends StatelessWidget {
                       controller: page,
                       children: [
                         SupplierTab(),
-                        SupplierTab(),
+                        AddSupplierTab(),
+                        const ItemsTab(),
                         CanvassTab(),
                         OrderTab(),
                         ShipTab(),
