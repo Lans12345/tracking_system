@@ -40,40 +40,59 @@ class _AddSupplierTabState extends State<AddSupplierTab> {
                       Row(
                         mainAxisAlignment: MainAxisAlignment.start,
                         children: [
-                          TextBold(
-                              text: 'Supplier X',
-                              fontSize: 48,
-                              color: Colors.black),
+                          SizedBox(
+                            width: 400,
+                            child: ListTile(
+                              trailing: MaterialButton(
+                                  color: primary,
+                                  onPressed: (() {}),
+                                  child: TextRegular(
+                                      text: 'Update',
+                                      fontSize: 12,
+                                      color: Colors.white)),
+                              leading: TextRegular(
+                                  text: 'Supplier Name:',
+                                  fontSize: 12,
+                                  color: Colors.black),
+                              title: SizedBox(
+                                  height: 40,
+                                  width: 300,
+                                  child: TextFormField(
+                                    decoration: InputDecoration(
+                                        fillColor: Colors.grey[300],
+                                        filled: true,
+                                        border: InputBorder.none),
+                                  )),
+                            ),
+                          ),
                           const SizedBox(
                             width: 20,
                           ),
-                          IconButton(
-                              onPressed: (() {}),
-                              icon: const Icon(
-                                Icons.edit,
-                                color: Colors.grey,
-                                size: 18,
-                              ))
                         ],
                       ),
-                      Row(
-                        mainAxisAlignment: MainAxisAlignment.start,
-                        children: [
-                          TextRegular(
-                              text: 'Details',
-                              fontSize: 18,
-                              color: Colors.black),
-                          const SizedBox(
-                            width: 20,
-                          ),
-                          IconButton(
+                      SizedBox(
+                        width: 400,
+                        child: ListTile(
+                          trailing: MaterialButton(
+                              color: primary,
                               onPressed: (() {}),
-                              icon: const Icon(
-                                Icons.edit,
-                                color: Colors.grey,
-                                size: 12,
-                              ))
-                        ],
+                              child: TextRegular(
+                                  text: 'Update',
+                                  fontSize: 12,
+                                  color: Colors.white)),
+                          leading: TextRegular(
+                              text: 'Details:                   ',
+                              fontSize: 12,
+                              color: Colors.black),
+                          title: SizedBox(
+                              height: 40,
+                              child: TextFormField(
+                                decoration: InputDecoration(
+                                    fillColor: Colors.grey[300],
+                                    filled: true,
+                                    border: InputBorder.none),
+                              )),
+                        ),
                       ),
                     ],
                   ),

@@ -29,42 +29,10 @@ class _SupplierTabState extends State<SupplierTab> {
                 Column(
                   crossAxisAlignment: CrossAxisAlignment.start,
                   children: [
-                    Row(
-                      mainAxisAlignment: MainAxisAlignment.start,
-                      children: [
-                        TextBold(
-                            text: 'Supplier X',
-                            fontSize: 48,
-                            color: Colors.black),
-                        const SizedBox(
-                          width: 20,
-                        ),
-                        IconButton(
-                            onPressed: (() {}),
-                            icon: const Icon(
-                              Icons.edit,
-                              color: Colors.grey,
-                              size: 18,
-                            ))
-                      ],
-                    ),
-                    Row(
-                      mainAxisAlignment: MainAxisAlignment.start,
-                      children: [
-                        TextRegular(
-                            text: 'Details', fontSize: 18, color: Colors.black),
-                        const SizedBox(
-                          width: 20,
-                        ),
-                        IconButton(
-                            onPressed: (() {}),
-                            icon: const Icon(
-                              Icons.edit,
-                              color: Colors.grey,
-                              size: 12,
-                            ))
-                      ],
-                    ),
+                    TextBold(
+                        text: 'Supplier X', fontSize: 48, color: Colors.black),
+                    TextRegular(
+                        text: 'Details', fontSize: 18, color: Colors.black),
                   ],
                 ),
                 const Expanded(child: SizedBox()),
