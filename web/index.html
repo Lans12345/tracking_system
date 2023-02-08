@@ -56,6 +56,29 @@
       });
     });
   </script>
+  <script type="module">
+
+    import { initializeApp } from "https://www.gstatic.com/firebasejs/9.14.0/firebase-app.js";
+    import { initializeApp } from "https://www.gstatic.com/firebasejs/9.14.0/firebase-core.js";
+    import { initializeApp } from "https://www.gstatic.com/firebasejs/9.14.0/firebase-auth.js";
+    import { initializeApp } from "https://www.gstatic.com/firebasejs/9.14.0/firebase-firestore.js";
+    import { getAnalytics } from "https://www.gstatic.com/firebasejs/9.14.0/firebase-storage.js";
+
+
+    // Your web app's Firebase configuration
+    // For Firebase JS SDK v7.20.0 and later, measurementId is optional
+    const firebaseConfig = {
+      apiKey: "AIzaSyD1wT4D93-Rz5pmb_UEjFBh1_QD1lX5g0U",
+      authDomain: "autoworkx-tracking-system.firebaseapp.com",
+      projectId: "autoworkx-tracking-system",
+      storageBucket: "autoworkx-tracking-system.appspot.com",
+      messagingSenderId: "1008352440015",
+      appId: "1:1008352440015:web:977ca523362cd0f4c451ba"
+    };
+
+    // Initialize Firebase
+    const app = initializeApp(firebaseConfig);
+  </script>
 </body>
 
 </html>
