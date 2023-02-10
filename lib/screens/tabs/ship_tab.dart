@@ -232,7 +232,9 @@ class _ShipTabState extends State<ShipTab> {
                                                           .collection('Items')
                                                           .doc(data.docs[i].id)
                                                           .update({
-                                                        'status': 'To Receive'
+                                                        'status': 'To Receive',
+                                                        'wayBillNo': waybillNo,
+                                                        'courier': courier
                                                       });
                                                     }
                                                   }),
@@ -390,17 +392,8 @@ class _ShipTabState extends State<ShipTab> {
                                   hintText: 'Waybill No.'),
                             )),
                         const SizedBox(
-                          height: 20,
+                          height: 50,
                         ),
-                        MaterialButton(
-                            height: 40,
-                            minWidth: 200,
-                            color: blueAccent,
-                            onPressed: (() {}),
-                            child: TextRegular(
-                                text: 'Confirm',
-                                fontSize: 12,
-                                color: Colors.white)),
                       ],
                     ),
                   ],

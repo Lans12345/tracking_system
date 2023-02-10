@@ -25,6 +25,8 @@ class _OrderTabState extends State<OrderTab> {
   var totalPrice = [];
   var totalQty = [];
 
+  var paymentMode = 'COD';
+
   @override
   Widget build(BuildContext context) {
     return StreamBuilder<QuerySnapshot>(
@@ -200,7 +202,10 @@ class _OrderTabState extends State<OrderTab> {
                                                     i < paymentModes.length;
                                                     i++)
                                                   DropdownMenuItem(
-                                                    onTap: () {},
+                                                    onTap: () {
+                                                      paymentMode =
+                                                          paymentModes[i];
+                                                    },
                                                     value: i,
                                                     child: TextRegular(
                                                         text: paymentModes[i],
@@ -251,7 +256,9 @@ class _OrderTabState extends State<OrderTab> {
                                                           .collection('Items')
                                                           .doc(data.docs[i].id)
                                                           .update({
-                                                        'status': 'To Ship'
+                                                        'status': 'To Ship',
+                                                        'paymentMode':
+                                                            paymentMode
                                                       });
                                                     }
                                                   }),
