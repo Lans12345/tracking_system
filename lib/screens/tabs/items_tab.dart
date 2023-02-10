@@ -250,7 +250,7 @@ class _ItemsTabState extends State<ItemsTab> {
                                           fontSize: 12,
                                           color: Colors.black),
                                       const SizedBox(
-                                        height: 20,
+                                        height: 10,
                                       ),
                                       Center(
                                         child: MaterialButton(

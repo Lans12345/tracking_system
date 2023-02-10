@@ -121,6 +121,7 @@ class _ReceiveTabState extends State<ReceiveTab> {
                       width: double.infinity,
                       color: Colors.grey[300],
                       child: SingleChildScrollView(
+                        scrollDirection: Axis.vertical,
                         child: Column(
                           children: [
                             Padding(
@@ -133,12 +134,17 @@ class _ReceiveTabState extends State<ReceiveTab> {
                                         color: Colors.black)),
                                 DataColumn(
                                     label: TextRegular(
+                                        text: 'Unit\nName',
+                                        fontSize: 14,
+                                        color: Colors.black)),
+                                DataColumn(
+                                    label: TextRegular(
                                         text: 'Courier',
                                         fontSize: 14,
                                         color: Colors.black)),
                                 DataColumn(
                                     label: TextRegular(
-                                        text: 'Item Name',
+                                        text: 'Item\nName',
                                         fontSize: 14,
                                         color: Colors.black)),
                                 DataColumn(
@@ -153,7 +159,7 @@ class _ReceiveTabState extends State<ReceiveTab> {
                                         color: Colors.black)),
                                 DataColumn(
                                     label: TextRegular(
-                                        text: 'Payment Mode',
+                                        text: 'Payment\nMode',
                                         fontSize: 14,
                                         color: Colors.black)),
                                 DataColumn(
@@ -163,7 +169,12 @@ class _ReceiveTabState extends State<ReceiveTab> {
                                         color: Colors.black)),
                                 DataColumn(
                                     label: TextRegular(
-                                        text: 'Price (w/ %)',
+                                        text: 'Price\n(w/ %)',
+                                        fontSize: 14,
+                                        color: Colors.black)),
+                                DataColumn(
+                                    label: TextRegular(
+                                        text: 'Waybill\nNo.',
                                         fontSize: 14,
                                         color: Colors.black)),
                                 DataColumn(
@@ -181,6 +192,10 @@ class _ReceiveTabState extends State<ReceiveTab> {
                                       cells: [
                                         DataCell(TextRegular(
                                             text: data.docs[i]['supplier'],
+                                            fontSize: 12,
+                                            color: Colors.black)),
+                                        DataCell(TextRegular(
+                                            text: data.docs[i]['unitName'],
                                             fontSize: 12,
                                             color: Colors.black)),
                                         DataCell(TextRegular(
@@ -214,6 +229,10 @@ class _ReceiveTabState extends State<ReceiveTab> {
                                                             ['price'])) *
                                                         0.45)
                                                 .toString(),
+                                            fontSize: 12,
+                                            color: Colors.black)),
+                                        DataCell(TextRegular(
+                                            text: data.docs[i]['wayBillNo'],
                                             fontSize: 12,
                                             color: Colors.black)),
                                         DataCell(
@@ -280,31 +299,6 @@ class _ReceiveTabState extends State<ReceiveTab> {
               mainAxisAlignment: MainAxisAlignment.spaceBetween,
               crossAxisAlignment: CrossAxisAlignment.center,
               children: [
-                Column(
-                  crossAxisAlignment: CrossAxisAlignment.start,
-                  children: [
-                    const SizedBox(
-                      height: 10,
-                    ),
-                    TextBold(
-                        text: 'Supplier X', fontSize: 24, color: Colors.black),
-                    const SizedBox(
-                      height: 10,
-                    ),
-                    Row(
-                      mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                      children: [
-                        TextRegular(
-                            text: 'Customer/Unit name: ',
-                            fontSize: 14,
-                            color: Colors.black),
-                        const SizedBox(
-                          width: 100,
-                        ),
-                      ],
-                    ),
-                  ],
-                ),
                 Row(
                   children: [
                     Column(
@@ -329,19 +323,6 @@ class _ReceiveTabState extends State<ReceiveTab> {
                                 text: 'Total Quantity: ',
                                 fontSize: 14,
                                 color: Colors.black)),
-                      ],
-                    ),
-                    const SizedBox(
-                      width: 20,
-                    ),
-                    Column(
-                      mainAxisAlignment: MainAxisAlignment.center,
-                      crossAxisAlignment: CrossAxisAlignment.start,
-                      children: [
-                        TextBold(
-                            text: 'Waybill No: ',
-                            fontSize: 14,
-                            color: Colors.black),
                       ],
                     ),
                   ],

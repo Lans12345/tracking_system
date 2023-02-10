@@ -483,7 +483,7 @@ class _SupplierTabState extends State<SupplierTab> {
                                           fontSize: 12,
                                           color: Colors.black),
                                       const SizedBox(
-                                        height: 20,
+                                        height: 10,
                                       ),
                                       Center(
                                         child: MaterialButton(

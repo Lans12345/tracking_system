@@ -7,7 +7,7 @@ class ReturnTab extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return DefaultTabController(
-      length: 3,
+      length: 2,
       child: Column(
         children: [
           Center(
@@ -31,9 +31,7 @@ class ReturnTab extends StatelessWidget {
                         // Tab(
                         //   text: 'Register',
                         // ),
-                        Tab(
-                          text: 'All Items',
-                        ),
+
                         Tab(
                           text: 'Done',
                         ),
@@ -49,7 +47,6 @@ class ReturnTab extends StatelessWidget {
           ),
           Expanded(
             child: TabBarView(children: [
-              ListWidget(query: ''),
               ListWidget(query: 'Done'),
               ListWidget(query: 'Return'),
             ]),

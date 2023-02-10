@@ -135,7 +135,12 @@ class _ShipTabState extends State<ShipTab> {
                                         color: Colors.black)),
                                 DataColumn(
                                     label: TextRegular(
-                                        text: 'Item Name',
+                                        text: 'Unit\nName',
+                                        fontSize: 14,
+                                        color: Colors.black)),
+                                DataColumn(
+                                    label: TextRegular(
+                                        text: 'Item\nName',
                                         fontSize: 14,
                                         color: Colors.black)),
                                 DataColumn(
@@ -150,7 +155,7 @@ class _ShipTabState extends State<ShipTab> {
                                         color: Colors.black)),
                                 DataColumn(
                                     label: TextRegular(
-                                        text: 'Payment Mode',
+                                        text: 'Payment\nMode',
                                         fontSize: 14,
                                         color: Colors.black)),
                                 DataColumn(
@@ -160,7 +165,7 @@ class _ShipTabState extends State<ShipTab> {
                                         color: Colors.black)),
                                 DataColumn(
                                     label: TextRegular(
-                                        text: 'Price (w/ %)',
+                                        text: 'Price\n(w/ %)',
                                         fontSize: 14,
                                         color: Colors.black)),
                                 DataColumn(
@@ -178,6 +183,10 @@ class _ShipTabState extends State<ShipTab> {
                                       cells: [
                                         DataCell(TextRegular(
                                             text: data.docs[i]['supplier'],
+                                            fontSize: 12,
+                                            color: Colors.black)),
+                                        DataCell(TextRegular(
+                                            text: data.docs[i]['unitName'],
                                             fontSize: 12,
                                             color: Colors.black)),
                                         DataCell(TextRegular(
@@ -287,23 +296,6 @@ class _ShipTabState extends State<ShipTab> {
               mainAxisAlignment: MainAxisAlignment.spaceBetween,
               crossAxisAlignment: CrossAxisAlignment.center,
               children: [
-                Column(
-                  crossAxisAlignment: CrossAxisAlignment.start,
-                  children: [
-                    const SizedBox(
-                      height: 10,
-                    ),
-                    TextBold(
-                        text: 'Supplier X', fontSize: 24, color: Colors.black),
-                    const SizedBox(
-                      height: 10,
-                    ),
-                    TextRegular(
-                        text: 'Customer/Unit name: ',
-                        fontSize: 14,
-                        color: Colors.black),
-                  ],
-                ),
                 Row(
                   children: [
                     Column(
@@ -346,7 +338,7 @@ class _ShipTabState extends State<ShipTab> {
                       ],
                     ),
                     const SizedBox(
-                      width: 20,
+                      width: 50,
                     ),
                     Column(
                       children: [
@@ -373,7 +365,7 @@ class _ShipTabState extends State<ShipTab> {
                       ],
                     ),
                     const SizedBox(
-                      width: 20,
+                      width: 50,
                     ),
                     Column(
                       mainAxisAlignment: MainAxisAlignment.center,

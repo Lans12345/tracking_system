@@ -128,7 +128,7 @@ class _CanvassTabState extends State<CanvassTab> {
                                         color: Colors.black)),
                                 DataColumn(
                                     label: TextRegular(
-                                        text: 'Item Name',
+                                        text: 'Item\nName',
                                         fontSize: 14,
                                         color: Colors.black)),
                                 DataColumn(
@@ -153,7 +153,7 @@ class _CanvassTabState extends State<CanvassTab> {
                                         color: Colors.black)),
                                 DataColumn(
                                     label: TextRegular(
-                                        text: 'Price (w/ %)',
+                                        text: 'Price\n(w/ %)',
                                         fontSize: 14,
                                         color: Colors.black)),
                                 DataColumn(
