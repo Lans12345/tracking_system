@@ -1,5 +1,6 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
+import 'package:tracking_system/services/add_item.dart';
 import 'package:tracking_system/utils/colors.dart';
 import 'package:tracking_system/widgets/text_widget.dart';
 
@@ -22,8 +23,24 @@ class _SupplierTabState extends State<SupplierTab> {
   late String newBankType;
   late String newBankAcc;
 
+  var descs = [];
+  var prices = [];
+  var qtys = [];
+  var newKinds = [];
+
+  List<TextEditingController> descController = [];
+  List<TextEditingController> priceController = [];
+  List<TextEditingController> qtyController = [];
+  List<TextEditingController> kindController = [];
+
   @override
   Widget build(BuildContext context) {
+    for (int i = 0; i < count; i++) {
+      descController.add(TextEditingController());
+      priceController.add(TextEditingController());
+      qtyController.add(TextEditingController());
+      kindController.add(TextEditingController());
+    }
     return Container(
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.start,
@@ -365,7 +382,7 @@ class _SupplierTabState extends State<SupplierTab> {
                                         CrossAxisAlignment.start,
                                     children: [
                                       TextBold(
-                                          text: 'Supplier X',
+                                          text: data.docs[index]['supplier'],
                                           fontSize: 18,
                                           color: Colors.black),
                                       const SizedBox(
@@ -380,7 +397,7 @@ class _SupplierTabState extends State<SupplierTab> {
                                               fontSize: 14,
                                               color: Colors.black),
                                           TextRegular(
-                                              text: '21',
+                                              text: data.docs[index]['qty'],
                                               fontSize: 12,
                                               color: Colors.black)
                                         ],
@@ -397,7 +414,7 @@ class _SupplierTabState extends State<SupplierTab> {
                                               fontSize: 14,
                                               color: Colors.black),
                                           TextRegular(
-                                              text: 'Original',
+                                              text: data.docs[index]['kind'],
                                               fontSize: 12,
                                               color: Colors.black)
                                         ],
@@ -414,7 +431,7 @@ class _SupplierTabState extends State<SupplierTab> {
                                               fontSize: 14,
                                               color: Colors.black),
                                           TextRegular(
-                                              text: '25.00',
+                                              text: data.docs[index]['price'],
                                               fontSize: 12,
                                               color: Colors.black)
                                         ],
@@ -431,7 +448,13 @@ class _SupplierTabState extends State<SupplierTab> {
                                               fontSize: 14,
                                               color: Colors.black),
                                           TextRegular(
-                                              text: '50.00',
+                                              text: (int.parse(data.docs[index]
+                                                          ['price']) +
+                                                      (int.parse(
+                                                              data.docs[index]
+                                                                  ['price'])) *
+                                                          0.45)
+                                                  .toString(),
                                               fontSize: 12,
                                               color: Colors.black)
                                         ],
@@ -444,7 +467,7 @@ class _SupplierTabState extends State<SupplierTab> {
                                           fontSize: 14,
                                           color: Colors.black),
                                       TextRegular(
-                                          text: 'John Doe',
+                                          text: 'None',
                                           fontSize: 12,
                                           color: Colors.black),
                                       const SizedBox(
@@ -455,7 +478,7 @@ class _SupplierTabState extends State<SupplierTab> {
                                           fontSize: 14,
                                           color: Colors.black),
                                       TextRegular(
-                                          text: 'Lorem Ipsum',
+                                          text: data.docs[index]['description'],
                                           fontSize: 12,
                                           color: Colors.black),
                                       const SizedBox(
@@ -482,189 +505,242 @@ class _SupplierTabState extends State<SupplierTab> {
                 );
               }),
           const Divider(),
-          Container(
-            width: double.infinity,
-            height: 180,
-            decoration: const BoxDecoration(
-              color: Colors.white,
-            ),
-            child: Padding(
-              padding: const EdgeInsets.fromLTRB(20, 10, 20, 5),
-              child: Row(
-                crossAxisAlignment: CrossAxisAlignment.start,
-                children: [
-                  Tooltip(
-                    message: 'Click this button to add item',
-                    child: MaterialButton(
-                        color: primary,
-                        onPressed: (() {
-                          setState(() {
-                            count++;
-                          });
-                        }),
-                        child: TextRegular(
-                            text: 'Add Item',
-                            fontSize: 12,
-                            color: Colors.white)),
+          id != ''
+              ? Container(
+                  width: double.infinity,
+                  height: 180,
+                  decoration: const BoxDecoration(
+                    color: Colors.white,
                   ),
-                  const SizedBox(
-                    width: 10,
-                  ),
-                  const VerticalDivider(),
-                  const SizedBox(
-                    width: 10,
-                  ),
-                  SingleChildScrollView(
-                    child: SizedBox(
-                      child: Row(
-                        children: [
-                          Column(
-                            crossAxisAlignment: CrossAxisAlignment.start,
-                            children: [
-                              TextRegular(
-                                  text: 'Item Description: ',
+                  child: Padding(
+                    padding: const EdgeInsets.fromLTRB(20, 10, 20, 5),
+                    child: Row(
+                      crossAxisAlignment: CrossAxisAlignment.start,
+                      children: [
+                        Tooltip(
+                          message: 'Click this button to add item',
+                          child: MaterialButton(
+                              color: primary,
+                              onPressed: (() {
+                                setState(() {
+                                  count++;
+                                });
+                              }),
+                              child: TextRegular(
+                                  text: 'Add Item',
                                   fontSize: 12,
-                                  color: Colors.black),
-                              for (int i = 1; i < count; i++)
-                                Padding(
-                                  padding:
-                                      const EdgeInsets.only(top: 5, bottom: 5),
-                                  child: SizedBox(
-                                    width: 220,
-                                    height: 40,
-                                    child: TextFormField(
-                                      decoration: InputDecoration(
-                                          fillColor: Colors.grey[300],
-                                          filled: true,
-                                          border: InputBorder.none),
-                                    ),
-                                  ),
-                                ),
-                            ],
-                          ),
-                          const SizedBox(
-                            width: 10,
-                          ),
-                          Column(
-                            crossAxisAlignment: CrossAxisAlignment.start,
-                            children: [
-                              TextRegular(
-                                  text: 'Item Price: ',
-                                  fontSize: 12,
-                                  color: Colors.black),
-                              for (int i = 1; i < count; i++)
-                                Padding(
-                                  padding:
-                                      const EdgeInsets.only(top: 5, bottom: 5),
-                                  child: SizedBox(
-                                    width: 100,
-                                    height: 40,
-                                    child: TextFormField(
-                                      decoration: InputDecoration(
-                                          fillColor: Colors.grey[300],
-                                          filled: true,
-                                          border: InputBorder.none),
-                                    ),
-                                  ),
-                                ),
-                            ],
-                          ),
-                          const SizedBox(
-                            width: 10,
-                          ),
-                          Column(
-                            crossAxisAlignment: CrossAxisAlignment.start,
-                            children: [
-                              TextRegular(
-                                  text: 'Quantity: ',
-                                  fontSize: 12,
-                                  color: Colors.black),
-                              for (int i = 1; i < count; i++)
-                                Padding(
-                                  padding:
-                                      const EdgeInsets.only(top: 5, bottom: 5),
-                                  child: SizedBox(
-                                    width: 100,
-                                    height: 40,
-                                    child: TextFormField(
-                                      decoration: InputDecoration(
-                                          fillColor: Colors.grey[300],
-                                          filled: true,
-                                          border: InputBorder.none),
-                                    ),
-                                  ),
-                                ),
-                            ],
-                          ),
-                          const SizedBox(
-                            width: 10,
-                          ),
-                          Column(
-                            crossAxisAlignment: CrossAxisAlignment.start,
-                            children: [
-                              TextRegular(
-                                  text: 'Kind:',
-                                  fontSize: 12,
-                                  color: Colors.black),
-                              for (int i = 1; i < count; i++)
-                                Padding(
-                                  padding:
-                                      const EdgeInsets.only(top: 5, bottom: 5),
-                                  child: SizedBox(
-                                    width: 100,
-                                    height: 40,
-                                    child: TextFormField(
-                                      decoration: InputDecoration(
-                                          fillColor: Colors.grey[300],
-                                          filled: true,
-                                          border: InputBorder.none),
-                                    ),
-                                  ),
-                                ),
-                            ],
-                          ),
-                        ],
-                      ),
-                    ),
-                  ),
-                  const VerticalDivider(),
-                  count != 1
-                      ? Padding(
-                          padding: const EdgeInsets.fromLTRB(30, 0, 30, 50),
-                          child: Center(
-                            child: Align(
-                              alignment: Alignment.bottomCenter,
-                              child: Tooltip(
-                                message: 'Click this button to post all items',
-                                child: MaterialButton(
-                                    minWidth: 180,
-                                    height: 50,
-                                    color: const Color(0xff4EA430),
-                                    onPressed: (() {
-                                      ScaffoldMessenger.of(context)
-                                          .showSnackBar(
-                                        SnackBar(
-                                          backgroundColor: Colors.white,
-                                          content: TextRegular(
-                                              text: 'Items posted succesfully!',
-                                              fontSize: 18,
-                                              color: Colors.black),
+                                  color: Colors.white)),
+                        ),
+                        const SizedBox(
+                          width: 10,
+                        ),
+                        const VerticalDivider(),
+                        const SizedBox(
+                          width: 10,
+                        ),
+                        SingleChildScrollView(
+                          child: SizedBox(
+                            child: Row(
+                              children: [
+                                Column(
+                                  crossAxisAlignment: CrossAxisAlignment.start,
+                                  children: [
+                                    TextRegular(
+                                        text: 'Item Description: ',
+                                        fontSize: 12,
+                                        color: Colors.black),
+                                    for (int i = 0; i < count; i++)
+                                      Padding(
+                                        padding: const EdgeInsets.only(
+                                            top: 5, bottom: 5),
+                                        child: SizedBox(
+                                          width: 220,
+                                          height: 40,
+                                          child: TextField(
+                                            controller: descController[i],
+                                            decoration: InputDecoration(
+                                                fillColor: Colors.grey[300],
+                                                filled: true,
+                                                border: InputBorder.none),
+                                          ),
                                         ),
-                                      );
-                                    }),
-                                    child: TextRegular(
-                                        text: 'Post Item',
-                                        fontSize: 18,
-                                        color: Colors.white)),
-                              ),
+                                      ),
+                                  ],
+                                ),
+                                const SizedBox(
+                                  width: 10,
+                                ),
+                                Column(
+                                  crossAxisAlignment: CrossAxisAlignment.start,
+                                  children: [
+                                    TextRegular(
+                                        text: 'Item Price: ',
+                                        fontSize: 12,
+                                        color: Colors.black),
+                                    for (int i = 0; i < count; i++)
+                                      Padding(
+                                        padding: const EdgeInsets.only(
+                                            top: 5, bottom: 5),
+                                        child: SizedBox(
+                                          width: 100,
+                                          height: 40,
+                                          child: TextFormField(
+                                            controller: priceController[i],
+                                            decoration: InputDecoration(
+                                                fillColor: Colors.grey[300],
+                                                filled: true,
+                                                border: InputBorder.none),
+                                          ),
+                                        ),
+                                      ),
+                                  ],
+                                ),
+                                const SizedBox(
+                                  width: 10,
+                                ),
+                                Column(
+                                  crossAxisAlignment: CrossAxisAlignment.start,
+                                  children: [
+                                    TextRegular(
+                                        text: 'Quantity: ',
+                                        fontSize: 12,
+                                        color: Colors.black),
+                                    for (int i = 0; i < count; i++)
+                                      Padding(
+                                        padding: const EdgeInsets.only(
+                                            top: 5, bottom: 5),
+                                        child: SizedBox(
+                                          width: 100,
+                                          height: 40,
+                                          child: TextFormField(
+                                            controller: qtyController[i],
+                                            decoration: InputDecoration(
+                                                fillColor: Colors.grey[300],
+                                                filled: true,
+                                                border: InputBorder.none),
+                                          ),
+                                        ),
+                                      ),
+                                  ],
+                                ),
+                                const SizedBox(
+                                  width: 10,
+                                ),
+                                Column(
+                                  crossAxisAlignment: CrossAxisAlignment.start,
+                                  children: [
+                                    TextRegular(
+                                        text: 'Kind:',
+                                        fontSize: 12,
+                                        color: Colors.black),
+                                    for (int i = 0; i < count; i++)
+                                      Padding(
+                                        padding: const EdgeInsets.only(
+                                            top: 5, bottom: 5),
+                                        child: SizedBox(
+                                          width: 100,
+                                          height: 40,
+                                          child: TextFormField(
+                                            controller: kindController[i],
+                                            decoration: InputDecoration(
+                                                fillColor: Colors.grey[300],
+                                                filled: true,
+                                                border: InputBorder.none),
+                                          ),
+                                        ),
+                                      ),
+                                  ],
+                                ),
+                              ],
                             ),
                           ),
-                        )
-                      : const SizedBox(),
-                ],
-              ),
-            ),
-          ),
+                        ),
+                        const VerticalDivider(),
+                        StreamBuilder<DocumentSnapshot>(
+                            stream: id != ''
+                                ? FirebaseFirestore.instance
+                                    .collection('Supplier')
+                                    .doc(id)
+                                    .snapshots()
+                                : null,
+                            builder: (context,
+                                AsyncSnapshot<DocumentSnapshot> snapshot) {
+                              if (!snapshot.hasData) {
+                                return const Center(child: Text('Loading'));
+                              } else if (snapshot.hasError) {
+                                return const Center(
+                                    child: Text('Something went wrong'));
+                              } else if (snapshot.connectionState ==
+                                  ConnectionState.waiting) {
+                                return const Center(
+                                    child: CircularProgressIndicator());
+                              }
+
+                              dynamic data = snapshot.data;
+                              return Padding(
+                                padding:
+                                    const EdgeInsets.fromLTRB(30, 0, 30, 50),
+                                child: Center(
+                                  child: Align(
+                                    alignment: Alignment.bottomCenter,
+                                    child: Tooltip(
+                                      message:
+                                          'Click this button to post all items',
+                                      child: MaterialButton(
+                                          minWidth: 180,
+                                          height: 50,
+                                          color: const Color(0xff4EA430),
+                                          onPressed: (() {
+                                            for (int i = 0;
+                                                i < descController.length;
+                                                i++) {
+                                              addItem(
+                                                  'None',
+                                                  descController[i].text,
+                                                  priceController[i].text,
+                                                  qtyController[i].text,
+                                                  kindController[i].text,
+                                                  data['name'],
+                                                  data['id'],
+                                                  '',
+                                                  '',
+                                                  '',
+                                                  '');
+
+                                              descController[i].clear();
+                                              priceController[i].clear();
+                                              qtyController[i].clear();
+                                              kindController[i].clear();
+                                            }
+                                            ScaffoldMessenger.of(context)
+                                                .showSnackBar(
+                                              SnackBar(
+                                                backgroundColor: Colors.white,
+                                                content: TextRegular(
+                                                    text:
+                                                        'Items posted succesfully!',
+                                                    fontSize: 18,
+                                                    color: Colors.black),
+                                              ),
+                                            );
+                                            setState(() {
+                                              count = 1;
+                                            });
+                                          }),
+                                          child: TextRegular(
+                                              text: 'Post Item',
+                                              fontSize: 18,
+                                              color: Colors.white)),
+                                    ),
+                                  ),
+                                ),
+                              );
+                            })
+                      ],
+                    ),
+                  ),
+                )
+              : const SizedBox()
         ],
       ),
     );

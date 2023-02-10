@@ -280,7 +280,7 @@ class HomeScreen extends StatelessWidget {
                       controller: page,
                       children: [
                         SupplierTab(),
-                        const ItemsTab(),
+                        ItemsTab(),
                         CanvassTab(),
                         OrderTab(),
                         ShipTab(),

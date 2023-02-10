@@ -1,9 +1,16 @@
+import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
 import 'package:tracking_system/utils/colors.dart';
 import 'package:tracking_system/widgets/text_widget.dart';
+import 'package:intl/intl.dart' show toBeginningOfSentenceCase;
 
-class ItemsTab extends StatelessWidget {
-  const ItemsTab({super.key});
+class ItemsTab extends StatefulWidget {
+  @override
+  State<ItemsTab> createState() => _ItemsTabState();
+}
+
+class _ItemsTabState extends State<ItemsTab> {
+  var search = '';
 
   @override
   Widget build(BuildContext context) {
@@ -18,6 +25,11 @@ class ItemsTab extends StatelessWidget {
                   width: 220,
                   height: 40,
                   child: TextFormField(
+                    onChanged: ((value) {
+                      setState(() {
+                        search = value;
+                      });
+                    }),
                     decoration: InputDecoration(
                         hintText: 'Search item',
                         prefixIcon: const Icon(Icons.search),
@@ -93,142 +105,173 @@ class ItemsTab extends StatelessWidget {
           const SizedBox(
             height: 20,
           ),
-          Expanded(
-            child: SizedBox(
-              child: GridView.builder(
-                  gridDelegate: const SliverGridDelegateWithFixedCrossAxisCount(
-                      crossAxisCount: 4),
-                  itemBuilder: ((context, index) {
-                    return Padding(
-                      padding: const EdgeInsets.all(5.0),
-                      child: Card(
-                        elevation: 3,
-                        child: Container(
-                          height: 400,
-                          width: 100,
-                          decoration:
-                              const BoxDecoration(color: Colors.black12),
-                          child: Padding(
-                            padding: const EdgeInsets.fromLTRB(10, 5, 10, 5),
-                            child: Column(
-                              crossAxisAlignment: CrossAxisAlignment.start,
-                              children: [
-                                TextBold(
-                                    text: 'Supplier X',
-                                    fontSize: 18,
-                                    color: Colors.black),
-                                const SizedBox(
-                                  height: 10,
-                                ),
-                                Row(
-                                  mainAxisAlignment:
-                                      MainAxisAlignment.spaceBetween,
-                                  children: [
-                                    TextBold(
-                                        text: 'Quantity',
-                                        fontSize: 14,
-                                        color: Colors.black),
-                                    TextRegular(
-                                        text: '21',
-                                        fontSize: 12,
-                                        color: Colors.black)
-                                  ],
-                                ),
-                                const SizedBox(
-                                  height: 5,
-                                ),
-                                Row(
-                                  mainAxisAlignment:
-                                      MainAxisAlignment.spaceBetween,
-                                  children: [
-                                    TextBold(
-                                        text: 'Kind',
-                                        fontSize: 14,
-                                        color: Colors.black),
-                                    TextRegular(
-                                        text: 'Original',
-                                        fontSize: 12,
-                                        color: Colors.black)
-                                  ],
-                                ),
-                                const SizedBox(
-                                  height: 5,
-                                ),
-                                Row(
-                                  mainAxisAlignment:
-                                      MainAxisAlignment.spaceBetween,
-                                  children: [
-                                    TextBold(
-                                        text: 'Price',
-                                        fontSize: 14,
-                                        color: Colors.black),
-                                    TextRegular(
-                                        text: '25.00',
-                                        fontSize: 12,
-                                        color: Colors.black)
-                                  ],
-                                ),
-                                const SizedBox(
-                                  height: 5,
-                                ),
-                                Row(
-                                  mainAxisAlignment:
-                                      MainAxisAlignment.spaceBetween,
-                                  children: [
-                                    TextBold(
-                                        text: 'Price (w/ %)',
-                                        fontSize: 14,
-                                        color: Colors.black),
-                                    TextRegular(
-                                        text: '50.00',
-                                        fontSize: 12,
-                                        color: Colors.black)
-                                  ],
-                                ),
-                                const SizedBox(
-                                  height: 5,
-                                ),
-                                TextBold(
-                                    text: 'Customer/Unit name:',
-                                    fontSize: 14,
-                                    color: Colors.black),
-                                TextRegular(
-                                    text: 'John Doe',
-                                    fontSize: 12,
-                                    color: Colors.black),
-                                const SizedBox(
-                                  height: 5,
-                                ),
-                                TextBold(
-                                    text: 'Item Description:',
-                                    fontSize: 14,
-                                    color: Colors.black),
-                                TextRegular(
-                                    text: 'Lorem Ipsum',
-                                    fontSize: 12,
-                                    color: Colors.black),
-                                const SizedBox(
-                                  height: 20,
-                                ),
-                                Center(
-                                  child: MaterialButton(
-                                      minWidth: 200,
-                                      color: Colors.blue[800],
-                                      onPressed: (() {}),
-                                      child: TextRegular(
-                                          text: 'Add to canvass',
+          StreamBuilder<QuerySnapshot>(
+              stream: FirebaseFirestore.instance
+                  .collection('Items')
+                  .where('status', isEqualTo: 'None')
+                  .where('description',
+                      isGreaterThanOrEqualTo: toBeginningOfSentenceCase(search))
+                  .where('description',
+                      isLessThan: '${toBeginningOfSentenceCase(search)}z')
+                  .snapshots(),
+              builder: (BuildContext context,
+                  AsyncSnapshot<QuerySnapshot> snapshot) {
+                if (snapshot.hasError) {
+                  print(snapshot.error);
+                  return const Center(child: Text('Something went wrong'));
+                } else if (snapshot.connectionState ==
+                    ConnectionState.waiting) {
+                  return const Center(child: CircularProgressIndicator());
+                }
+
+                final data = snapshot.requireData;
+                return Expanded(
+                  child: SizedBox(
+                    child: GridView.builder(
+                        itemCount: data.docs.length,
+                        gridDelegate:
+                            const SliverGridDelegateWithFixedCrossAxisCount(
+                                crossAxisCount: 4),
+                        itemBuilder: ((context, index) {
+                          return Padding(
+                            padding: const EdgeInsets.all(5.0),
+                            child: Card(
+                              elevation: 3,
+                              child: Container(
+                                height: 400,
+                                width: 100,
+                                decoration:
+                                    const BoxDecoration(color: Colors.black12),
+                                child: Padding(
+                                  padding:
+                                      const EdgeInsets.fromLTRB(10, 5, 10, 5),
+                                  child: Column(
+                                    crossAxisAlignment:
+                                        CrossAxisAlignment.start,
+                                    children: [
+                                      TextBold(
+                                          text: data.docs[index]['supplier'],
+                                          fontSize: 18,
+                                          color: Colors.black),
+                                      const SizedBox(
+                                        height: 10,
+                                      ),
+                                      Row(
+                                        mainAxisAlignment:
+                                            MainAxisAlignment.spaceBetween,
+                                        children: [
+                                          TextBold(
+                                              text: 'Quantity',
+                                              fontSize: 14,
+                                              color: Colors.black),
+                                          TextRegular(
+                                              text: data.docs[index]['qty'],
+                                              fontSize: 12,
+                                              color: Colors.black)
+                                        ],
+                                      ),
+                                      const SizedBox(
+                                        height: 5,
+                                      ),
+                                      Row(
+                                        mainAxisAlignment:
+                                            MainAxisAlignment.spaceBetween,
+                                        children: [
+                                          TextBold(
+                                              text: 'Kind',
+                                              fontSize: 14,
+                                              color: Colors.black),
+                                          TextRegular(
+                                              text: data.docs[index]['kind'],
+                                              fontSize: 12,
+                                              color: Colors.black)
+                                        ],
+                                      ),
+                                      const SizedBox(
+                                        height: 5,
+                                      ),
+                                      Row(
+                                        mainAxisAlignment:
+                                            MainAxisAlignment.spaceBetween,
+                                        children: [
+                                          TextBold(
+                                              text: 'Price',
+                                              fontSize: 14,
+                                              color: Colors.black),
+                                          TextRegular(
+                                              text: data.docs[index]['price'],
+                                              fontSize: 12,
+                                              color: Colors.black)
+                                        ],
+                                      ),
+                                      const SizedBox(
+                                        height: 5,
+                                      ),
+                                      Row(
+                                        mainAxisAlignment:
+                                            MainAxisAlignment.spaceBetween,
+                                        children: [
+                                          TextBold(
+                                              text: 'Price (w/ %)',
+                                              fontSize: 14,
+                                              color: Colors.black),
+                                          TextRegular(
+                                              text: (int.parse(data.docs[index]
+                                                          ['price']) +
+                                                      (int.parse(
+                                                              data.docs[index]
+                                                                  ['price'])) *
+                                                          0.45)
+                                                  .toString(),
+                                              fontSize: 12,
+                                              color: Colors.black)
+                                        ],
+                                      ),
+                                      const SizedBox(
+                                        height: 5,
+                                      ),
+                                      TextBold(
+                                          text: 'Customer/Unit name:',
+                                          fontSize: 14,
+                                          color: Colors.black),
+                                      TextRegular(
+                                          text: 'None',
                                           fontSize: 12,
-                                          color: Colors.white)),
-                                )
-                              ],
+                                          color: Colors.black),
+                                      const SizedBox(
+                                        height: 5,
+                                      ),
+                                      TextBold(
+                                          text: 'Item Description:',
+                                          fontSize: 14,
+                                          color: Colors.black),
+                                      TextRegular(
+                                          text: data.docs[index]['description'],
+                                          fontSize: 12,
+                                          color: Colors.black),
+                                      const SizedBox(
+                                        height: 20,
+                                      ),
+                                      Center(
+                                        child: MaterialButton(
+                                            minWidth: 200,
+                                            color: Colors.blue[800],
+                                            onPressed: (() {}),
+                                            child: TextRegular(
+                                                text: 'Add to canvass',
+                                                fontSize: 12,
+                                                color: Colors.white)),
+                                      )
+                                    ],
+                                  ),
+                                ),
+                              ),
                             ),
-                          ),
-                        ),
-                      ),
-                    );
-                  })),
-            ),
-          ),
+                          );
+                        })),
+                  ),
+                );
+              }),
         ],
       ),
     );

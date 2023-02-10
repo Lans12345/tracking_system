@@ -47,11 +47,11 @@ class ReturnTab extends StatelessWidget {
               ),
             ),
           ),
-          const Expanded(
+          Expanded(
             child: TabBarView(children: [
-              ListWidget(),
-              ListWidget(),
-              ListWidget(),
+              ListWidget(query: 'All'),
+              ListWidget(query: 'Done'),
+              ListWidget(query: 'Returned'),
             ]),
           ),
         ],
