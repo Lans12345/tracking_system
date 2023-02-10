@@ -18,6 +18,8 @@ class _CanvassTabState extends State<CanvassTab> {
 
   var search = '';
 
+  String unitName = '';
+
   @override
   Widget build(BuildContext context) {
     return Column(
@@ -193,7 +195,14 @@ class _CanvassTabState extends State<CanvassTab> {
                                                   height: 35,
                                                   minWidth: 80,
                                                   color: blueAccent,
-                                                  onPressed: (() {}),
+                                                  onPressed: (() {
+                                                    FirebaseFirestore.instance
+                                                        .collection('Items')
+                                                        .doc(data.docs[i].id)
+                                                        .update({
+                                                      'status': 'To Order'
+                                                    });
+                                                  }),
                                                   child: TextRegular(
                                                       text: 'Add to Order',
                                                       fontSize: 10,
@@ -205,7 +214,12 @@ class _CanvassTabState extends State<CanvassTab> {
                                                   height: 35,
                                                   minWidth: 80,
                                                   color: redAccent,
-                                                  onPressed: (() {}),
+                                                  onPressed: (() {
+                                                    FirebaseFirestore.instance
+                                                        .collection('Items')
+                                                        .doc(data.docs[i].id)
+                                                        .delete();
+                                                  }),
                                                   child: TextRegular(
                                                       text: 'Delete',
                                                       fontSize: 10,
@@ -224,47 +238,6 @@ class _CanvassTabState extends State<CanvassTab> {
                 ),
               );
             }),
-        Container(
-          height: 100,
-          margin: const EdgeInsets.only(left: 30, right: 30, bottom: 20),
-          width: double.infinity,
-          color: Colors.grey[300],
-          child: Padding(
-            padding: const EdgeInsets.only(
-              left: 50,
-              right: 50,
-            ),
-            child: Row(
-              mainAxisAlignment: MainAxisAlignment.spaceBetween,
-              crossAxisAlignment: CrossAxisAlignment.center,
-              children: [
-                Column(
-                  crossAxisAlignment: CrossAxisAlignment.start,
-                  children: [
-                    const SizedBox(
-                      height: 10,
-                    ),
-                    TextBold(
-                        text: 'Supplier X', fontSize: 24, color: Colors.black),
-                    const SizedBox(
-                      height: 10,
-                    ),
-                    SizedBox(
-                        width: 250,
-                        height: 35,
-                        child: TextFormField(
-                          decoration: const InputDecoration(
-                              fillColor: Colors.white,
-                              filled: true,
-                              hintText: 'Customer/Unit name',
-                              border: InputBorder.none),
-                        )),
-                  ],
-                ),
-              ],
-            ),
-          ),
-        ),
       ],
     );
   }

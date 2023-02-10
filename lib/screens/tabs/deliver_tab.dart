@@ -129,6 +129,11 @@ class _DeliverTabState extends State<DeliverTab> {
                               child: DataTable(columns: [
                                 DataColumn(
                                     label: TextRegular(
+                                        text: 'Supplier',
+                                        fontSize: 14,
+                                        color: Colors.black)),
+                                DataColumn(
+                                    label: TextRegular(
                                         text: 'Item Name',
                                         fontSize: 14,
                                         color: Colors.black)),
@@ -170,6 +175,10 @@ class _DeliverTabState extends State<DeliverTab> {
                                         return Colors.white;
                                       }),
                                       cells: [
+                                        DataCell(TextRegular(
+                                            text: 'Supplier',
+                                            fontSize: 12,
+                                            color: Colors.black)),
                                         DataCell(TextRegular(
                                             text: 'Item',
                                             fontSize: 12,
@@ -249,12 +258,12 @@ class _DeliverTabState extends State<DeliverTab> {
                 Column(
                   crossAxisAlignment: CrossAxisAlignment.start,
                   children: [
-                    SizedBox(
+                    const SizedBox(
                       height: 10,
                     ),
                     TextBold(
                         text: 'Supplier X', fontSize: 24, color: Colors.black),
-                    SizedBox(
+                    const SizedBox(
                       height: 10,
                     ),
                     Row(
@@ -264,7 +273,7 @@ class _DeliverTabState extends State<DeliverTab> {
                             text: 'Customer/Unit name: ',
                             fontSize: 14,
                             color: Colors.black),
-                        SizedBox(
+                        const SizedBox(
                           width: 100,
                         ),
                         TextBold(
@@ -279,7 +288,7 @@ class _DeliverTabState extends State<DeliverTab> {
                   children: [
                     Column(
                       children: [
-                        SizedBox(
+                        const SizedBox(
                           height: 10,
                         ),
                         SizedBox(
@@ -289,7 +298,7 @@ class _DeliverTabState extends State<DeliverTab> {
                                 text: 'Total: ',
                                 fontSize: 14,
                                 color: Colors.black)),
-                        SizedBox(
+                        const SizedBox(
                           height: 10,
                         ),
                         SizedBox(
@@ -305,7 +314,7 @@ class _DeliverTabState extends State<DeliverTab> {
                         text: 'Waybill No: ',
                         fontSize: 14,
                         color: Colors.black),
-                    SizedBox(
+                    const SizedBox(
                       width: 100,
                     ),
                   ],

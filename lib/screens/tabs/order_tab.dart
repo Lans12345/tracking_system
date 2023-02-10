@@ -20,95 +20,99 @@ class _OrderTabState extends State<OrderTab> {
   var paymentModes = ['COD', 'Bank Payment'];
 
   var search = '';
+  var unitName = '';
+
+  var totalPrice = [];
+  var totalQty = [];
 
   @override
   Widget build(BuildContext context) {
-    return Column(
-      children: [
-        const SizedBox(
-          height: 20,
-        ),
-        Padding(
-          padding: const EdgeInsets.only(left: 40, right: 40),
-          child: Row(
-            crossAxisAlignment: CrossAxisAlignment.center,
-            children: [
-              SizedBox(
-                  width: 220,
-                  height: 40,
-                  child: TextFormField(
-                    onChanged: ((value) {
-                      setState(() {
-                        search = value;
-                      });
-                    }),
-                    decoration: InputDecoration(
-                        hintText: 'Search here',
-                        prefixIcon: const Icon(Icons.search),
-                        fillColor: Colors.grey[300],
-                        filled: true,
-                        border: InputBorder.none),
-                  )),
-              const SizedBox(
-                width: 20,
-              ),
-              MaterialButton(
-                  color: primary,
-                  onPressed: (() {}),
-                  child: TextRegular(
-                      text: 'Search', fontSize: 12, color: Colors.white)),
-              const Expanded(
-                child: SizedBox(
-                  width: 30,
-                ),
-              ),
-              Container(
-                color: Colors.white,
-                child: Padding(
-                  padding: const EdgeInsets.only(left: 50, right: 50),
-                  child: DropdownButton(
-                      value: dropValue,
-                      items: [
-                        for (int i = 0; i < dropItem.length; i++)
-                          DropdownMenuItem(
-                            onTap: () {},
-                            value: i,
-                            child: TextRegular(
-                                text: "Sort by: ${dropItem[i]}",
-                                fontSize: 12,
-                                color: Colors.black),
-                          ),
-                      ],
-                      onChanged: ((value) {
-                        setState(() {
-                          dropValue = int.parse(value.toString());
-                        });
-                      })),
-                ),
-              )
-            ],
-          ),
-        ),
-        StreamBuilder<QuerySnapshot>(
-            stream: FirebaseFirestore.instance
-                .collection('Items')
-                .where('status', isEqualTo: 'To Order')
-                .where('description',
-                    isGreaterThanOrEqualTo: toBeginningOfSentenceCase(search))
-                .where('description',
-                    isLessThan: '${toBeginningOfSentenceCase(search)}z')
-                .snapshots(),
-            builder:
-                (BuildContext context, AsyncSnapshot<QuerySnapshot> snapshot) {
-              if (snapshot.hasError) {
-                print(snapshot.error);
-                return const Center(child: Text('Something went wrong'));
-              } else if (snapshot.connectionState == ConnectionState.waiting) {
-                return const Center(child: CircularProgressIndicator());
-              }
+    return StreamBuilder<QuerySnapshot>(
+        stream: FirebaseFirestore.instance
+            .collection('Items')
+            .where('status', isEqualTo: 'To Order')
+            .where('description',
+                isGreaterThanOrEqualTo: toBeginningOfSentenceCase(search))
+            .where('description',
+                isLessThan: '${toBeginningOfSentenceCase(search)}z')
+            .snapshots(),
+        builder: (BuildContext context, AsyncSnapshot<QuerySnapshot> snapshot) {
+          if (snapshot.hasError) {
+            print(snapshot.error);
+            return const Center(child: Text('Something went wrong'));
+          } else if (snapshot.connectionState == ConnectionState.waiting) {
+            return const Center(child: CircularProgressIndicator());
+          }
 
-              final data = snapshot.requireData;
-              return Expanded(
+          final data = snapshot.requireData;
+
+          return Column(
+            children: [
+              const SizedBox(
+                height: 20,
+              ),
+              Padding(
+                padding: const EdgeInsets.only(left: 40, right: 40),
+                child: Row(
+                  crossAxisAlignment: CrossAxisAlignment.center,
+                  children: [
+                    SizedBox(
+                        width: 220,
+                        height: 40,
+                        child: TextFormField(
+                          onChanged: ((value) {
+                            setState(() {
+                              search = value;
+                            });
+                          }),
+                          decoration: InputDecoration(
+                              hintText: 'Search here',
+                              prefixIcon: const Icon(Icons.search),
+                              fillColor: Colors.grey[300],
+                              filled: true,
+                              border: InputBorder.none),
+                        )),
+                    const SizedBox(
+                      width: 20,
+                    ),
+                    MaterialButton(
+                        color: primary,
+                        onPressed: (() {}),
+                        child: TextRegular(
+                            text: 'Search', fontSize: 12, color: Colors.white)),
+                    const Expanded(
+                      child: SizedBox(
+                        width: 30,
+                      ),
+                    ),
+                    Container(
+                      color: Colors.white,
+                      child: Padding(
+                        padding: const EdgeInsets.only(left: 50, right: 50),
+                        child: DropdownButton(
+                            value: dropValue,
+                            items: [
+                              for (int i = 0; i < dropItem.length; i++)
+                                DropdownMenuItem(
+                                  onTap: () {},
+                                  value: i,
+                                  child: TextRegular(
+                                      text: "Sort by: ${dropItem[i]}",
+                                      fontSize: 12,
+                                      color: Colors.black),
+                                ),
+                            ],
+                            onChanged: ((value) {
+                              setState(() {
+                                dropValue = int.parse(value.toString());
+                              });
+                            })),
+                      ),
+                    )
+                  ],
+                ),
+              ),
+              Expanded(
                 child: SizedBox(
                   child: Padding(
                     padding: const EdgeInsets.fromLTRB(30, 20, 30, 20),
@@ -122,6 +126,11 @@ class _OrderTabState extends State<OrderTab> {
                             Padding(
                               padding: const EdgeInsets.only(bottom: 20),
                               child: DataTable(columns: [
+                                DataColumn(
+                                    label: TextRegular(
+                                        text: 'Supplier',
+                                        fontSize: 14,
+                                        color: Colors.black)),
                                 DataColumn(
                                     label: TextRegular(
                                         text: 'Item Name',
@@ -165,6 +174,10 @@ class _OrderTabState extends State<OrderTab> {
                                         return Colors.white;
                                       }),
                                       cells: [
+                                        DataCell(TextRegular(
+                                            text: 'Supplier',
+                                            fontSize: 12,
+                                            color: Colors.black)),
                                         DataCell(TextRegular(
                                             text: 'Item',
                                             fontSize: 12,
@@ -217,9 +230,28 @@ class _OrderTabState extends State<OrderTab> {
                                                   height: 35,
                                                   minWidth: 80,
                                                   color: blueAccent,
-                                                  onPressed: (() {}),
+                                                  onPressed: (() {
+                                                    if (unitName == '') {
+                                                      ScaffoldMessenger.of(
+                                                              context)
+                                                          .showSnackBar(SnackBar(
+                                                              content: TextRegular(
+                                                                  text:
+                                                                      'Cannot Procceed! Please add Customer/Unit Name',
+                                                                  fontSize: 18,
+                                                                  color: Colors
+                                                                      .white)));
+                                                    } else {
+                                                      FirebaseFirestore.instance
+                                                          .collection('Items')
+                                                          .doc(data.docs[i].id)
+                                                          .update({
+                                                        'status': 'To Ship'
+                                                      });
+                                                    }
+                                                  }),
                                                   child: TextRegular(
-                                                      text: 'Add to Ship',
+                                                      text: 'Add to Order',
                                                       fontSize: 10,
                                                       color: Colors.white)),
                                               const SizedBox(
@@ -229,7 +261,12 @@ class _OrderTabState extends State<OrderTab> {
                                                   height: 35,
                                                   minWidth: 80,
                                                   color: redAccent,
-                                                  onPressed: (() {}),
+                                                  onPressed: (() {
+                                                    FirebaseFirestore.instance
+                                                        .collection('Items')
+                                                        .doc(data.docs[i].id)
+                                                        .delete();
+                                                  }),
                                                   child: TextRegular(
                                                       text: 'Delete',
                                                       fontSize: 10,
@@ -246,81 +283,79 @@ class _OrderTabState extends State<OrderTab> {
                     ),
                   ),
                 ),
-              );
-            }),
-        Container(
-          height: 100,
-          margin: const EdgeInsets.only(left: 30, right: 30, bottom: 20),
-          width: double.infinity,
-          color: Colors.grey[300],
-          child: Padding(
-            padding: const EdgeInsets.only(
-              left: 50,
-              right: 50,
-            ),
-            child: Row(
-              mainAxisAlignment: MainAxisAlignment.spaceBetween,
-              crossAxisAlignment: CrossAxisAlignment.center,
-              children: [
-                Column(
-                  crossAxisAlignment: CrossAxisAlignment.start,
-                  children: [
-                    const SizedBox(
-                      height: 10,
-                    ),
-                    TextBold(
-                        text: 'Supplier X', fontSize: 24, color: Colors.black),
-                    const SizedBox(
-                      height: 10,
-                    ),
-                    SizedBox(
-                        width: 250,
-                        height: 35,
-                        child: TextFormField(
-                          decoration: const InputDecoration(
-                              fillColor: Colors.white,
-                              filled: true,
-                              hintText: 'Customer/Unit name',
-                              border: InputBorder.none),
-                        )),
-                  ],
-                ),
-                Row(
-                  children: [
-                    Column(
-                      children: [
-                        const SizedBox(
-                          height: 10,
-                        ),
-                        SizedBox(
-                            width: 180,
+              ),
+              Container(
+                height: 100,
+                margin: const EdgeInsets.only(left: 30, right: 30, bottom: 20),
+                width: double.infinity,
+                color: Colors.grey[300],
+                child: Padding(
+                  padding: const EdgeInsets.only(
+                    left: 50,
+                    right: 50,
+                  ),
+                  child: Row(
+                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                    crossAxisAlignment: CrossAxisAlignment.center,
+                    children: [
+                      Column(
+                        crossAxisAlignment: CrossAxisAlignment.start,
+                        children: [
+                          const SizedBox(
                             height: 30,
-                            child: TextBold(
-                                text: 'Total: ',
-                                fontSize: 14,
-                                color: Colors.black)),
-                        const SizedBox(
-                          height: 10,
-                        ),
-                        SizedBox(
-                            width: 180,
-                            height: 30,
-                            child: TextBold(
-                                text: 'Total Quantity: ',
-                                fontSize: 14,
-                                color: Colors.black)),
-                      ],
-                    ),
-                    const SizedBox(
-                      width: 20,
-                    ),
-                  ],
+                          ),
+                          SizedBox(
+                              width: 250,
+                              height: 35,
+                              child: TextFormField(
+                                onChanged: ((value) {
+                                  unitName = value;
+                                }),
+                                decoration: const InputDecoration(
+                                    fillColor: Colors.white,
+                                    filled: true,
+                                    hintText: 'Customer/Unit name',
+                                    border: InputBorder.none),
+                              )),
+                        ],
+                      ),
+                      Row(
+                        children: [
+                          Column(
+                            children: [
+                              const SizedBox(
+                                height: 10,
+                              ),
+                              SizedBox(
+                                  width: 180,
+                                  height: 30,
+                                  child: TextBold(
+                                      text: 'Total: $totalPrice',
+                                      fontSize: 14,
+                                      color: Colors.black)),
+                              const SizedBox(
+                                height: 10,
+                              ),
+                              SizedBox(
+                                  width: 180,
+                                  height: 30,
+                                  child: TextBold(
+                                      text: 'Total Quantity: ',
+                                      fontSize: 14,
+                                      color: Colors.black)),
+                            ],
+                          ),
+                          const SizedBox(
+                            width: 20,
+                          ),
+                        ],
+                      ),
+                    ],
+                  ),
                 ),
-              ],
-            ),
-          ),
-        ),
-      ],
-    );
+              ),
+            ],
+          );
+        });
   }
 }

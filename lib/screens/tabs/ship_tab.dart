@@ -128,6 +128,11 @@ class _ShipTabState extends State<ShipTab> {
                               child: DataTable(columns: [
                                 DataColumn(
                                     label: TextRegular(
+                                        text: 'Supplier',
+                                        fontSize: 14,
+                                        color: Colors.black)),
+                                DataColumn(
+                                    label: TextRegular(
                                         text: 'Item Name',
                                         fontSize: 14,
                                         color: Colors.black)),
@@ -169,6 +174,10 @@ class _ShipTabState extends State<ShipTab> {
                                         return Colors.white;
                                       }),
                                       cells: [
+                                        DataCell(TextRegular(
+                                            text: 'Supplier',
+                                            fontSize: 12,
+                                            color: Colors.black)),
                                         DataCell(TextRegular(
                                             text: 'Item',
                                             fontSize: 12,

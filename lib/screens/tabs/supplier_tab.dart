@@ -488,7 +488,22 @@ class _SupplierTabState extends State<SupplierTab> {
                                         child: MaterialButton(
                                             minWidth: 200,
                                             color: Colors.blue[800],
-                                            onPressed: (() {}),
+                                            onPressed: (() {
+                                              FirebaseFirestore.instance
+                                                  .collection('Items')
+                                                  .doc(data.docs[index].id)
+                                                  .update(
+                                                      {'status': 'To Canvass'});
+
+                                              ScaffoldMessenger.of(context)
+                                                  .showSnackBar(SnackBar(
+                                                      content: TextRegular(
+                                                          text:
+                                                              'Added to Canvass',
+                                                          fontSize: 18,
+                                                          color:
+                                                              Colors.white)));
+                                            }),
                                             child: TextRegular(
                                                 text: 'Add to canvass',
                                                 fontSize: 12,
