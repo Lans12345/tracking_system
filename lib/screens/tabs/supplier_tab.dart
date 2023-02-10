@@ -343,6 +343,7 @@ class _SupplierTabState extends State<SupplierTab> {
                   ? FirebaseFirestore.instance
                       .collection('Items')
                       .where('supplierId', isEqualTo: id)
+                      .where('status', isEqualTo: 'None')
                       .snapshots()
                   : null,
               builder: (BuildContext context,
@@ -706,9 +707,7 @@ class _SupplierTabState extends State<SupplierTab> {
                                           height: 50,
                                           color: const Color(0xff4EA430),
                                           onPressed: (() {
-                                            for (int i = 0;
-                                                i < descController.length;
-                                                i++) {
+                                            for (int i = 0; i < count; i++) {
                                               addItem(
                                                   'None',
                                                   descController[i].text,

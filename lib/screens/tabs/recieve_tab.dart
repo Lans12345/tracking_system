@@ -38,7 +38,7 @@ class _ReceiveTabState extends State<ReceiveTab> {
             crossAxisAlignment: CrossAxisAlignment.center,
             children: [
               SizedBox(
-                  width: 220,
+                  width: 240,
                   height: 40,
                   child: TextFormField(
                     onChanged: ((value) {
@@ -133,6 +133,11 @@ class _ReceiveTabState extends State<ReceiveTab> {
                                         color: Colors.black)),
                                 DataColumn(
                                     label: TextRegular(
+                                        text: 'Courier',
+                                        fontSize: 14,
+                                        color: Colors.black)),
+                                DataColumn(
+                                    label: TextRegular(
                                         text: 'Item Name',
                                         fontSize: 14,
                                         color: Colors.black)),
@@ -175,31 +180,40 @@ class _ReceiveTabState extends State<ReceiveTab> {
                                       }),
                                       cells: [
                                         DataCell(TextRegular(
-                                            text: 'Supplier',
+                                            text: data.docs[i]['supplier'],
                                             fontSize: 12,
                                             color: Colors.black)),
                                         DataCell(TextRegular(
-                                            text: 'Item',
+                                            text: data.docs[i]['courier'],
                                             fontSize: 12,
                                             color: Colors.black)),
                                         DataCell(TextRegular(
-                                            text: '5',
+                                            text: data.docs[i]['description'],
                                             fontSize: 12,
                                             color: Colors.black)),
                                         DataCell(TextRegular(
-                                            text: 'Original',
+                                            text: data.docs[i]['qty'],
                                             fontSize: 12,
                                             color: Colors.black)),
                                         DataCell(TextRegular(
-                                            text: 'COD',
+                                            text: data.docs[i]['kind'],
                                             fontSize: 12,
                                             color: Colors.black)),
                                         DataCell(TextRegular(
-                                            text: '250',
+                                            text: data.docs[i]['paymentMode'],
                                             fontSize: 12,
                                             color: Colors.black)),
                                         DataCell(TextRegular(
-                                            text: '500',
+                                            text: data.docs[i]['price'],
+                                            fontSize: 12,
+                                            color: Colors.black)),
+                                        DataCell(TextRegular(
+                                            text: (int.parse(
+                                                        data.docs[i]['price']) +
+                                                    (int.parse(data.docs[i]
+                                                            ['price'])) *
+                                                        0.45)
+                                                .toString(),
                                             fontSize: 12,
                                             color: Colors.black)),
                                         DataCell(
@@ -209,9 +223,16 @@ class _ReceiveTabState extends State<ReceiveTab> {
                                                   height: 35,
                                                   minWidth: 80,
                                                   color: blueAccent,
-                                                  onPressed: (() {}),
+                                                  onPressed: (() {
+                                                    FirebaseFirestore.instance
+                                                        .collection('Items')
+                                                        .doc(data.docs[i].id)
+                                                        .update({
+                                                      'status': 'To Deliver'
+                                                    });
+                                                  }),
                                                   child: TextRegular(
-                                                      text: 'Add to Deliver',
+                                                      text: 'Add to Order',
                                                       fontSize: 10,
                                                       color: Colors.white)),
                                               const SizedBox(
@@ -221,7 +242,12 @@ class _ReceiveTabState extends State<ReceiveTab> {
                                                   height: 35,
                                                   minWidth: 80,
                                                   color: redAccent,
-                                                  onPressed: (() {}),
+                                                  onPressed: (() {
+                                                    FirebaseFirestore.instance
+                                                        .collection('Items')
+                                                        .doc(data.docs[i].id)
+                                                        .delete();
+                                                  }),
                                                   child: TextRegular(
                                                       text: 'Delete',
                                                       fontSize: 10,
@@ -275,10 +301,6 @@ class _ReceiveTabState extends State<ReceiveTab> {
                         const SizedBox(
                           width: 100,
                         ),
-                        TextBold(
-                            text: 'Courier: ',
-                            fontSize: 14,
-                            color: Colors.black),
                       ],
                     ),
                   ],

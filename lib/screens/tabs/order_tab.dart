@@ -175,19 +175,19 @@ class _OrderTabState extends State<OrderTab> {
                                       }),
                                       cells: [
                                         DataCell(TextRegular(
-                                            text: 'Supplier',
+                                            text: data.docs[i]['supplier'],
                                             fontSize: 12,
                                             color: Colors.black)),
                                         DataCell(TextRegular(
-                                            text: 'Item',
+                                            text: data.docs[i]['description'],
                                             fontSize: 12,
                                             color: Colors.black)),
                                         DataCell(TextRegular(
-                                            text: '5',
+                                            text: data.docs[i]['qty'],
                                             fontSize: 12,
                                             color: Colors.black)),
                                         DataCell(TextRegular(
-                                            text: 'Original',
+                                            text: data.docs[i]['kind'],
                                             fontSize: 12,
                                             color: Colors.black)),
                                         DataCell(Padding(
@@ -216,11 +216,16 @@ class _OrderTabState extends State<OrderTab> {
                                               })),
                                         )),
                                         DataCell(TextRegular(
-                                            text: '250',
+                                            text: data.docs[i]['price'],
                                             fontSize: 12,
                                             color: Colors.black)),
                                         DataCell(TextRegular(
-                                            text: '500',
+                                            text: (int.parse(
+                                                        data.docs[i]['price']) +
+                                                    (int.parse(data.docs[i]
+                                                            ['price'])) *
+                                                        0.45)
+                                                .toString(),
                                             fontSize: 12,
                                             color: Colors.black)),
                                         DataCell(

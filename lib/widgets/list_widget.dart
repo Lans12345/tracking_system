@@ -10,10 +10,12 @@ class ListWidget extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return StreamBuilder<QuerySnapshot>(
-        stream: FirebaseFirestore.instance
-            .collection('Items')
-            .where('status', isEqualTo: query)
-            .snapshots(),
+        stream: query == ''
+            ? FirebaseFirestore.instance.collection('Items').snapshots()
+            : FirebaseFirestore.instance
+                .collection('Items')
+                .where('status', isEqualTo: query)
+                .snapshots(),
         builder: (BuildContext context, AsyncSnapshot<QuerySnapshot> snapshot) {
           if (snapshot.hasError) {
             print(snapshot.error);

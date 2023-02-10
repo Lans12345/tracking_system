@@ -49,9 +49,9 @@ class ReturnTab extends StatelessWidget {
           ),
           Expanded(
             child: TabBarView(children: [
-              ListWidget(query: 'All'),
+              ListWidget(query: ''),
               ListWidget(query: 'Done'),
-              ListWidget(query: 'Returned'),
+              ListWidget(query: 'Return'),
             ]),
           ),
         ],

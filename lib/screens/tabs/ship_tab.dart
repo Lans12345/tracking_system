@@ -25,6 +25,8 @@ class _ShipTabState extends State<ShipTab> {
 
   var courier = 'Oro Frontier';
 
+  var waybillNo = '';
+
   @override
   Widget build(BuildContext context) {
     return Column(
@@ -175,31 +177,36 @@ class _ShipTabState extends State<ShipTab> {
                                       }),
                                       cells: [
                                         DataCell(TextRegular(
-                                            text: 'Supplier',
+                                            text: data.docs[i]['supplier'],
                                             fontSize: 12,
                                             color: Colors.black)),
                                         DataCell(TextRegular(
-                                            text: 'Item',
+                                            text: data.docs[i]['description'],
                                             fontSize: 12,
                                             color: Colors.black)),
                                         DataCell(TextRegular(
-                                            text: '5',
+                                            text: data.docs[i]['qty'],
                                             fontSize: 12,
                                             color: Colors.black)),
                                         DataCell(TextRegular(
-                                            text: 'Original',
+                                            text: data.docs[i]['kind'],
                                             fontSize: 12,
                                             color: Colors.black)),
                                         DataCell(TextRegular(
-                                            text: 'COD',
+                                            text: data.docs[i]['paymentMode'],
                                             fontSize: 12,
                                             color: Colors.black)),
                                         DataCell(TextRegular(
-                                            text: '250',
+                                            text: data.docs[i]['price'],
                                             fontSize: 12,
                                             color: Colors.black)),
                                         DataCell(TextRegular(
-                                            text: '500',
+                                            text: (int.parse(
+                                                        data.docs[i]['price']) +
+                                                    (int.parse(data.docs[i]
+                                                            ['price'])) *
+                                                        0.45)
+                                                .toString(),
                                             fontSize: 12,
                                             color: Colors.black)),
                                         DataCell(
@@ -209,9 +216,28 @@ class _ShipTabState extends State<ShipTab> {
                                                   height: 35,
                                                   minWidth: 80,
                                                   color: blueAccent,
-                                                  onPressed: (() {}),
+                                                  onPressed: (() {
+                                                    if (waybillNo == '') {
+                                                      ScaffoldMessenger.of(
+                                                              context)
+                                                          .showSnackBar(SnackBar(
+                                                              content: TextRegular(
+                                                                  text:
+                                                                      'Cannot Procceed! Please add Waybill No.',
+                                                                  fontSize: 18,
+                                                                  color: Colors
+                                                                      .white)));
+                                                    } else {
+                                                      FirebaseFirestore.instance
+                                                          .collection('Items')
+                                                          .doc(data.docs[i].id)
+                                                          .update({
+                                                        'status': 'To Receive'
+                                                      });
+                                                    }
+                                                  }),
                                                   child: TextRegular(
-                                                      text: 'Add to Receive',
+                                                      text: 'Add to Order',
                                                       fontSize: 10,
                                                       color: Colors.white)),
                                               const SizedBox(
@@ -221,7 +247,12 @@ class _ShipTabState extends State<ShipTab> {
                                                   height: 35,
                                                   minWidth: 80,
                                                   color: redAccent,
-                                                  onPressed: (() {}),
+                                                  onPressed: (() {
+                                                    FirebaseFirestore.instance
+                                                        .collection('Items')
+                                                        .doc(data.docs[i].id)
+                                                        .delete();
+                                                  }),
                                                   child: TextRegular(
                                                       text: 'Delete',
                                                       fontSize: 10,
@@ -352,8 +383,11 @@ class _ShipTabState extends State<ShipTab> {
                             height: 30,
                             width: 200,
                             child: TextFormField(
+                              onChanged: ((value) {
+                                waybillNo = value;
+                              }),
                               decoration: const InputDecoration(
-                                  labelText: 'Waybill No.'),
+                                  hintText: 'Waybill No.'),
                             )),
                         const SizedBox(
                           height: 20,

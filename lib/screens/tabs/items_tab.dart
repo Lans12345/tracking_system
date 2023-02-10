@@ -108,6 +108,7 @@ class _ItemsTabState extends State<ItemsTab> {
           StreamBuilder<QuerySnapshot>(
               stream: FirebaseFirestore.instance
                   .collection('Items')
+                  .where('status', isEqualTo: 'None')
                   .where('description',
                       isGreaterThanOrEqualTo: toBeginningOfSentenceCase(search))
                   .where('description',
