@@ -68,30 +68,6 @@ class _ReceiveTabState extends State<ReceiveTab> {
                   width: 30,
                 ),
               ),
-              Container(
-                color: Colors.white,
-                child: Padding(
-                  padding: const EdgeInsets.only(left: 50, right: 50),
-                  child: DropdownButton(
-                      value: dropValue,
-                      items: [
-                        for (int i = 0; i < dropItem.length; i++)
-                          DropdownMenuItem(
-                            onTap: () {},
-                            value: i,
-                            child: TextRegular(
-                                text: "Sort by: ${dropItem[i]}",
-                                fontSize: 12,
-                                color: Colors.black),
-                          ),
-                      ],
-                      onChanged: ((value) {
-                        setState(() {
-                          dropValue = int.parse(value.toString());
-                        });
-                      })),
-                ),
-              )
             ],
           ),
         ),
