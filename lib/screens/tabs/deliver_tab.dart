@@ -26,6 +26,7 @@ class _DeliverTabState extends State<DeliverTab> {
 
   var courier = 'Oro Frontier';
 
+  final scrollController = ScrollController();
   @override
   Widget build(BuildContext context) {
     return Column(
@@ -121,11 +122,16 @@ class _DeliverTabState extends State<DeliverTab> {
                       height: double.infinity,
                       width: double.infinity,
                       color: Colors.grey[300],
-                      child: Scrollbar(
-                        child: SingleChildScrollView(
-                          child: Column(
-                            children: [
-                              Padding(
+                      child: InteractiveViewer(
+                        scaleEnabled: false,
+                        child: Scrollbar(
+                          controller: scrollController,
+                          child: SingleChildScrollView(
+                            controller: scrollController,
+                            scrollDirection: Axis.horizontal,
+                            child: SingleChildScrollView(
+                              scrollDirection: Axis.vertical,
+                              child: Padding(
                                 padding: const EdgeInsets.only(bottom: 20),
                                 child: DataTable(columns: [
                                   DataColumn(
@@ -280,8 +286,8 @@ class _DeliverTabState extends State<DeliverTab> {
                                           ),
                                         ])
                                 ]),
-                              )
-                            ],
+                              ),
+                            ),
                           ),
                         ),
                       ),

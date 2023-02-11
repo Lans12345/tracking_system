@@ -27,6 +27,8 @@ class _ShipTabState extends State<ShipTab> {
 
   var waybillNo = '';
 
+  final scrollController = ScrollController();
+
   @override
   Widget build(BuildContext context) {
     return Column(
@@ -122,159 +124,172 @@ class _ShipTabState extends State<ShipTab> {
                       height: double.infinity,
                       width: double.infinity,
                       color: Colors.grey[300],
-                      child: SingleChildScrollView(
-                        child: Column(
-                          children: [
-                            Padding(
-                              padding: const EdgeInsets.only(bottom: 20),
-                              child: DataTable(columns: [
-                                DataColumn(
-                                    label: TextRegular(
-                                        text: 'Supplier',
-                                        fontSize: 14,
-                                        color: Colors.black)),
-                                DataColumn(
-                                    label: TextRegular(
-                                        text: 'Unit\nName',
-                                        fontSize: 14,
-                                        color: Colors.black)),
-                                DataColumn(
-                                    label: TextRegular(
-                                        text: 'Item\nName',
-                                        fontSize: 14,
-                                        color: Colors.black)),
-                                DataColumn(
-                                    label: TextRegular(
-                                        text: 'Quantity',
-                                        fontSize: 14,
-                                        color: Colors.black)),
-                                DataColumn(
-                                    label: TextRegular(
-                                        text: 'Kind',
-                                        fontSize: 14,
-                                        color: Colors.black)),
-                                DataColumn(
-                                    label: TextRegular(
-                                        text: 'Payment\nMode',
-                                        fontSize: 14,
-                                        color: Colors.black)),
-                                DataColumn(
-                                    label: TextRegular(
-                                        text: 'Price',
-                                        fontSize: 14,
-                                        color: Colors.black)),
-                                DataColumn(
-                                    label: TextRegular(
-                                        text: 'Price\n(w/ %)',
-                                        fontSize: 14,
-                                        color: Colors.black)),
-                                DataColumn(
-                                    label: TextRegular(
-                                        text: '',
-                                        fontSize: 14,
-                                        color: Colors.black)),
-                              ], rows: [
-                                for (int i = 0; i < data.size; i++)
-                                  DataRow(
-                                      color: MaterialStateProperty.resolveWith<
-                                          Color?>((Set<MaterialState> states) {
-                                        return Colors.white;
-                                      }),
-                                      cells: [
-                                        DataCell(TextRegular(
-                                            text: data.docs[i]['supplier'],
-                                            fontSize: 12,
-                                            color: Colors.black)),
-                                        DataCell(TextRegular(
-                                            text: data.docs[i]['unitName'],
-                                            fontSize: 12,
-                                            color: Colors.black)),
-                                        DataCell(TextRegular(
-                                            text: data.docs[i]['description'],
-                                            fontSize: 12,
-                                            color: Colors.black)),
-                                        DataCell(TextRegular(
-                                            text: data.docs[i]['qty'],
-                                            fontSize: 12,
-                                            color: Colors.black)),
-                                        DataCell(TextRegular(
-                                            text: data.docs[i]['kind'],
-                                            fontSize: 12,
-                                            color: Colors.black)),
-                                        DataCell(TextRegular(
-                                            text: data.docs[i]['paymentMode'],
-                                            fontSize: 12,
-                                            color: Colors.black)),
-                                        DataCell(TextRegular(
-                                            text: data.docs[i]['price'],
-                                            fontSize: 12,
-                                            color: Colors.black)),
-                                        DataCell(TextRegular(
-                                            text: (int.parse(
-                                                        data.docs[i]['price']) +
-                                                    (int.parse(data.docs[i]
-                                                            ['price'])) *
-                                                        0.45)
-                                                .toString(),
-                                            fontSize: 12,
-                                            color: Colors.black)),
-                                        DataCell(
-                                          Row(
-                                            children: [
-                                              MaterialButton(
-                                                  height: 35,
-                                                  minWidth: 80,
-                                                  color: blueAccent,
-                                                  onPressed: (() {
-                                                    if (waybillNo == '') {
-                                                      ScaffoldMessenger.of(
-                                                              context)
-                                                          .showSnackBar(SnackBar(
-                                                              content: TextRegular(
-                                                                  text:
-                                                                      'Cannot Procceed! Please add Waybill No.',
-                                                                  fontSize: 18,
-                                                                  color: Colors
-                                                                      .white)));
-                                                    } else {
+                      child: InteractiveViewer(
+                        scaleEnabled: false,
+                        child: Scrollbar(
+                          controller: scrollController,
+                          child: SingleChildScrollView(
+                            controller: scrollController,
+                            scrollDirection: Axis.horizontal,
+                            child: SingleChildScrollView(
+                              scrollDirection: Axis.vertical,
+                              child: Padding(
+                                padding: const EdgeInsets.only(bottom: 20),
+                                child: DataTable(columns: [
+                                  DataColumn(
+                                      label: TextRegular(
+                                          text: 'Supplier',
+                                          fontSize: 14,
+                                          color: Colors.black)),
+                                  DataColumn(
+                                      label: TextRegular(
+                                          text: 'Unit\nName',
+                                          fontSize: 14,
+                                          color: Colors.black)),
+                                  DataColumn(
+                                      label: TextRegular(
+                                          text: 'Item\nName',
+                                          fontSize: 14,
+                                          color: Colors.black)),
+                                  DataColumn(
+                                      label: TextRegular(
+                                          text: 'Quantity',
+                                          fontSize: 14,
+                                          color: Colors.black)),
+                                  DataColumn(
+                                      label: TextRegular(
+                                          text: 'Kind',
+                                          fontSize: 14,
+                                          color: Colors.black)),
+                                  DataColumn(
+                                      label: TextRegular(
+                                          text: 'Payment\nMode',
+                                          fontSize: 14,
+                                          color: Colors.black)),
+                                  DataColumn(
+                                      label: TextRegular(
+                                          text: 'Price',
+                                          fontSize: 14,
+                                          color: Colors.black)),
+                                  DataColumn(
+                                      label: TextRegular(
+                                          text: 'Price\n(w/ %)',
+                                          fontSize: 14,
+                                          color: Colors.black)),
+                                  DataColumn(
+                                      label: TextRegular(
+                                          text: '',
+                                          fontSize: 14,
+                                          color: Colors.black)),
+                                ], rows: [
+                                  for (int i = 0; i < data.size; i++)
+                                    DataRow(
+                                        color: MaterialStateProperty
+                                            .resolveWith<Color?>(
+                                                (Set<MaterialState> states) {
+                                          return Colors.white;
+                                        }),
+                                        cells: [
+                                          DataCell(TextRegular(
+                                              text: data.docs[i]['supplier'],
+                                              fontSize: 12,
+                                              color: Colors.black)),
+                                          DataCell(TextRegular(
+                                              text: data.docs[i]['unitName'],
+                                              fontSize: 12,
+                                              color: Colors.black)),
+                                          DataCell(TextRegular(
+                                              text: data.docs[i]['description'],
+                                              fontSize: 12,
+                                              color: Colors.black)),
+                                          DataCell(TextRegular(
+                                              text: data.docs[i]['qty'],
+                                              fontSize: 12,
+                                              color: Colors.black)),
+                                          DataCell(TextRegular(
+                                              text: data.docs[i]['kind'],
+                                              fontSize: 12,
+                                              color: Colors.black)),
+                                          DataCell(TextRegular(
+                                              text: data.docs[i]['paymentMode'],
+                                              fontSize: 12,
+                                              color: Colors.black)),
+                                          DataCell(TextRegular(
+                                              text: data.docs[i]['price'],
+                                              fontSize: 12,
+                                              color: Colors.black)),
+                                          DataCell(TextRegular(
+                                              text: (int.parse(data.docs[i]
+                                                          ['price']) +
+                                                      (int.parse(data.docs[i]
+                                                              ['price'])) *
+                                                          0.45)
+                                                  .toString(),
+                                              fontSize: 12,
+                                              color: Colors.black)),
+                                          DataCell(
+                                            Row(
+                                              children: [
+                                                MaterialButton(
+                                                    height: 35,
+                                                    minWidth: 80,
+                                                    color: blueAccent,
+                                                    onPressed: (() {
+                                                      if (waybillNo == '') {
+                                                        ScaffoldMessenger.of(
+                                                                context)
+                                                            .showSnackBar(SnackBar(
+                                                                content: TextRegular(
+                                                                    text:
+                                                                        'Cannot Procceed! Please add Waybill No.',
+                                                                    fontSize:
+                                                                        18,
+                                                                    color: Colors
+                                                                        .white)));
+                                                      } else {
+                                                        FirebaseFirestore
+                                                            .instance
+                                                            .collection('Items')
+                                                            .doc(
+                                                                data.docs[i].id)
+                                                            .update({
+                                                          'status':
+                                                              'To Receive',
+                                                          'wayBillNo':
+                                                              waybillNo,
+                                                          'courier': courier
+                                                        });
+                                                      }
+                                                    }),
+                                                    child: TextRegular(
+                                                        text: 'Add to Order',
+                                                        fontSize: 10,
+                                                        color: Colors.white)),
+                                                const SizedBox(
+                                                  width: 20,
+                                                ),
+                                                MaterialButton(
+                                                    height: 35,
+                                                    minWidth: 80,
+                                                    color: redAccent,
+                                                    onPressed: (() {
                                                       FirebaseFirestore.instance
                                                           .collection('Items')
                                                           .doc(data.docs[i].id)
-                                                          .update({
-                                                        'status': 'To Receive',
-                                                        'wayBillNo': waybillNo,
-                                                        'courier': courier
-                                                      });
-                                                    }
-                                                  }),
-                                                  child: TextRegular(
-                                                      text: 'Add to Order',
-                                                      fontSize: 10,
-                                                      color: Colors.white)),
-                                              const SizedBox(
-                                                width: 20,
-                                              ),
-                                              MaterialButton(
-                                                  height: 35,
-                                                  minWidth: 80,
-                                                  color: redAccent,
-                                                  onPressed: (() {
-                                                    FirebaseFirestore.instance
-                                                        .collection('Items')
-                                                        .doc(data.docs[i].id)
-                                                        .delete();
-                                                  }),
-                                                  child: TextRegular(
-                                                      text: 'Delete',
-                                                      fontSize: 10,
-                                                      color: Colors.white)),
-                                            ],
+                                                          .delete();
+                                                    }),
+                                                    child: TextRegular(
+                                                        text: 'Delete',
+                                                        fontSize: 10,
+                                                        color: Colors.white)),
+                                              ],
+                                            ),
                                           ),
-                                        ),
-                                      ])
-                              ]),
-                            )
-                          ],
+                                        ])
+                                ]),
+                              ),
+                            ),
+                          ),
                         ),
                       ),
                     ),
