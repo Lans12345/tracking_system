@@ -364,7 +364,7 @@ class _SupplierTabState extends State<SupplierTab> {
                         itemCount: data.docs.length,
                         gridDelegate:
                             const SliverGridDelegateWithFixedCrossAxisCount(
-                                crossAxisCount: 4),
+                                crossAxisCount: 3),
                         itemBuilder: ((context, index) {
                           return Padding(
                             padding: const EdgeInsets.all(5.0),
@@ -483,7 +483,7 @@ class _SupplierTabState extends State<SupplierTab> {
                                           fontSize: 12,
                                           color: Colors.black),
                                       const SizedBox(
-                                        height: 10,
+                                        height: 30,
                                       ),
                                       Center(
                                         child: MaterialButton(
@@ -524,7 +524,7 @@ class _SupplierTabState extends State<SupplierTab> {
           id != ''
               ? Container(
                   width: double.infinity,
-                  height: 180,
+                  height: 120,
                   decoration: const BoxDecoration(
                     color: Colors.white,
                   ),

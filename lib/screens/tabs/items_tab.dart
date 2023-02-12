@@ -12,6 +12,8 @@ class ItemsTab extends StatefulWidget {
 class _ItemsTabState extends State<ItemsTab> {
   var search = '';
 
+  int highestValue = 0;
+
   @override
   Widget build(BuildContext context) {
     return Padding(
@@ -125,14 +127,27 @@ class _ItemsTabState extends State<ItemsTab> {
                 }
 
                 final data = snapshot.requireData;
+
                 return Expanded(
                   child: SizedBox(
                     child: GridView.builder(
                         itemCount: data.docs.length,
                         gridDelegate:
                             const SliverGridDelegateWithFixedCrossAxisCount(
-                                crossAxisCount: 4),
+                                crossAxisCount: 3),
                         itemBuilder: ((context, index) {
+                          int highestPrice = 99999999999;
+                          for (var i = 0; i < data.docs.length; i++) {
+                            int currentPrice = int.parse(data.docs[i]['price']);
+                            if (currentPrice < highestPrice) {
+                              highestPrice = currentPrice;
+                            }
+                          }
+
+                          int currentPrice =
+                              int.parse(data.docs[index]['price']);
+                          bool isHighest = currentPrice == highestPrice;
+
                           return Padding(
                             padding: const EdgeInsets.all(5.0),
                             child: Card(
@@ -140,8 +155,13 @@ class _ItemsTabState extends State<ItemsTab> {
                               child: Container(
                                 height: 400,
                                 width: 100,
-                                decoration:
-                                    const BoxDecoration(color: Colors.black12),
+                                decoration: BoxDecoration(
+                                    color: Colors.black12,
+                                    border: Border.all(
+                                        width: isHighest ? 3 : 0,
+                                        color: isHighest
+                                            ? Colors.green
+                                            : Colors.transparent)),
                                 child: Padding(
                                   padding:
                                       const EdgeInsets.fromLTRB(10, 5, 10, 5),
@@ -250,12 +270,14 @@ class _ItemsTabState extends State<ItemsTab> {
                                           fontSize: 12,
                                           color: Colors.black),
                                       const SizedBox(
-                                        height: 10,
+                                        height: 30,
                                       ),
                                       Center(
                                         child: MaterialButton(
                                             minWidth: 200,
-                                            color: Colors.blue[800],
+                                            color: isHighest
+                                                ? Colors.green[800]
+                                                : Colors.blue[800],
                                             onPressed: (() {
                                               FirebaseFirestore.instance
                                                   .collection('Items')
