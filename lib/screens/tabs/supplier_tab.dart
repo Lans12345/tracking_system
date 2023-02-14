@@ -595,6 +595,7 @@ class _SupplierTabState extends State<SupplierTab> {
                                             decoration: InputDecoration(
                                                 fillColor: Colors.grey[300],
                                                 filled: true,
+                                                hintText: 'Item Description',
                                                 border: InputBorder.none),
                                           ),
                                         ),
@@ -623,6 +624,7 @@ class _SupplierTabState extends State<SupplierTab> {
                                             decoration: InputDecoration(
                                                 fillColor: Colors.grey[300],
                                                 filled: true,
+                                                hintText: 'Item Price',
                                                 border: InputBorder.none),
                                           ),
                                         ),
@@ -651,6 +653,7 @@ class _SupplierTabState extends State<SupplierTab> {
                                             decoration: InputDecoration(
                                                 fillColor: Colors.grey[300],
                                                 filled: true,
+                                                hintText: 'Quantity',
                                                 border: InputBorder.none),
                                           ),
                                         ),
@@ -679,6 +682,7 @@ class _SupplierTabState extends State<SupplierTab> {
                                             decoration: InputDecoration(
                                                 fillColor: Colors.grey[300],
                                                 filled: true,
+                                                hintText: 'Kind',
                                                 border: InputBorder.none),
                                           ),
                                         ),
