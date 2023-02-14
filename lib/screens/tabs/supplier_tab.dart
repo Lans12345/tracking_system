@@ -509,6 +509,24 @@ class _SupplierTabState extends State<SupplierTab> {
                                                 text: 'Add to canvass',
                                                 fontSize: 12,
                                                 color: Colors.white)),
+                                      ),
+                                      const SizedBox(
+                                        height: 10,
+                                      ),
+                                      Center(
+                                        child: MaterialButton(
+                                            minWidth: 200,
+                                            color: Colors.red,
+                                            onPressed: (() {
+                                              FirebaseFirestore.instance
+                                                  .collection('Items')
+                                                  .doc(data.docs[index].id)
+                                                  .delete();
+                                            }),
+                                            child: TextRegular(
+                                                text: 'Delete',
+                                                fontSize: 12,
+                                                color: Colors.white)),
                                       )
                                     ],
                                   ),
