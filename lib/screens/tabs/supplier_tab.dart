@@ -3,6 +3,7 @@ import 'package:flutter/material.dart';
 import 'package:tracking_system/services/add_item.dart';
 import 'package:tracking_system/utils/colors.dart';
 import 'package:tracking_system/widgets/text_widget.dart';
+import 'package:flutter/services.dart';
 
 class SupplierTab extends StatefulWidget {
   @override
@@ -621,6 +622,12 @@ class _SupplierTabState extends State<SupplierTab> {
                                           height: 40,
                                           child: TextFormField(
                                             controller: priceController[i],
+                                            keyboardType: TextInputType.number,
+                                            inputFormatters: <
+                                                TextInputFormatter>[
+                                              FilteringTextInputFormatter
+                                                  .digitsOnly
+                                            ],
                                             decoration: InputDecoration(
                                                 fillColor: Colors.grey[300],
                                                 filled: true,
@@ -650,6 +657,12 @@ class _SupplierTabState extends State<SupplierTab> {
                                           height: 40,
                                           child: TextFormField(
                                             controller: qtyController[i],
+                                            keyboardType: TextInputType.number,
+                                            inputFormatters: <
+                                                TextInputFormatter>[
+                                              FilteringTextInputFormatter
+                                                  .digitsOnly
+                                            ],
                                             decoration: InputDecoration(
                                                 fillColor: Colors.grey[300],
                                                 filled: true,
