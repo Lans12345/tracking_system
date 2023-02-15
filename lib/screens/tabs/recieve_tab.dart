@@ -232,7 +232,7 @@ class _ReceiveTabState extends State<ReceiveTab> {
                                                     });
                                                   }),
                                                   child: TextRegular(
-                                                      text: 'Add to Order',
+                                                      text: 'Add to Deliver',
                                                       fontSize: 10,
                                                       color: Colors.white)),
                                               const SizedBox(

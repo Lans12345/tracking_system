@@ -238,7 +238,7 @@ class _ShipTabState extends State<ShipTab> {
                                                       }
                                                     }),
                                                     child: TextRegular(
-                                                        text: 'Add to Order',
+                                                        text: 'Add to Receive',
                                                         fontSize: 10,
                                                         color: Colors.white)),
                                                 const SizedBox(

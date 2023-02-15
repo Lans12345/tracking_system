@@ -1,5 +1,6 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
+import 'package:tracking_system/screens/home_screen.dart';
 import 'package:tracking_system/services/add_item.dart';
 import 'package:tracking_system/utils/colors.dart';
 import 'package:tracking_system/widgets/text_widget.dart';
@@ -76,7 +77,7 @@ class _SupplierTabState extends State<SupplierTab> {
                           dynamic data = snapshot.data;
                           return TextBold(
                               text: data['name'],
-                              fontSize: 48,
+                              fontSize: 32,
                               color: Colors.black);
                         }),
                     StreamBuilder<DocumentSnapshot>(
@@ -734,52 +735,98 @@ class _SupplierTabState extends State<SupplierTab> {
                                 child: Center(
                                   child: Align(
                                     alignment: Alignment.bottomCenter,
-                                    child: Tooltip(
-                                      message:
-                                          'Click this button to post all items',
-                                      child: MaterialButton(
-                                          minWidth: 180,
-                                          height: 50,
-                                          color: const Color(0xff4EA430),
-                                          onPressed: (() {
-                                            for (int i = 0; i < count; i++) {
-                                              addItem(
-                                                  'None',
-                                                  descController[i].text,
-                                                  priceController[i].text,
-                                                  qtyController[i].text,
-                                                  kindController[i].text,
-                                                  data['name'],
-                                                  data['id'],
-                                                  '',
-                                                  '',
-                                                  '',
-                                                  '');
+                                    child: Row(
+                                      children: [
+                                        Tooltip(
+                                          message:
+                                              'Click this button to post all items',
+                                          child: MaterialButton(
+                                              minWidth: 120,
+                                              height: 50,
+                                              color: const Color(0xff4EA430),
+                                              onPressed: (() {
+                                                for (int i = 0;
+                                                    i < count;
+                                                    i++) {
+                                                  addItem(
+                                                      'None',
+                                                      descController[i].text,
+                                                      priceController[i].text,
+                                                      qtyController[i].text,
+                                                      kindController[i].text,
+                                                      data['name'],
+                                                      data['id'],
+                                                      '',
+                                                      '',
+                                                      '',
+                                                      '');
 
-                                              descController[i].clear();
-                                              priceController[i].clear();
-                                              qtyController[i].clear();
-                                              kindController[i].clear();
-                                            }
-                                            ScaffoldMessenger.of(context)
-                                                .showSnackBar(
-                                              SnackBar(
-                                                backgroundColor: Colors.white,
-                                                content: TextRegular(
-                                                    text:
-                                                        'Items posted succesfully!',
-                                                    fontSize: 18,
-                                                    color: Colors.black),
-                                              ),
-                                            );
-                                            setState(() {
-                                              count = 1;
-                                            });
-                                          }),
-                                          child: TextRegular(
-                                              text: 'Post Item',
-                                              fontSize: 18,
-                                              color: Colors.white)),
+                                                  descController[i].clear();
+                                                  priceController[i].clear();
+                                                  qtyController[i].clear();
+                                                  kindController[i].clear();
+                                                }
+                                                ScaffoldMessenger.of(context)
+                                                    .showSnackBar(
+                                                  SnackBar(
+                                                    backgroundColor:
+                                                        Colors.white,
+                                                    content: TextRegular(
+                                                        text:
+                                                            'Items posted succesfully!',
+                                                        fontSize: 18,
+                                                        color: Colors.black),
+                                                  ),
+                                                );
+                                                setState(() {
+                                                  count = 1;
+                                                });
+                                              }),
+                                              child: TextRegular(
+                                                  text: 'Post Item',
+                                                  fontSize: 14,
+                                                  color: Colors.white)),
+                                        ),
+                                        const SizedBox(
+                                          width: 20,
+                                        ),
+                                        Tooltip(
+                                          message:
+                                              'Click this button to delete supplier',
+                                          child: MaterialButton(
+                                              minWidth: 120,
+                                              height: 50,
+                                              color: Colors.red,
+                                              onPressed: (() async {
+                                                await FirebaseFirestore.instance
+                                                    .collection('Supplier')
+                                                    .doc(id)
+                                                    .delete();
+                                                ScaffoldMessenger.of(context)
+                                                    .showSnackBar(
+                                                  SnackBar(
+                                                    backgroundColor:
+                                                        Colors.white,
+                                                    content: TextRegular(
+                                                        text:
+                                                            'Supplier deleted succesfully!',
+                                                        fontSize: 18,
+                                                        color: Colors.black),
+                                                  ),
+                                                );
+
+                                                Navigator.of(context)
+                                                    .pushReplacement(
+                                                        MaterialPageRoute(
+                                                            builder: (context) =>
+                                                                HomeScreen()));
+                                              }),
+                                              child: TextRegular(
+                                                  text: 'Delete Supplier',
+                                                  fontSize: 14,
+                                                  color: Colors.white)),
+                                        ),
+                                      ],
                                     ),
                                   ),
                                 ),

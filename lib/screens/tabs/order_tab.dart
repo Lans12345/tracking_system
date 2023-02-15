@@ -252,7 +252,7 @@ class _OrderTabState extends State<OrderTab> {
                                                       }
                                                     }),
                                                     child: TextRegular(
-                                                        text: 'Add to Order',
+                                                        text: 'Add to Ship',
                                                         fontSize: 10,
                                                         color: Colors.white)),
                                                 const SizedBox(
