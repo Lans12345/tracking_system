@@ -13,7 +13,7 @@ class _OrderTabState extends State<OrderTab> {
   var dropItem = ['Date', 'Name', 'Price'];
 
   var dropValue = 0;
-  var dropValue2 = 0;
+  List<int> dropValues2 = [];
 
   late List<bool> check = [];
 
@@ -31,6 +31,9 @@ class _OrderTabState extends State<OrderTab> {
 
   @override
   Widget build(BuildContext context) {
+    for (int i = 0; i < paymentModes.length; i++) {
+      dropValues2.add(i);
+    }
     return Column(
       children: [
         const SizedBox(
@@ -186,7 +189,7 @@ class _OrderTabState extends State<OrderTab> {
                                             padding: const EdgeInsets.only(
                                                 left: 10, right: 10),
                                             child: DropdownButton(
-                                                value: dropValue2,
+                                                value: dropValues2[i],
                                                 items: [
                                                   for (int i = 0;
                                                       i < paymentModes.length;
@@ -205,7 +208,7 @@ class _OrderTabState extends State<OrderTab> {
                                                 ],
                                                 onChanged: ((value) {
                                                   setState(() {
-                                                    dropValue2 = int.parse(
+                                                    dropValues2[i] = int.parse(
                                                         value.toString());
                                                   });
                                                 })),
