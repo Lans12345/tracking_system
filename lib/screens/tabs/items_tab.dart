@@ -33,7 +33,7 @@ class _ItemsTabState extends State<ItemsTab> {
                       });
                     }),
                     decoration: InputDecoration(
-                        hintText: 'Search item',
+                        hintText: 'Search Unit Name',
                         prefixIcon: const Icon(Icons.search),
                         fillColor: Colors.grey[300],
                         filled: true,
