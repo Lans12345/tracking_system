@@ -30,10 +30,14 @@ class _SupplierTabState extends State<SupplierTab> {
   var qtys = [];
   var newKinds = [];
 
+  var name = '';
+
   List<TextEditingController> descController = [];
   List<TextEditingController> priceController = [];
   List<TextEditingController> qtyController = [];
   List<TextEditingController> kindController = [];
+
+  List<TextEditingController> nameController = [];
 
   @override
   Widget build(BuildContext context) {
@@ -42,6 +46,7 @@ class _SupplierTabState extends State<SupplierTab> {
       priceController.add(TextEditingController());
       qtyController.add(TextEditingController());
       kindController.add(TextEditingController());
+      nameController.add(TextEditingController());
     }
     return Container(
       child: Column(
@@ -396,6 +401,23 @@ class _SupplierTabState extends State<SupplierTab> {
                                             MainAxisAlignment.spaceBetween,
                                         children: [
                                           TextBold(
+                                              text: 'Unit Name',
+                                              fontSize: 14,
+                                              color: Colors.black),
+                                          TextRegular(
+                                              text: data.docs[index]['name'],
+                                              fontSize: 12,
+                                              color: Colors.black)
+                                        ],
+                                      ),
+                                      const SizedBox(
+                                        height: 5,
+                                      ),
+                                      Row(
+                                        mainAxisAlignment:
+                                            MainAxisAlignment.spaceBetween,
+                                        children: [
+                                          TextBold(
                                               text: 'Quantity',
                                               fontSize: 14,
                                               color: Colors.black),
@@ -582,6 +604,35 @@ class _SupplierTabState extends State<SupplierTab> {
                                   crossAxisAlignment: CrossAxisAlignment.start,
                                   children: [
                                     TextRegular(
+                                        text: 'Unit Name: ',
+                                        fontSize: 12,
+                                        color: Colors.black),
+                                    for (int i = 0; i < count; i++)
+                                      Padding(
+                                        padding: const EdgeInsets.only(
+                                            top: 5, bottom: 5),
+                                        child: SizedBox(
+                                          width: 150,
+                                          height: 40,
+                                          child: TextField(
+                                            controller: nameController[i],
+                                            decoration: InputDecoration(
+                                                fillColor: Colors.grey[300],
+                                                filled: true,
+                                                hintText: 'Unit Name',
+                                                border: InputBorder.none),
+                                          ),
+                                        ),
+                                      ),
+                                  ],
+                                ),
+                                const SizedBox(
+                                  width: 10,
+                                ),
+                                Column(
+                                  crossAxisAlignment: CrossAxisAlignment.start,
+                                  children: [
+                                    TextRegular(
                                         text: 'Item Description: ',
                                         fontSize: 12,
                                         color: Colors.black),
@@ -590,7 +641,7 @@ class _SupplierTabState extends State<SupplierTab> {
                                         padding: const EdgeInsets.only(
                                             top: 5, bottom: 5),
                                         child: SizedBox(
-                                          width: 220,
+                                          width: 200,
                                           height: 40,
                                           child: TextField(
                                             controller: descController[i],
@@ -735,7 +786,7 @@ class _SupplierTabState extends State<SupplierTab> {
                                 child: Center(
                                   child: Align(
                                     alignment: Alignment.bottomCenter,
-                                    child: Row(
+                                    child: Column(
                                       children: [
                                         Tooltip(
                                           message:
@@ -760,12 +811,14 @@ class _SupplierTabState extends State<SupplierTab> {
                                                       '',
                                                       '',
                                                       '',
-                                                      '');
+                                                      '',
+                                                      nameController[i].text);
 
                                                   descController[i].clear();
                                                   priceController[i].clear();
                                                   qtyController[i].clear();
                                                   kindController[i].clear();
+                                                  nameController[i].clear();
                                                 }
                                                 ScaffoldMessenger.of(context)
                                                     .showSnackBar(
@@ -789,7 +842,7 @@ class _SupplierTabState extends State<SupplierTab> {
                                                   color: Colors.white)),
                                         ),
                                         const SizedBox(
-                                          width: 20,
+                                          height: 10,
                                         ),
                                         Tooltip(
                                           message:

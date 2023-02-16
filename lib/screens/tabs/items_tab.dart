@@ -111,9 +111,9 @@ class _ItemsTabState extends State<ItemsTab> {
               stream: FirebaseFirestore.instance
                   .collection('Items')
                   .where('status', isEqualTo: 'None')
-                  .where('description',
+                  .where('name',
                       isGreaterThanOrEqualTo: toBeginningOfSentenceCase(search))
-                  .where('description',
+                  .where('name',
                       isLessThan: '${toBeginningOfSentenceCase(search)}z')
                   .snapshots(),
               builder: (BuildContext context,
@@ -175,6 +175,23 @@ class _ItemsTabState extends State<ItemsTab> {
                                           color: Colors.black),
                                       const SizedBox(
                                         height: 10,
+                                      ),
+                                      Row(
+                                        mainAxisAlignment:
+                                            MainAxisAlignment.spaceBetween,
+                                        children: [
+                                          TextBold(
+                                              text: 'Unit Name',
+                                              fontSize: 14,
+                                              color: Colors.black),
+                                          TextRegular(
+                                              text: data.docs[index]['name'],
+                                              fontSize: 12,
+                                              color: Colors.black)
+                                        ],
+                                      ),
+                                      const SizedBox(
+                                        height: 5,
                                       ),
                                       Row(
                                         mainAxisAlignment:
