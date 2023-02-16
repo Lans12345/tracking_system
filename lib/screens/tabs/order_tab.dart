@@ -29,6 +29,8 @@ class _OrderTabState extends State<OrderTab> {
 
   final scrollController = ScrollController();
 
+  var dp = '';
+
   @override
   Widget build(BuildContext context) {
     for (int i = 0; i < paymentModes.length; i++) {
@@ -254,17 +256,54 @@ class _OrderTabState extends State<OrderTab> {
                                                                     color: Colors
                                                                         .white)));
                                                       } else {
-                                                        FirebaseFirestore
-                                                            .instance
-                                                            .collection('Items')
-                                                            .doc(
-                                                                data.docs[i].id)
-                                                            .update({
-                                                          'status': 'To Ship',
-                                                          'paymentMode':
-                                                              paymentMode,
-                                                          'unitName': unitName
-                                                        });
+                                                        if (dp == '') {
+                                                          ScaffoldMessenger.of(
+                                                                  context)
+                                                              .showSnackBar(SnackBar(
+                                                                  content: TextRegular(
+                                                                      text:
+                                                                          'Cannot Procceed! Please add Payment Status/Balance',
+                                                                      fontSize:
+                                                                          18,
+                                                                      color: Colors
+                                                                          .white)));
+                                                        } else {
+                                                          if (int.parse(dp) >
+                                                              (int.parse(data
+                                                                          .docs[i]
+                                                                      ['qty']) *
+                                                                  (int.parse(data
+                                                                          .docs[i]
+                                                                      [
+                                                                      'price'])))) {
+                                                            ScaffoldMessenger
+                                                                    .of(context)
+                                                                .showSnackBar(SnackBar(
+                                                                    content: TextRegular(
+                                                                        text:
+                                                                            'Cannot Procceed! Input is greather than Total Price',
+                                                                        fontSize:
+                                                                            18,
+                                                                        color: Colors
+                                                                            .white)));
+                                                          } else {
+                                                            FirebaseFirestore
+                                                                .instance
+                                                                .collection(
+                                                                    'Items')
+                                                                .doc(data
+                                                                    .docs[i].id)
+                                                                .update({
+                                                              'status':
+                                                                  'To Ship',
+                                                              'paymentMode':
+                                                                  paymentMode,
+                                                              'unitName':
+                                                                  unitName,
+                                                              'balance': dp
+                                                            });
+                                                          }
+                                                        }
                                                       }
                                                     }),
                                                     child: TextRegular(
@@ -303,44 +342,90 @@ class _OrderTabState extends State<OrderTab> {
                 ),
               );
             }),
-        Container(
-          height: 100,
-          margin: const EdgeInsets.only(left: 30, right: 30, bottom: 20),
-          width: double.infinity,
-          color: Colors.grey[300],
-          child: Padding(
-            padding: const EdgeInsets.only(
-              left: 50,
-              right: 50,
-            ),
-            child: Row(
-              mainAxisAlignment: MainAxisAlignment.spaceBetween,
-              crossAxisAlignment: CrossAxisAlignment.center,
-              children: [
-                Column(
-                  crossAxisAlignment: CrossAxisAlignment.start,
+        Row(
+          children: [
+            Container(
+              height: 100,
+              margin: const EdgeInsets.only(left: 30, right: 30, bottom: 20),
+              width: 500,
+              color: Colors.grey[300],
+              child: Padding(
+                padding: const EdgeInsets.only(
+                  left: 50,
+                  right: 50,
+                ),
+                child: Row(
+                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                  crossAxisAlignment: CrossAxisAlignment.center,
                   children: [
-                    const SizedBox(
-                      height: 30,
+                    Column(
+                      crossAxisAlignment: CrossAxisAlignment.start,
+                      children: [
+                        const SizedBox(
+                          height: 30,
+                        ),
+                        SizedBox(
+                            width: 250,
+                            height: 35,
+                            child: TextFormField(
+                              onChanged: ((value) {
+                                unitName = value;
+                              }),
+                              decoration: const InputDecoration(
+                                  fillColor: Colors.white,
+                                  filled: true,
+                                  hintText: 'Customer/Unit name',
+                                  border: InputBorder.none),
+                            )),
+                      ],
                     ),
-                    SizedBox(
-                        width: 250,
-                        height: 35,
-                        child: TextFormField(
-                          onChanged: ((value) {
-                            unitName = value;
-                          }),
-                          decoration: const InputDecoration(
-                              fillColor: Colors.white,
-                              filled: true,
-                              hintText: 'Customer/Unit name',
-                              border: InputBorder.none),
-                        )),
                   ],
                 ),
-              ],
+              ),
             ),
-          ),
+            const SizedBox(
+              width: 20,
+            ),
+            Container(
+              height: 100,
+              margin: const EdgeInsets.only(left: 30, right: 30, bottom: 20),
+              width: 500,
+              color: Colors.grey[300],
+              child: Padding(
+                padding: const EdgeInsets.only(
+                  left: 50,
+                  right: 50,
+                ),
+                child: Row(
+                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                  crossAxisAlignment: CrossAxisAlignment.center,
+                  children: [
+                    Column(
+                      crossAxisAlignment: CrossAxisAlignment.start,
+                      children: [
+                        const SizedBox(
+                          height: 30,
+                        ),
+                        SizedBox(
+                            width: 250,
+                            height: 35,
+                            child: TextFormField(
+                              onChanged: ((value) {
+                                dp = value;
+                              }),
+                              decoration: const InputDecoration(
+                                  fillColor: Colors.white,
+                                  filled: true,
+                                  hintText: 'Payment Status/Balance',
+                                  border: InputBorder.none),
+                            )),
+                      ],
+                    ),
+                  ],
+                ),
+              ),
+            ),
+          ],
         ),
       ],
     );

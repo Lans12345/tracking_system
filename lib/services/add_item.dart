@@ -1,18 +1,7 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
 
-Future addItem(
-  status,
-  description,
-  price,
-  qty,
-  kind,
-  supplier,
-  supplierId,
-  unitName,
-  paymentMode,
-  courier,
-  wayBillNo,
-) async {
+Future addItem(status, description, price, qty, kind, supplier, supplierId,
+    unitName, paymentMode, courier, wayBillNo, balance) async {
   final docUser = FirebaseFirestore.instance.collection('Items').doc();
 
   final json = {
@@ -28,7 +17,8 @@ Future addItem(
     'courier': courier,
     'wayBillNo': wayBillNo,
     'id': docUser.id,
-    'dateTime': DateTime.now()
+    'dateTime': DateTime.now(),
+    'balance': balance
   };
 
   await docUser.set(json);

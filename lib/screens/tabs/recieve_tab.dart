@@ -155,6 +155,11 @@ class _ReceiveTabState extends State<ReceiveTab> {
                                         color: Colors.black)),
                                 DataColumn(
                                     label: TextRegular(
+                                        text: 'BALANCE',
+                                        fontSize: 14,
+                                        color: Colors.black)),
+                                DataColumn(
+                                    label: TextRegular(
                                         text: 'TOTAL',
                                         fontSize: 14,
                                         color: Colors.black)),
@@ -215,6 +220,10 @@ class _ReceiveTabState extends State<ReceiveTab> {
                                                             ['price'])) *
                                                         0.45)
                                                 .toString(),
+                                            fontSize: 12,
+                                            color: Colors.black)),
+                                        DataCell(TextRegular(
+                                            text: data.docs[i]['balance'],
                                             fontSize: 12,
                                             color: Colors.black)),
                                         DataCell(TextRegular(

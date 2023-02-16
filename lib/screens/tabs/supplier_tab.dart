@@ -759,6 +759,7 @@ class _SupplierTabState extends State<SupplierTab> {
                                                       '',
                                                       '',
                                                       '',
+                                                      '',
                                                       '');
 
                                                   descController[i].clear();
