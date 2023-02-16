@@ -43,7 +43,7 @@ class ListWidget extends StatelessWidget {
                         crossAxisAlignment: CrossAxisAlignment.start,
                         children: [
                           TextBold(
-                              text: 'Supplier X',
+                              text: data.docs[index]['supplier'],
                               fontSize: 18,
                               color: Colors.black),
                           Padding(
@@ -57,7 +57,7 @@ class ListWidget extends StatelessWidget {
                                     fontSize: 12,
                                     color: Colors.black),
                                 TextRegular(
-                                    text: 'Sampel',
+                                    text: data.docs[index]['unitName'],
                                     fontSize: 12,
                                     color: Colors.black)
                               ],
@@ -74,7 +74,7 @@ class ListWidget extends StatelessWidget {
                                     fontSize: 12,
                                     color: Colors.black),
                                 TextRegular(
-                                    text: 'Sampel',
+                                    text: data.docs[index]['description'],
                                     fontSize: 12,
                                     color: Colors.black)
                               ],
@@ -91,7 +91,7 @@ class ListWidget extends StatelessWidget {
                                     fontSize: 12,
                                     color: Colors.black),
                                 TextRegular(
-                                    text: 'Sampel',
+                                    text: data.docs[index]['qty'],
                                     fontSize: 12,
                                     color: Colors.black)
                               ],
@@ -108,7 +108,7 @@ class ListWidget extends StatelessWidget {
                                     fontSize: 12,
                                     color: Colors.black),
                                 TextRegular(
-                                    text: 'Sampel',
+                                    text: data.docs[index]['kind'],
                                     fontSize: 12,
                                     color: Colors.black)
                               ],
@@ -125,7 +125,7 @@ class ListWidget extends StatelessWidget {
                                     fontSize: 12,
                                     color: Colors.black),
                                 TextRegular(
-                                    text: 'Sampel',
+                                    text: data.docs[index]['price'],
                                     fontSize: 12,
                                     color: Colors.black)
                               ],
@@ -142,7 +142,7 @@ class ListWidget extends StatelessWidget {
                                     fontSize: 12,
                                     color: Colors.black),
                                 TextRegular(
-                                    text: 'Sampel',
+                                    text: data.docs[index]['courier'],
                                     fontSize: 12,
                                     color: Colors.black)
                               ],
@@ -159,7 +159,10 @@ class ListWidget extends StatelessWidget {
                                     fontSize: 12,
                                     color: Colors.black),
                                 TextRegular(
-                                    text: 'Sampel',
+                                    text: (int.parse(data.docs[index]['qty']) *
+                                            int.parse(
+                                                data.docs[index]['price']))
+                                        .toString(),
                                     fontSize: 12,
                                     color: Colors.black)
                               ],
@@ -176,7 +179,7 @@ class ListWidget extends StatelessWidget {
                                     fontSize: 12,
                                     color: Colors.black),
                                 TextRegular(
-                                    text: 'Sampel',
+                                    text: data.docs[index]['wayBillNo'],
                                     fontSize: 12,
                                     color: Colors.black)
                               ],
