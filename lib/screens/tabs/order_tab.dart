@@ -1,5 +1,6 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
 import 'package:tracking_system/utils/colors.dart';
 import 'package:tracking_system/widgets/text_widget.dart';
 import 'package:intl/intl.dart' show toBeginningOfSentenceCase;
@@ -413,6 +414,9 @@ class _OrderTabState extends State<OrderTab> {
                               onChanged: ((value) {
                                 dp = value;
                               }),
+                              inputFormatters: [
+                                FilteringTextInputFormatter.digitsOnly
+                              ],
                               decoration: const InputDecoration(
                                   fillColor: Colors.white,
                                   filled: true,
