@@ -157,6 +157,11 @@ class _DeliverTabState extends State<DeliverTab> {
                                           color: Colors.black)),
                                   DataColumn(
                                       label: TextRegular(
+                                          text: 'TOTAL',
+                                          fontSize: 14,
+                                          color: Colors.black)),
+                                  DataColumn(
+                                      label: TextRegular(
                                           text: 'Waybill\nNo.',
                                           fontSize: 14,
                                           color: Colors.black)),
@@ -212,6 +217,14 @@ class _DeliverTabState extends State<DeliverTab> {
                                                       (int.parse(data.docs[i]
                                                               ['price'])) *
                                                           0.45)
+                                                  .toString(),
+                                              fontSize: 12,
+                                              color: Colors.black)),
+                                          DataCell(TextRegular(
+                                              text: (int.parse(
+                                                          data.docs[i]['qty']) *
+                                                      (int.parse(data.docs[i]
+                                                          ['price'])))
                                                   .toString(),
                                               fontSize: 12,
                                               color: Colors.black)),
@@ -272,52 +285,6 @@ class _DeliverTabState extends State<DeliverTab> {
                 ),
               );
             }),
-        Container(
-          height: 100,
-          margin: const EdgeInsets.only(left: 30, right: 30, bottom: 20),
-          width: double.infinity,
-          color: Colors.grey[300],
-          child: Padding(
-            padding: const EdgeInsets.only(
-              left: 50,
-              right: 50,
-            ),
-            child: Row(
-              mainAxisAlignment: MainAxisAlignment.spaceBetween,
-              crossAxisAlignment: CrossAxisAlignment.center,
-              children: [
-                Row(
-                  children: [
-                    Column(
-                      children: [
-                        const SizedBox(
-                          height: 10,
-                        ),
-                        SizedBox(
-                            width: 180,
-                            height: 30,
-                            child: TextBold(
-                                text: 'Total: ',
-                                fontSize: 14,
-                                color: Colors.black)),
-                        const SizedBox(
-                          height: 10,
-                        ),
-                        SizedBox(
-                            width: 180,
-                            height: 30,
-                            child: TextBold(
-                                text: 'Total Quantity: ',
-                                fontSize: 14,
-                                color: Colors.black)),
-                      ],
-                    ),
-                  ],
-                ),
-              ],
-            ),
-          ),
-        ),
       ],
     );
   }

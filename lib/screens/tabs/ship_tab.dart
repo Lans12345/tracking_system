@@ -154,6 +154,11 @@ class _ShipTabState extends State<ShipTab> {
                                           color: Colors.black)),
                                   DataColumn(
                                       label: TextRegular(
+                                          text: 'TOTAL',
+                                          fontSize: 14,
+                                          color: Colors.black)),
+                                  DataColumn(
+                                      label: TextRegular(
                                           text: '',
                                           fontSize: 14,
                                           color: Colors.black)),
@@ -200,6 +205,14 @@ class _ShipTabState extends State<ShipTab> {
                                                       (int.parse(data.docs[i]
                                                               ['price'])) *
                                                           0.45)
+                                                  .toString(),
+                                              fontSize: 12,
+                                              color: Colors.black)),
+                                          DataCell(TextRegular(
+                                              text: (int.parse(
+                                                          data.docs[i]['qty']) *
+                                                      (int.parse(data.docs[i]
+                                                          ['price'])))
                                                   .toString(),
                                               fontSize: 12,
                                               color: Colors.black)),
@@ -329,34 +342,7 @@ class _ShipTabState extends State<ShipTab> {
                       ],
                     ),
                     const SizedBox(
-                      width: 50,
-                    ),
-                    Column(
-                      children: [
-                        const SizedBox(
-                          height: 10,
-                        ),
-                        SizedBox(
-                            width: 180,
-                            height: 30,
-                            child: TextBold(
-                                text: 'Total: ',
-                                fontSize: 14,
-                                color: Colors.black)),
-                        const SizedBox(
-                          height: 10,
-                        ),
-                        SizedBox(
-                            width: 180,
-                            height: 30,
-                            child: TextBold(
-                                text: 'Total Quantity: ',
-                                fontSize: 14,
-                                color: Colors.black)),
-                      ],
-                    ),
-                    const SizedBox(
-                      width: 50,
+                      width: 80,
                     ),
                     Column(
                       mainAxisAlignment: MainAxisAlignment.center,
