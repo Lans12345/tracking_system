@@ -138,6 +138,24 @@ class ListWidget extends StatelessWidget {
                               mainAxisAlignment: MainAxisAlignment.spaceBetween,
                               children: [
                                 TextBold(
+                                    text: 'Price w/ %:',
+                                    fontSize: 12,
+                                    color: Colors.black),
+                                TextRegular(
+                                    text:
+                                        data.docs[index]['newPrice'].toString(),
+                                    fontSize: 12,
+                                    color: Colors.black)
+                              ],
+                            ),
+                          ),
+                          Padding(
+                            padding:
+                                const EdgeInsets.only(top: 2.5, bottom: 2.5),
+                            child: Row(
+                              mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                              children: [
+                                TextBold(
                                     text: 'Courier:',
                                     fontSize: 12,
                                     color: Colors.black),
