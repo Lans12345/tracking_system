@@ -1,6 +1,7 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:easy_sidemenu/easy_sidemenu.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
 import 'package:tracking_system/screens/tabs/canvass_tab.dart';
 import 'package:tracking_system/screens/tabs/deliver_tab.dart';
 import 'package:tracking_system/screens/tabs/items_tab.dart';
@@ -288,10 +289,15 @@ class HomeScreen extends StatelessWidget {
                             return SizedBox(
                                 height: 40,
                                 child: TextFormField(
+                                  inputFormatters: [
+                                    FilteringTextInputFormatter.allow(RegExp(
+                                        r'^0(\.\d{0,9})?$|^1(\.0{0,9})?$')),
+                                  ],
                                   onChanged: (value) {
                                     newPrice = value;
                                   },
                                   decoration: InputDecoration(
+                                      suffixText: '%',
                                       fillColor: Colors.grey[300],
                                       filled: true,
                                       hintText: data['num'].toString(),
