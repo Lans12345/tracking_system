@@ -1,3 +1,4 @@
+import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:easy_sidemenu/easy_sidemenu.dart';
 import 'package:flutter/material.dart';
 import 'package:tracking_system/screens/tabs/canvass_tab.dart';
@@ -20,6 +21,8 @@ class HomeScreen extends StatelessWidget {
   String details = '';
   String bankType = '';
   String bankAccount = '';
+
+  String newPrice = '';
 
   @override
   Widget build(BuildContext context) {
@@ -230,7 +233,73 @@ class HomeScreen extends StatelessWidget {
                         height: 20,
                       ),
                     ],
-                  )
+                  ),
+                  const Expanded(
+                    child: SizedBox(
+                      width: 300,
+                    ),
+                  ),
+                  SizedBox(
+                    width: 400,
+                    child: ListTile(
+                      trailing: MaterialButton(
+                          color: blueAccent,
+                          onPressed: (() async {
+                            await FirebaseFirestore.instance
+                                .collection('Tool')
+                                .doc('percent')
+                                .update({'num': double.parse(newPrice)});
+                            ScaffoldMessenger.of(context).showSnackBar(
+                              SnackBar(
+                                content: TextBold(
+                                    text: 'Updated Succesfully!',
+                                    fontSize: 14,
+                                    color: Colors.white),
+                              ),
+                            );
+                          }),
+                          child: TextRegular(
+                              text: 'Update',
+                              fontSize: 12,
+                              color: Colors.white)),
+                      leading: TextRegular(
+                          text: 'Percentage to Add in Prices:',
+                          fontSize: 12,
+                          color: Colors.white),
+                      title: StreamBuilder<DocumentSnapshot>(
+                          stream: FirebaseFirestore.instance
+                              .collection('Tool')
+                              .doc('percent')
+                              .snapshots(),
+                          builder: (context,
+                              AsyncSnapshot<DocumentSnapshot> snapshot) {
+                            if (!snapshot.hasData) {
+                              return const Center(child: Text('Loading'));
+                            } else if (snapshot.hasError) {
+                              return const Center(
+                                  child: Text('Something went wrong'));
+                            } else if (snapshot.connectionState ==
+                                ConnectionState.waiting) {
+                              return const Center(
+                                  child: CircularProgressIndicator());
+                            }
+
+                            dynamic data = snapshot.data;
+                            return SizedBox(
+                                height: 40,
+                                child: TextFormField(
+                                  onChanged: (value) {
+                                    newPrice = value;
+                                  },
+                                  decoration: InputDecoration(
+                                      fillColor: Colors.grey[300],
+                                      filled: true,
+                                      hintText: data['num'].toString(),
+                                      border: InputBorder.none),
+                                ));
+                          }),
+                    ),
+                  ),
                 ],
               ),
             ),

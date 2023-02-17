@@ -788,59 +788,102 @@ class _SupplierTabState extends State<SupplierTab> {
                                     alignment: Alignment.bottomCenter,
                                     child: Column(
                                       children: [
-                                        Tooltip(
-                                          message:
-                                              'Click this button to post all items',
-                                          child: MaterialButton(
-                                              minWidth: 120,
-                                              height: 50,
-                                              color: const Color(0xff4EA430),
-                                              onPressed: (() {
-                                                for (int i = 0;
-                                                    i < count;
-                                                    i++) {
-                                                  addItem(
-                                                      'None',
-                                                      descController[i].text,
-                                                      priceController[i].text,
-                                                      qtyController[i].text,
-                                                      kindController[i].text,
-                                                      data['name'],
-                                                      data['id'],
-                                                      '',
-                                                      '',
-                                                      '',
-                                                      '',
-                                                      '',
-                                                      nameController[i].text);
+                                        StreamBuilder<DocumentSnapshot>(
+                                            stream: FirebaseFirestore.instance
+                                                .collection('Tool')
+                                                .doc('percent')
+                                                .snapshots(),
+                                            builder: (context,
+                                                AsyncSnapshot<DocumentSnapshot>
+                                                    snapshot) {
+                                              if (!snapshot.hasData) {
+                                                return const Center(
+                                                    child: Text('Loading'));
+                                              } else if (snapshot.hasError) {
+                                                return const Center(
+                                                    child: Text(
+                                                        'Something went wrong'));
+                                              } else if (snapshot
+                                                      .connectionState ==
+                                                  ConnectionState.waiting) {
+                                                return const Center(
+                                                    child:
+                                                        CircularProgressIndicator());
+                                              }
 
-                                                  descController[i].clear();
-                                                  priceController[i].clear();
-                                                  qtyController[i].clear();
-                                                  kindController[i].clear();
-                                                  nameController[i].clear();
-                                                }
-                                                ScaffoldMessenger.of(context)
-                                                    .showSnackBar(
-                                                  SnackBar(
-                                                    backgroundColor:
-                                                        Colors.white,
-                                                    content: TextRegular(
-                                                        text:
-                                                            'Items posted succesfully!',
-                                                        fontSize: 18,
-                                                        color: Colors.black),
-                                                  ),
-                                                );
-                                                setState(() {
-                                                  count = 1;
-                                                });
-                                              }),
-                                              child: TextRegular(
-                                                  text: 'Post Item',
-                                                  fontSize: 14,
-                                                  color: Colors.white)),
-                                        ),
+                                              dynamic data12 = snapshot.data;
+                                              return Tooltip(
+                                                message:
+                                                    'Click this button to post all items',
+                                                child: MaterialButton(
+                                                    minWidth: 120,
+                                                    height: 50,
+                                                    color:
+                                                        const Color(0xff4EA430),
+                                                    onPressed: (() {
+                                                      for (int i = 0;
+                                                          i < count;
+                                                          i++) {
+                                                        addItem(
+                                                            'None',
+                                                            descController[i]
+                                                                .text,
+                                                            priceController[i]
+                                                                .text,
+                                                            qtyController[i]
+                                                                .text,
+                                                            kindController[i]
+                                                                .text,
+                                                            data['name'],
+                                                            data['id'],
+                                                            '',
+                                                            '',
+                                                            '',
+                                                            '',
+                                                            '',
+                                                            nameController[i]
+                                                                .text,
+                                                            double.parse(
+                                                                    priceController[
+                                                                            i]
+                                                                        .text) *
+                                                                data12['num']);
+
+                                                        descController[i]
+                                                            .clear();
+                                                        priceController[i]
+                                                            .clear();
+                                                        qtyController[i]
+                                                            .clear();
+                                                        kindController[i]
+                                                            .clear();
+                                                        nameController[i]
+                                                            .clear();
+                                                      }
+                                                      ScaffoldMessenger.of(
+                                                              context)
+                                                          .showSnackBar(
+                                                        SnackBar(
+                                                          backgroundColor:
+                                                              Colors.white,
+                                                          content: TextRegular(
+                                                              text:
+                                                                  'Items posted succesfully!',
+                                                              fontSize: 18,
+                                                              color:
+                                                                  Colors.black),
+                                                        ),
+                                                      );
+                                                      setState(() {
+                                                        count = 1;
+                                                      });
+                                                    }),
+                                                    child: TextRegular(
+                                                        text: 'Post Item',
+                                                        fontSize: 14,
+                                                        color: Colors.white)),
+                                              );
+                                            }),
                                         const SizedBox(
                                           height: 10,
                                         ),

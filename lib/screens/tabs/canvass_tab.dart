@@ -179,11 +179,7 @@ class _CanvassTabState extends State<CanvassTab> {
                                               fontSize: 12,
                                               color: Colors.black)),
                                           DataCell(TextRegular(
-                                              text: (int.parse(data.docs[i]
-                                                          ['price']) +
-                                                      (int.parse(data.docs[i]
-                                                              ['price'])) *
-                                                          0.45)
+                                              text: data.docs[i]['newPrice']
                                                   .toString(),
                                               fontSize: 12,
                                               color: Colors.black)),
