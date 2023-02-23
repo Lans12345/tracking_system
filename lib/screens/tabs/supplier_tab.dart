@@ -1,7 +1,7 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
 import 'package:tracking_system/screens/home_screen.dart';
-import 'package:tracking_system/services/add_item.dart';
+import 'package:tracking_system/services/add_unit.dart';
 import 'package:tracking_system/utils/colors.dart';
 import 'package:tracking_system/widgets/text_widget.dart';
 import 'package:flutter/services.dart';
@@ -37,7 +37,11 @@ class _SupplierTabState extends State<SupplierTab> {
   List<TextEditingController> qtyController = [];
   List<TextEditingController> kindController = [];
 
-  List<TextEditingController> nameController = [];
+  final nameController = TextEditingController();
+  final ownerController = TextEditingController();
+  final plateNumberController = TextEditingController();
+
+  List<Map<String, dynamic>> units = [];
 
   @override
   Widget build(BuildContext context) {
@@ -46,7 +50,6 @@ class _SupplierTabState extends State<SupplierTab> {
       priceController.add(TextEditingController());
       qtyController.add(TextEditingController());
       kindController.add(TextEditingController());
-      nameController.add(TextEditingController());
     }
     return Container(
       child: Column(
@@ -348,9 +351,8 @@ class _SupplierTabState extends State<SupplierTab> {
           StreamBuilder<QuerySnapshot>(
               stream: id != ''
                   ? FirebaseFirestore.instance
-                      .collection('Items')
+                      .collection('Unit')
                       .where('supplierId', isEqualTo: id)
-                      .where('status', isEqualTo: 'None')
                       .snapshots()
                   : null,
               builder: (BuildContext context,
@@ -373,6 +375,7 @@ class _SupplierTabState extends State<SupplierTab> {
                             const SliverGridDelegateWithFixedCrossAxisCount(
                                 crossAxisCount: 3),
                         itemBuilder: ((context, index) {
+                          dynamic units = data.docs[index]['unit'];
                           return Padding(
                             padding: const EdgeInsets.all(5.0),
                             child: Card(
@@ -389,13 +392,6 @@ class _SupplierTabState extends State<SupplierTab> {
                                     crossAxisAlignment:
                                         CrossAxisAlignment.start,
                                     children: [
-                                      TextBold(
-                                          text: data.docs[index]['supplier'],
-                                          fontSize: 18,
-                                          color: Colors.black),
-                                      const SizedBox(
-                                        height: 10,
-                                      ),
                                       Row(
                                         mainAxisAlignment:
                                             MainAxisAlignment.spaceBetween,
@@ -405,7 +401,8 @@ class _SupplierTabState extends State<SupplierTab> {
                                               fontSize: 14,
                                               color: Colors.black),
                                           TextRegular(
-                                              text: data.docs[index]['name'],
+                                              text: data.docs[index]
+                                                  ['unitName'],
                                               fontSize: 12,
                                               color: Colors.black)
                                         ],
@@ -418,11 +415,11 @@ class _SupplierTabState extends State<SupplierTab> {
                                             MainAxisAlignment.spaceBetween,
                                         children: [
                                           TextBold(
-                                              text: 'Quantity',
+                                              text: 'Owner Name',
                                               fontSize: 14,
                                               color: Colors.black),
                                           TextRegular(
-                                              text: data.docs[index]['qty'],
+                                              text: data.docs[index]['ownName'],
                                               fontSize: 12,
                                               color: Colors.black)
                                         ],
@@ -435,77 +432,123 @@ class _SupplierTabState extends State<SupplierTab> {
                                             MainAxisAlignment.spaceBetween,
                                         children: [
                                           TextBold(
-                                              text: 'Kind',
+                                              text: 'Plate Number',
                                               fontSize: 14,
                                               color: Colors.black),
                                           TextRegular(
-                                              text: data.docs[index]['kind'],
+                                              text: data.docs[index]
+                                                  ['plateNumber'],
                                               fontSize: 12,
                                               color: Colors.black)
                                         ],
                                       ),
-                                      const SizedBox(
-                                        height: 5,
-                                      ),
-                                      Row(
-                                        mainAxisAlignment:
-                                            MainAxisAlignment.spaceBetween,
-                                        children: [
-                                          TextBold(
-                                              text: 'Price',
-                                              fontSize: 14,
-                                              color: Colors.black),
-                                          TextRegular(
-                                              text: data.docs[index]['price'],
-                                              fontSize: 12,
-                                              color: Colors.black)
-                                        ],
-                                      ),
-                                      const SizedBox(
-                                        height: 5,
-                                      ),
-                                      Row(
-                                        mainAxisAlignment:
-                                            MainAxisAlignment.spaceBetween,
-                                        children: [
-                                          TextBold(
-                                              text: 'Price (w/ %)',
-                                              fontSize: 14,
-                                              color: Colors.black),
-                                          TextRegular(
-                                              text: (int.parse(data.docs[index]
-                                                          ['price']) +
-                                                      (int.parse(
-                                                              data.docs[index]
-                                                                  ['price'])) *
-                                                          0.45)
-                                                  .toString(),
-                                              fontSize: 12,
-                                              color: Colors.black)
-                                        ],
-                                      ),
-                                      const SizedBox(
-                                        height: 5,
-                                      ),
-                                      TextBold(
-                                          text: 'Customer/Unit name:',
-                                          fontSize: 14,
-                                          color: Colors.black),
-                                      TextRegular(
-                                          text: 'None',
-                                          fontSize: 12,
-                                          color: Colors.black),
-                                      const SizedBox(
-                                        height: 5,
-                                      ),
-                                      TextBold(
-                                          text: 'Item Description:',
-                                          fontSize: 14,
-                                          color: Colors.black),
-                                      TextRegular(
-                                          text: data.docs[index]['description'],
-                                          fontSize: 12,
-                                          color: Colors.black),
+                                      const Divider(),
+                                      for (int i = 0; i < units.length; i++)
+                                        SingleChildScrollView(
+                                          child: SizedBox(
+                                            height: 300,
+                                            child: Column(
+                                              crossAxisAlignment:
+                                                  CrossAxisAlignment.start,
+                                              children: [
+                                                const SizedBox(
+                                                  height: 5,
+                                                ),
+                                                Row(
+                                                  mainAxisAlignment:
+                                                      MainAxisAlignment
+                                                          .spaceBetween,
+                                                  children: [
+                                                    TextBold(
+                                                        text: 'Quantity',
+                                                        fontSize: 14,
+                                                        color: Colors.black),
+                                                    TextRegular(
+                                                        text: units[i]['qty'],
+                                                        fontSize: 12,
+                                                        color: Colors.black)
+                                                  ],
+                                                ),
+                                                const SizedBox(
+                                                  height: 5,
+                                                ),
+                                                Row(
+                                                  mainAxisAlignment:
+                                                      MainAxisAlignment
+                                                          .spaceBetween,
+                                                  children: [
+                                                    TextBold(
+                                                        text: 'Kind',
+                                                        fontSize: 14,
+                                                        color: Colors.black),
+                                                    TextRegular(
+                                                        text: units[i]['kind'],
+                                                        fontSize: 12,
+                                                        color: Colors.black)
+                                                  ],
+                                                ),
+                                                const SizedBox(
+                                                  height: 5,
+                                                ),
+                                                Row(
+                                                  mainAxisAlignment:
+                                                      MainAxisAlignment
+                                                          .spaceBetween,
+                                                  children: [
+                                                    TextBold(
+                                                        text: 'Price',
+                                                        fontSize: 14,
+                                                        color: Colors.black),
+                                                    TextRegular(
+                                                        text: units[i]['price'],
+                                                        fontSize: 12,
+                                                        color: Colors.black)
+                                                  ],
+                                                ),
+                                                const SizedBox(
+                                                  height: 5,
+                                                ),
+                                                Row(
+                                                  mainAxisAlignment:
+                                                      MainAxisAlignment
+                                                          .spaceBetween,
+                                                  children: [
+                                                    TextBold(
+                                                        text: 'Price (w/ %)',
+                                                        fontSize: 14,
+                                                        color: Colors.black),
+                                                    TextRegular(
+                                                        text: (int.parse(units[
+                                                                        i]
+                                                                    ['price']) +
+                                                                (int.parse(units[
+                                                                            i][
+                                                                        'qty'])) *
+                                                                    0.45)
+                                                            .toString(),
+                                                        fontSize: 12,
+                                                        color: Colors.black)
+                                                  ],
+                                                ),
+                                                const SizedBox(
+                                                  height: 5,
+                                                ),
+                                                const SizedBox(
+                                                  height: 5,
+                                                ),
+                                                TextBold(
+                                                    text: 'Item Description:',
+                                                    fontSize: 14,
+                                                    color: Colors.black),
+                                                TextRegular(
+                                                    text: units[i]['desc'],
+                                                    fontSize: 12,
+                                                    color: Colors.black),
+                                              ],
+                                            ),
+                                          ),
+                                        ),
+                                      const Divider(),
                                       const SizedBox(
                                         height: 30,
                                       ),
@@ -566,7 +609,7 @@ class _SupplierTabState extends State<SupplierTab> {
           id != ''
               ? Container(
                   width: double.infinity,
-                  height: 120,
+                  height: 150,
                   decoration: const BoxDecoration(
                     color: Colors.white,
                   ),
@@ -599,31 +642,64 @@ class _SupplierTabState extends State<SupplierTab> {
                         SingleChildScrollView(
                           child: SizedBox(
                             child: Row(
+                              crossAxisAlignment: CrossAxisAlignment.start,
                               children: [
                                 Column(
                                   crossAxisAlignment: CrossAxisAlignment.start,
+                                  mainAxisAlignment: MainAxisAlignment.start,
                                   children: [
                                     TextRegular(
                                         text: 'Unit Name: ',
                                         fontSize: 12,
                                         color: Colors.black),
-                                    for (int i = 0; i < count; i++)
-                                      Padding(
-                                        padding: const EdgeInsets.only(
-                                            top: 5, bottom: 5),
-                                        child: SizedBox(
-                                          width: 150,
-                                          height: 40,
-                                          child: TextField(
-                                            controller: nameController[i],
-                                            decoration: InputDecoration(
-                                                fillColor: Colors.grey[300],
-                                                filled: true,
-                                                hintText: 'Unit Name',
-                                                border: InputBorder.none),
-                                          ),
+                                    Padding(
+                                      padding: const EdgeInsets.only(
+                                          top: 5, bottom: 5),
+                                      child: SizedBox(
+                                        width: 150,
+                                        height: 40,
+                                        child: TextField(
+                                          controller: nameController,
+                                          decoration: InputDecoration(
+                                              fillColor: Colors.grey[300],
+                                              filled: true,
+                                              hintText: 'Unit Name',
+                                              border: InputBorder.none),
                                         ),
                                       ),
+                                    ),
+                                    Padding(
+                                      padding: const EdgeInsets.only(
+                                          top: 5, bottom: 5),
+                                      child: SizedBox(
+                                        width: 150,
+                                        height: 40,
+                                        child: TextField(
+                                          controller: ownerController,
+                                          decoration: InputDecoration(
+                                              fillColor: Colors.grey[300],
+                                              filled: true,
+                                              hintText: 'Owner Name',
+                                              border: InputBorder.none),
+                                        ),
+                                      ),
+                                    ),
+                                    Padding(
+                                      padding: const EdgeInsets.only(
+                                          top: 5, bottom: 5),
+                                      child: SizedBox(
+                                        width: 150,
+                                        height: 40,
+                                        child: TextField(
+                                          controller: plateNumberController,
+                                          decoration: InputDecoration(
+                                              fillColor: Colors.grey[300],
+                                              filled: true,
+                                              hintText: 'Plate #',
+                                              border: InputBorder.none),
+                                        ),
+                                      ),
+                                    ),
                                   ],
                                 ),
                                 const SizedBox(
@@ -821,33 +897,64 @@ class _SupplierTabState extends State<SupplierTab> {
                                                     color:
                                                         const Color(0xff4EA430),
                                                     onPressed: (() {
+                                                      List<int> total = [];
                                                       for (int i = 0;
                                                           i < count;
                                                           i++) {
-                                                        addItem(
-                                                            'None',
-                                                            descController[i]
-                                                                .text,
-                                                            priceController[i]
-                                                                .text,
-                                                            qtyController[i]
-                                                                .text,
-                                                            kindController[i]
-                                                                .text,
-                                                            data['name'],
-                                                            data['id'],
-                                                            '',
-                                                            '',
-                                                            '',
-                                                            '',
-                                                            '',
-                                                            nameController[i]
-                                                                .text,
-                                                            double.parse(
-                                                                    priceController[
-                                                                            i]
-                                                                        .text) *
-                                                                data12['num']);
+                                                        units.add({
+                                                          'desc':
+                                                              descController[i]
+                                                                  .text,
+                                                          'price':
+                                                              priceController[i]
+                                                                  .text,
+                                                          'qty':
+                                                              qtyController[i]
+                                                                  .text,
+                                                          'kind':
+                                                              kindController[i]
+                                                                  .text,
+                                                          'total': int.parse(
+                                                                  priceController[
+                                                                          i]
+                                                                      .text) *
+                                                              int.parse(
+                                                                  qtyController[
+                                                                          i]
+                                                                      .text)
+                                                        });
+
+                                                        total.add(int.parse(
+                                                                priceController[
+                                                                        i]
+                                                                    .text) *
+                                                            int.parse(
+                                                                qtyController[i]
+                                                                    .text));
+
+                                                        // addItem(
+                                                        //     'None',
+                                                        //     descController[i]
+                                                        //         .text,
+                                                        //     priceController[i]
+                                                        //         .text,
+                                                        //     qtyController[i]
+                                                        //         .text,
+                                                        //     kindController[i]
+                                                        //         .text,
+                                                        //     data['name'],
+                                                        //     data['id'],
+                                                        //     '',
+                                                        //     '',
+                                                        //     '',
+                                                        //     '',
+                                                        //     '',
+                                                        //     nameController.text,
+                                                        //     double.parse(
+                                                        //             priceController[
+                                                        //                     i]
+                                                        //                 .text) *
+                                                        //         data12['num']);
 
                                                         descController[i]
                                                             .clear();
@@ -856,8 +963,6 @@ class _SupplierTabState extends State<SupplierTab> {
                                                         qtyController[i]
                                                             .clear();
                                                         kindController[i]
-                                                            .clear();
-                                                        nameController[i]
                                                             .clear();
                                                       }
                                                       ScaffoldMessenger.of(
@@ -874,6 +979,19 @@ class _SupplierTabState extends State<SupplierTab> {
                                                                   Colors.black),
                                                         ),
                                                       );
+
+                                                      int sum = total.reduce(
+                                                          (value, element) =>
+                                                              value + element);
+
+                                                      addUnit(
+                                                          data['id'],
+                                                          units,
+                                                          nameController.text,
+                                                          ownerController.text,
+                                                          plateNumberController
+                                                              .text,
+                                                          sum);
                                                       setState(() {
                                                         count = 1;
                                                       });
