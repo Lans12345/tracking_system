@@ -1,6 +1,7 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
 import 'package:tracking_system/screens/home_screen.dart';
+import 'package:tracking_system/services/add_item.dart';
 import 'package:tracking_system/services/add_unit.dart';
 import 'package:tracking_system/utils/colors.dart';
 import 'package:tracking_system/widgets/text_widget.dart';
@@ -504,31 +505,79 @@ class _SupplierTabState extends State<SupplierTab> {
                                       const SizedBox(
                                         height: 30,
                                       ),
-                                      Center(
-                                        child: MaterialButton(
-                                            minWidth: 200,
-                                            color: Colors.blue[800],
-                                            onPressed: (() {
-                                              FirebaseFirestore.instance
-                                                  .collection('Items')
-                                                  .doc(data.docs[index].id)
-                                                  .update(
-                                                      {'status': 'To Canvass'});
+                                      StreamBuilder<DocumentSnapshot>(
+                                          stream: FirebaseFirestore.instance
+                                              .collection('Tool')
+                                              .doc('percent')
+                                              .snapshots(),
+                                          builder: (context,
+                                              AsyncSnapshot<DocumentSnapshot>
+                                                  snapshot) {
+                                            if (!snapshot.hasData) {
+                                              return const Center(
+                                                  child: Text('Loading'));
+                                            } else if (snapshot.hasError) {
+                                              return const Center(
+                                                  child: Text(
+                                                      'Something went wrong'));
+                                            } else if (snapshot
+                                                    .connectionState ==
+                                                ConnectionState.waiting) {
+                                              return const Center(
+                                                  child:
+                                                      CircularProgressIndicator());
+                                            }
 
-                                              ScaffoldMessenger.of(context)
-                                                  .showSnackBar(SnackBar(
-                                                      content: TextRegular(
-                                                          text:
-                                                              'Added to Canvass',
-                                                          fontSize: 18,
-                                                          color:
-                                                              Colors.white)));
-                                            }),
-                                            child: TextRegular(
-                                                text: 'Add to canvass',
-                                                fontSize: 12,
-                                                color: Colors.white)),
-                                      ),
+                                            dynamic data12 = snapshot.data;
+                                            return Center(
+                                              child: MaterialButton(
+                                                  minWidth: 200,
+                                                  color: Colors.blue[800],
+                                                  onPressed: (() {
+                                                    for (int i = 0;
+                                                        i < units.length;
+                                                        i++) {
+                                                      double newPri = units[i]
+                                                              ['total'] *
+                                                          data12['num'];
+                                                      addItem(
+                                                          'To Canvass',
+                                                          units[i]['desc'],
+                                                          units[i]['price'],
+                                                          units[i]['qty'],
+                                                          units[i]['kind'],
+                                                          data.docs[index]
+                                                              ['supplierName'],
+                                                          data.docs[index]
+                                                              ['supplierId'],
+                                                          data.docs[index]
+                                                              ['unitName'],
+                                                          '',
+                                                          '',
+                                                          '',
+                                                          '',
+                                                          units[i]['desc'],
+                                                          newPri
+                                                              .toStringAsFixed(
+                                                                  2));
+                                                    }
+
+                                                    ScaffoldMessenger.of(
+                                                            context)
+                                                        .showSnackBar(SnackBar(
+                                                            content: TextRegular(
+                                                                text:
+                                                                    'Added to Canvass',
+                                                                fontSize: 18,
+                                                                color: Colors
+                                                                    .white)));
+                                                  }),
+                                                  child: TextRegular(
+                                                      text: 'Add to canvass',
+                                                      fontSize: 12,
+                                                      color: Colors.white)),
+                                            );
+                                          }),
                                       const SizedBox(
                                         height: 10,
                                       ),
@@ -943,7 +992,8 @@ class _SupplierTabState extends State<SupplierTab> {
                                                           ownerController.text,
                                                           plateNumberController
                                                               .text,
-                                                          sum);
+                                                          sum,
+                                                          data['name']);
                                                       setState(() {
                                                         count = 1;
                                                       });

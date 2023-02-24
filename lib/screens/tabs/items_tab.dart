@@ -4,6 +4,8 @@ import 'package:tracking_system/utils/colors.dart';
 import 'package:tracking_system/widgets/text_widget.dart';
 import 'package:intl/intl.dart' show toBeginningOfSentenceCase;
 
+import '../../services/add_item.dart';
+
 class ItemsTab extends StatefulWidget {
   @override
   State<ItemsTab> createState() => _ItemsTabState();
@@ -109,11 +111,10 @@ class _ItemsTabState extends State<ItemsTab> {
           ),
           StreamBuilder<QuerySnapshot>(
               stream: FirebaseFirestore.instance
-                  .collection('Items')
-                  .where('status', isEqualTo: 'None')
-                  .where('name',
+                  .collection('Unit')
+                  .where('unitName',
                       isGreaterThanOrEqualTo: toBeginningOfSentenceCase(search))
-                  .where('name',
+                  .where('unitName',
                       isLessThan: '${toBeginningOfSentenceCase(search)}z')
                   .snapshots(),
               builder: (BuildContext context,
@@ -136,16 +137,16 @@ class _ItemsTabState extends State<ItemsTab> {
                             const SliverGridDelegateWithFixedCrossAxisCount(
                                 crossAxisCount: 3),
                         itemBuilder: ((context, index) {
+                          dynamic units = data.docs[index]['unit'];
                           int highestPrice = 99999999999;
                           for (var i = 0; i < data.docs.length; i++) {
-                            int currentPrice = int.parse(data.docs[i]['price']);
+                            int currentPrice = data.docs[i]['total'];
                             if (currentPrice < highestPrice) {
                               highestPrice = currentPrice;
                             }
                           }
 
-                          int currentPrice =
-                              int.parse(data.docs[index]['price']);
+                          int currentPrice = data.docs[index]['total'];
                           bool isHighest = currentPrice == highestPrice;
 
                           return Padding(
@@ -170,7 +171,8 @@ class _ItemsTabState extends State<ItemsTab> {
                                         CrossAxisAlignment.start,
                                     children: [
                                       TextBold(
-                                          text: data.docs[index]['supplier'],
+                                          text: data.docs[index]
+                                              ['supplierName'],
                                           fontSize: 18,
                                           color: Colors.black),
                                       const SizedBox(
@@ -185,7 +187,8 @@ class _ItemsTabState extends State<ItemsTab> {
                                               fontSize: 14,
                                               color: Colors.black),
                                           TextRegular(
-                                              text: data.docs[index]['name'],
+                                              text: data.docs[index]
+                                                  ['unitName'],
                                               fontSize: 12,
                                               color: Colors.black)
                                         ],
@@ -198,11 +201,11 @@ class _ItemsTabState extends State<ItemsTab> {
                                             MainAxisAlignment.spaceBetween,
                                         children: [
                                           TextBold(
-                                              text: 'Quantity',
+                                              text: 'Owner Name',
                                               fontSize: 14,
                                               color: Colors.black),
                                           TextRegular(
-                                              text: data.docs[index]['qty'],
+                                              text: data.docs[index]['ownName'],
                                               fontSize: 12,
                                               color: Colors.black)
                                         ],
@@ -210,112 +213,143 @@ class _ItemsTabState extends State<ItemsTab> {
                                       const SizedBox(
                                         height: 5,
                                       ),
-                                      Row(
-                                        mainAxisAlignment:
-                                            MainAxisAlignment.spaceBetween,
-                                        children: [
-                                          TextBold(
-                                              text: 'Kind',
-                                              fontSize: 14,
-                                              color: Colors.black),
-                                          TextRegular(
-                                              text: data.docs[index]['kind'],
-                                              fontSize: 12,
-                                              color: Colors.black)
-                                        ],
+                                      const Divider(),
+                                      SingleChildScrollView(
+                                        child: SizedBox(
+                                          height: 130,
+                                          child: DataTable(columns: [
+                                            DataColumn(
+                                                label: TextBold(
+                                                    text: 'Item',
+                                                    fontSize: 14,
+                                                    color: Colors.black)),
+                                            DataColumn(
+                                                label: TextBold(
+                                                    text: 'Qty',
+                                                    fontSize: 14,
+                                                    color: Colors.black)),
+                                            DataColumn(
+                                                label: TextBold(
+                                                    text: 'Kind',
+                                                    fontSize: 14,
+                                                    color: Colors.black)),
+                                            DataColumn(
+                                                label: TextBold(
+                                                    text: 'Price',
+                                                    fontSize: 14,
+                                                    color: Colors.black)),
+                                          ], rows: [
+                                            for (int i = 0;
+                                                i < units.length;
+                                                i++)
+                                              DataRow(cells: [
+                                                DataCell(
+                                                  TextRegular(
+                                                      text: units[i]['desc'],
+                                                      fontSize: 12,
+                                                      color: Colors.black),
+                                                ),
+                                                DataCell(
+                                                  TextRegular(
+                                                      text: units[i]['qty'],
+                                                      fontSize: 12,
+                                                      color: Colors.black),
+                                                ),
+                                                DataCell(
+                                                  TextRegular(
+                                                      text: units[i]['kind'],
+                                                      fontSize: 12,
+                                                      color: Colors.black),
+                                                ),
+                                                DataCell(
+                                                  TextRegular(
+                                                      text: units[i]['price'],
+                                                      fontSize: 12,
+                                                      color: Colors.black),
+                                                ),
+                                              ])
+                                          ]),
+                                        ),
                                       ),
-                                      const SizedBox(
-                                        height: 5,
-                                      ),
-                                      Row(
-                                        mainAxisAlignment:
-                                            MainAxisAlignment.spaceBetween,
-                                        children: [
-                                          TextBold(
-                                              text: 'Price',
-                                              fontSize: 14,
-                                              color: Colors.black),
-                                          TextRegular(
-                                              text: data.docs[index]['price'],
-                                              fontSize: 12,
-                                              color: Colors.black)
-                                        ],
-                                      ),
-                                      const SizedBox(
-                                        height: 5,
-                                      ),
-                                      Row(
-                                        mainAxisAlignment:
-                                            MainAxisAlignment.spaceBetween,
-                                        children: [
-                                          TextBold(
-                                              text: 'Price (w/ %)',
-                                              fontSize: 14,
-                                              color: Colors.black),
-                                          TextRegular(
-                                              text: (int.parse(data.docs[index]
-                                                          ['price']) +
-                                                      (int.parse(
-                                                              data.docs[index]
-                                                                  ['price'])) *
-                                                          0.45)
-                                                  .toString(),
-                                              fontSize: 12,
-                                              color: Colors.black)
-                                        ],
-                                      ),
-                                      const SizedBox(
-                                        height: 5,
-                                      ),
-                                      TextBold(
-                                          text: 'Customer/Unit name:',
-                                          fontSize: 14,
-                                          color: Colors.black),
-                                      TextRegular(
-                                          text: 'None',
-                                          fontSize: 12,
-                                          color: Colors.black),
-                                      const SizedBox(
-                                        height: 5,
-                                      ),
-                                      TextBold(
-                                          text: 'Item Description:',
-                                          fontSize: 14,
-                                          color: Colors.black),
-                                      TextRegular(
-                                          text: data.docs[index]['description'],
-                                          fontSize: 12,
-                                          color: Colors.black),
+                                      const Divider(),
                                       const SizedBox(
                                         height: 30,
                                       ),
-                                      Center(
-                                        child: MaterialButton(
-                                            minWidth: 200,
-                                            color: isHighest
-                                                ? Colors.green[800]
-                                                : Colors.blue[800],
-                                            onPressed: (() {
-                                              FirebaseFirestore.instance
-                                                  .collection('Items')
-                                                  .doc(data.docs[index].id)
-                                                  .update(
-                                                      {'status': 'To Canvass'});
+                                      StreamBuilder<DocumentSnapshot>(
+                                          stream: FirebaseFirestore.instance
+                                              .collection('Tool')
+                                              .doc('percent')
+                                              .snapshots(),
+                                          builder: (context,
+                                              AsyncSnapshot<DocumentSnapshot>
+                                                  snapshot) {
+                                            if (!snapshot.hasData) {
+                                              return const Center(
+                                                  child: Text('Loading'));
+                                            } else if (snapshot.hasError) {
+                                              return const Center(
+                                                  child: Text(
+                                                      'Something went wrong'));
+                                            } else if (snapshot
+                                                    .connectionState ==
+                                                ConnectionState.waiting) {
+                                              return const Center(
+                                                  child:
+                                                      CircularProgressIndicator());
+                                            }
 
-                                              ScaffoldMessenger.of(context)
-                                                  .showSnackBar(SnackBar(
-                                                      content: TextRegular(
-                                                          text:
-                                                              'Added to Canvass',
-                                                          fontSize: 18,
-                                                          color:
-                                                              Colors.white)));
-                                            }),
-                                            child: TextRegular(
-                                                text: 'Add to canvass',
-                                                fontSize: 12,
-                                                color: Colors.white)),
-                                      ),
+                                            dynamic data12 = snapshot.data;
+                                            return Center(
+                                              child: MaterialButton(
+                                                  minWidth: 200,
+                                                  color: isHighest
+                                                      ? Colors.green[800]
+                                                      : Colors.blue[800],
+                                                  onPressed: (() {
+                                                    for (int i = 0;
+                                                        i < units.length;
+                                                        i++) {
+                                                      double newPri = units[i]
+                                                              ['total'] *
+                                                          data12['num'];
+                                                      addItem(
+                                                          'To Canvass',
+                                                          units[i]['desc'],
+                                                          units[i]['price'],
+                                                          units[i]['qty'],
+                                                          units[i]['kind'],
+                                                          data.docs[index]
+                                                              ['supplierName'],
+                                                          data.docs[index]
+                                                              ['supplierId'],
+                                                          data.docs[index]
+                                                              ['unitName'],
+                                                          '',
+                                                          '',
+                                                          '',
+                                                          '',
+                                                          units[i]['desc'],
+                                                          newPri
+                                                              .toStringAsFixed(
+                                                                  2));
+                                                    }
+
+                                                    ScaffoldMessenger.of(
+                                                            context)
+                                                        .showSnackBar(SnackBar(
+                                                            content: TextRegular(
+                                                                text:
+                                                                    'Added to Canvass',
+                                                                fontSize: 18,
+                                                                color: Colors
+                                                                    .white)));
+                                                  }),
+                                                  child: TextRegular(
+                                                      text: 'Add to canvass',
+                                                      fontSize: 12,
+                                                      color: Colors.white)),
+                                            );
+                                          }),
                                       const SizedBox(
                                         height: 10,
                                       ),

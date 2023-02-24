@@ -1,6 +1,7 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
 
-Future addUnit(supplierId, unit, unitName, ownName, plateNumber, total) async {
+Future addUnit(supplierId, unit, unitName, ownName, plateNumber, total,
+    supplierName) async {
   final docUser = FirebaseFirestore.instance.collection('Unit').doc();
 
   final json = {
@@ -10,7 +11,8 @@ Future addUnit(supplierId, unit, unitName, ownName, plateNumber, total) async {
     'unitName': unitName,
     'ownName': ownName,
     'plateNumber': plateNumber,
-    'total': total
+    'total': total,
+    'supplierName': supplierName,
   };
 
   await docUser.set(json);
