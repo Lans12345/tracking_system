@@ -443,111 +443,63 @@ class _SupplierTabState extends State<SupplierTab> {
                                         ],
                                       ),
                                       const Divider(),
-                                      for (int i = 0; i < units.length; i++)
-                                        SingleChildScrollView(
-                                          child: SizedBox(
-                                            height: 300,
-                                            child: Column(
-                                              crossAxisAlignment:
-                                                  CrossAxisAlignment.start,
-                                              children: [
-                                                const SizedBox(
-                                                  height: 5,
-                                                ),
-                                                Row(
-                                                  mainAxisAlignment:
-                                                      MainAxisAlignment
-                                                          .spaceBetween,
-                                                  children: [
-                                                    TextBold(
-                                                        text: 'Quantity',
-                                                        fontSize: 14,
-                                                        color: Colors.black),
-                                                    TextRegular(
-                                                        text: units[i]['qty'],
-                                                        fontSize: 12,
-                                                        color: Colors.black)
-                                                  ],
-                                                ),
-                                                const SizedBox(
-                                                  height: 5,
-                                                ),
-                                                Row(
-                                                  mainAxisAlignment:
-                                                      MainAxisAlignment
-                                                          .spaceBetween,
-                                                  children: [
-                                                    TextBold(
-                                                        text: 'Kind',
-                                                        fontSize: 14,
-                                                        color: Colors.black),
-                                                    TextRegular(
-                                                        text: units[i]['kind'],
-                                                        fontSize: 12,
-                                                        color: Colors.black)
-                                                  ],
-                                                ),
-                                                const SizedBox(
-                                                  height: 5,
-                                                ),
-                                                Row(
-                                                  mainAxisAlignment:
-                                                      MainAxisAlignment
-                                                          .spaceBetween,
-                                                  children: [
-                                                    TextBold(
-                                                        text: 'Price',
-                                                        fontSize: 14,
-                                                        color: Colors.black),
-                                                    TextRegular(
-                                                        text: units[i]['price'],
-                                                        fontSize: 12,
-                                                        color: Colors.black)
-                                                  ],
-                                                ),
-                                                const SizedBox(
-                                                  height: 5,
-                                                ),
-                                                Row(
-                                                  mainAxisAlignment:
-                                                      MainAxisAlignment
-                                                          .spaceBetween,
-                                                  children: [
-                                                    TextBold(
-                                                        text: 'Price (w/ %)',
-                                                        fontSize: 14,
-                                                        color: Colors.black),
-                                                    TextRegular(
-                                                        text: (int.parse(units[
-                                                                        i]
-                                                                    ['price']) +
-                                                                (int.parse(units[
-                                                                            i][
-                                                                        'qty'])) *
-                                                                    0.45)
-                                                            .toString(),
-                                                        fontSize: 12,
-                                                        color: Colors.black)
-                                                  ],
-                                                ),
-                                                const SizedBox(
-                                                  height: 5,
-                                                ),
-                                                const SizedBox(
-                                                  height: 5,
-                                                ),
-                                                TextBold(
-                                                    text: 'Item Description:',
+                                      SingleChildScrollView(
+                                        child: SizedBox(
+                                          height: 160,
+                                          child: DataTable(columns: [
+                                            DataColumn(
+                                                label: TextBold(
+                                                    text: 'Item',
                                                     fontSize: 14,
-                                                    color: Colors.black),
-                                                TextRegular(
-                                                    text: units[i]['desc'],
-                                                    fontSize: 12,
-                                                    color: Colors.black),
-                                              ],
-                                            ),
-                                          ),
+                                                    color: Colors.black)),
+                                            DataColumn(
+                                                label: TextBold(
+                                                    text: 'Qty',
+                                                    fontSize: 14,
+                                                    color: Colors.black)),
+                                            DataColumn(
+                                                label: TextBold(
+                                                    text: 'Kind',
+                                                    fontSize: 14,
+                                                    color: Colors.black)),
+                                            DataColumn(
+                                                label: TextBold(
+                                                    text: 'Price',
+                                                    fontSize: 14,
+                                                    color: Colors.black)),
+                                          ], rows: [
+                                            for (int i = 0;
+                                                i < units.length;
+                                                i++)
+                                              DataRow(cells: [
+                                                DataCell(
+                                                  TextRegular(
+                                                      text: units[i]['desc'],
+                                                      fontSize: 12,
+                                                      color: Colors.black),
+                                                ),
+                                                DataCell(
+                                                  TextRegular(
+                                                      text: units[i]['qty'],
+                                                      fontSize: 12,
+                                                      color: Colors.black),
+                                                ),
+                                                DataCell(
+                                                  TextRegular(
+                                                      text: units[i]['kind'],
+                                                      fontSize: 12,
+                                                      color: Colors.black),
+                                                ),
+                                                DataCell(
+                                                  TextRegular(
+                                                      text: units[i]['price'],
+                                                      fontSize: 12,
+                                                      color: Colors.black),
+                                                ),
+                                              ])
+                                          ]),
                                         ),
+                                      ),
                                       const Divider(),
                                       const SizedBox(
                                         height: 30,
