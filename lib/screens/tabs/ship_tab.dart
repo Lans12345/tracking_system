@@ -154,7 +154,12 @@ class _ShipTabState extends State<ShipTab> {
                                           color: Colors.black)),
                                   DataColumn(
                                       label: TextRegular(
-                                          text: 'BALANCE',
+                                          text: 'Partial/Payment',
+                                          fontSize: 14,
+                                          color: Colors.black)),
+                                  DataColumn(
+                                      label: TextRegular(
+                                          text: 'Remaining/Payment',
                                           fontSize: 14,
                                           color: Colors.black)),
                                   DataColumn(
@@ -211,6 +216,17 @@ class _ShipTabState extends State<ShipTab> {
                                               color: Colors.black)),
                                           DataCell(TextRegular(
                                               text: data.docs[i]['balance'],
+                                              fontSize: 12,
+                                              color: Colors.black)),
+                                          DataCell(TextRegular(
+                                              text: ((int.parse(data.docs[i]
+                                                              ['qty']) *
+                                                          (int.parse(
+                                                              data.docs[i]
+                                                                  ['price']))) -
+                                                      int.parse(data.docs[i]
+                                                          ['balance']))
+                                                  .toString(),
                                               fontSize: 12,
                                               color: Colors.black)),
                                           DataCell(TextRegular(
