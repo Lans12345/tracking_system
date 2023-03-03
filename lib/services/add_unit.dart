@@ -19,6 +19,7 @@ Future addUnit(supplierId, unit, unitName, ownName, plateNumber, total,
     'balance': '',
     'courier': '',
     'paymentMode': '',
+    'newPrice': ''
   };
 
   await docUser.set(json);

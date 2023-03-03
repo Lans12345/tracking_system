@@ -68,12 +68,12 @@ class _CanvassTabState extends State<CanvassTab> {
         ),
         StreamBuilder<QuerySnapshot>(
             stream: FirebaseFirestore.instance
-                .collection('Items')
-                .where('status', isEqualTo: 'To Canvass')
-                .where('description',
+                .collection('Unit')
+                .where('unitName',
                     isGreaterThanOrEqualTo: toBeginningOfSentenceCase(search))
-                .where('description',
+                .where('unitName',
                     isLessThan: '${toBeginningOfSentenceCase(search)}z')
+                .where('status', isEqualTo: 'Canvass')
                 .snapshots(),
             builder:
                 (BuildContext context, AsyncSnapshot<QuerySnapshot> snapshot) {
@@ -85,152 +85,232 @@ class _CanvassTabState extends State<CanvassTab> {
               }
 
               final data = snapshot.requireData;
+
               return Expanded(
                 child: SizedBox(
-                  child: Padding(
-                    padding: const EdgeInsets.fromLTRB(30, 20, 30, 20),
-                    child: Container(
-                      height: double.infinity,
-                      width: double.infinity,
-                      color: Colors.grey[300],
-                      child: InteractiveViewer(
-                        scaleEnabled: false,
-                        child: Scrollbar(
-                          controller: scrollController,
-                          child: SingleChildScrollView(
-                            controller: scrollController,
-                            scrollDirection: Axis.horizontal,
-                            child: SingleChildScrollView(
-                              scrollDirection: Axis.vertical,
+                  child: GridView.builder(
+                      itemCount: data.docs.length,
+                      gridDelegate:
+                          const SliverGridDelegateWithFixedCrossAxisCount(
+                              crossAxisCount: 3),
+                      itemBuilder: ((context, index) {
+                        dynamic units = data.docs[index]['unit'];
+                        int highestPrice = 99999999999;
+                        for (var i = 0; i < data.docs.length; i++) {
+                          int currentPrice = data.docs[i]['total'];
+                          if (currentPrice < highestPrice) {
+                            highestPrice = currentPrice;
+                          }
+                        }
+
+                        int currentPrice = data.docs[index]['total'];
+                        bool isHighest = currentPrice == highestPrice;
+
+                        return Padding(
+                          padding: const EdgeInsets.all(5.0),
+                          child: Card(
+                            elevation: 3,
+                            child: Container(
+                              height: 400,
+                              width: 100,
+                              decoration: const BoxDecoration(
+                                color: Colors.black12,
+                              ),
                               child: Padding(
-                                padding: const EdgeInsets.only(bottom: 20),
-                                child: DataTable(columns: [
-                                  DataColumn(
-                                      label: TextRegular(
-                                          text: 'Supplier',
-                                          fontSize: 14,
-                                          color: Colors.black)),
-                                  DataColumn(
-                                      label: TextRegular(
-                                          text: 'Item\nName',
-                                          fontSize: 14,
-                                          color: Colors.black)),
-                                  DataColumn(
-                                      label: TextRegular(
-                                          text: 'Quantity',
-                                          fontSize: 14,
-                                          color: Colors.black)),
-                                  DataColumn(
-                                      label: TextRegular(
-                                          text: 'Kind',
-                                          fontSize: 14,
-                                          color: Colors.black)),
-                                  DataColumn(
-                                      label: TextRegular(
-                                          text: 'Availability',
-                                          fontSize: 14,
-                                          color: Colors.black)),
-                                  DataColumn(
-                                      label: TextRegular(
-                                          text: 'Price',
-                                          fontSize: 14,
-                                          color: Colors.black)),
-                                  DataColumn(
-                                      label: TextRegular(
-                                          text: 'Price\n(w/ %)',
-                                          fontSize: 14,
-                                          color: Colors.black)),
-                                  DataColumn(
-                                      label: TextRegular(
-                                          text: '',
-                                          fontSize: 14,
-                                          color: Colors.black)),
-                                ], rows: [
-                                  for (int i = 0; i < data.size; i++)
-                                    DataRow(
-                                        color: MaterialStateProperty
-                                            .resolveWith<Color?>(
-                                                (Set<MaterialState> states) {
-                                          return Colors.white;
-                                        }),
-                                        cells: [
-                                          DataCell(TextRegular(
-                                              text: data.docs[i]['supplier'],
-                                              fontSize: 12,
-                                              color: Colors.black)),
-                                          DataCell(TextRegular(
-                                              text: data.docs[i]['description'],
-                                              fontSize: 12,
-                                              color: Colors.black)),
-                                          DataCell(TextRegular(
-                                              text: data.docs[i]['qty'],
-                                              fontSize: 12,
-                                              color: Colors.black)),
-                                          DataCell(TextRegular(
-                                              text: data.docs[i]['kind'],
-                                              fontSize: 12,
-                                              color: Colors.black)),
-                                          DataCell(TextRegular(
-                                              text: 'Yes',
-                                              fontSize: 12,
-                                              color: Colors.black)),
-                                          DataCell(TextRegular(
-                                              text: data.docs[i]['price'],
-                                              fontSize: 12,
-                                              color: Colors.black)),
-                                          DataCell(TextRegular(
-                                              text: data.docs[i]['newPrice']
-                                                  .toString(),
-                                              fontSize: 12,
-                                              color: Colors.black)),
-                                          DataCell(
-                                            Row(
-                                              children: [
-                                                MaterialButton(
-                                                    height: 35,
-                                                    minWidth: 80,
-                                                    color: blueAccent,
-                                                    onPressed: (() {
-                                                      FirebaseFirestore.instance
-                                                          .collection('Items')
-                                                          .doc(data.docs[i].id)
-                                                          .update({
-                                                        'status': 'To Order'
-                                                      });
-                                                    }),
-                                                    child: TextRegular(
-                                                        text: 'Add to Order',
-                                                        fontSize: 10,
-                                                        color: Colors.white)),
-                                                const SizedBox(
-                                                  width: 20,
+                                padding:
+                                    const EdgeInsets.fromLTRB(10, 5, 10, 5),
+                                child: Column(
+                                  crossAxisAlignment: CrossAxisAlignment.start,
+                                  children: [
+                                    TextBold(
+                                        text: data.docs[index]['supplierName'],
+                                        fontSize: 18,
+                                        color: Colors.black),
+                                    const SizedBox(
+                                      height: 10,
+                                    ),
+                                    Row(
+                                      mainAxisAlignment:
+                                          MainAxisAlignment.spaceBetween,
+                                      children: [
+                                        TextBold(
+                                            text: 'Unit Name',
+                                            fontSize: 14,
+                                            color: Colors.black),
+                                        TextRegular(
+                                            text: data.docs[index]['unitName'],
+                                            fontSize: 12,
+                                            color: Colors.black)
+                                      ],
+                                    ),
+                                    const SizedBox(
+                                      height: 5,
+                                    ),
+                                    Row(
+                                      mainAxisAlignment:
+                                          MainAxisAlignment.spaceBetween,
+                                      children: [
+                                        TextBold(
+                                            text: 'Owner Name',
+                                            fontSize: 14,
+                                            color: Colors.black),
+                                        TextRegular(
+                                            text: data.docs[index]['ownName'],
+                                            fontSize: 12,
+                                            color: Colors.black)
+                                      ],
+                                    ),
+                                    const SizedBox(
+                                      height: 5,
+                                    ),
+                                    const Divider(),
+                                    SizedBox(
+                                      height: 130,
+                                      child: SingleChildScrollView(
+                                        child: SizedBox(
+                                          height: 150,
+                                          child: DataTable(columns: [
+                                            DataColumn(
+                                                label: TextBold(
+                                                    text: 'Item',
+                                                    fontSize: 14,
+                                                    color: Colors.black)),
+                                            DataColumn(
+                                                label: TextBold(
+                                                    text: 'Qty',
+                                                    fontSize: 14,
+                                                    color: Colors.black)),
+                                            DataColumn(
+                                                label: TextBold(
+                                                    text: 'Kind',
+                                                    fontSize: 14,
+                                                    color: Colors.black)),
+                                            DataColumn(
+                                                label: TextBold(
+                                                    text: 'Price',
+                                                    fontSize: 14,
+                                                    color: Colors.black)),
+                                          ], rows: [
+                                            for (int i = 0;
+                                                i < units.length;
+                                                i++)
+                                              DataRow(cells: [
+                                                DataCell(
+                                                  TextRegular(
+                                                      text: units[i]['desc'],
+                                                      fontSize: 12,
+                                                      color: Colors.black),
                                                 ),
-                                                MaterialButton(
-                                                    height: 35,
-                                                    minWidth: 80,
-                                                    color: redAccent,
-                                                    onPressed: (() {
-                                                      FirebaseFirestore.instance
-                                                          .collection('Items')
-                                                          .doc(data.docs[i].id)
-                                                          .delete();
-                                                    }),
-                                                    child: TextRegular(
-                                                        text: 'Delete',
-                                                        fontSize: 10,
-                                                        color: Colors.white)),
-                                              ],
-                                            ),
-                                          ),
-                                        ])
-                                ]),
+                                                DataCell(
+                                                  TextRegular(
+                                                      text: units[i]['qty'],
+                                                      fontSize: 12,
+                                                      color: Colors.black),
+                                                ),
+                                                DataCell(
+                                                  TextRegular(
+                                                      text: units[i]['kind'],
+                                                      fontSize: 12,
+                                                      color: Colors.black),
+                                                ),
+                                                DataCell(
+                                                  TextRegular(
+                                                      text: units[i]['price'],
+                                                      fontSize: 12,
+                                                      color: Colors.black),
+                                                ),
+                                              ])
+                                          ]),
+                                        ),
+                                      ),
+                                    ),
+                                    const Divider(),
+                                    const SizedBox(
+                                      height: 30,
+                                    ),
+                                    StreamBuilder<DocumentSnapshot>(
+                                        stream: FirebaseFirestore.instance
+                                            .collection('Tool')
+                                            .doc('percent')
+                                            .snapshots(),
+                                        builder: (context,
+                                            AsyncSnapshot<DocumentSnapshot>
+                                                snapshot) {
+                                          if (!snapshot.hasData) {
+                                            return const Center(
+                                                child: Text('Loading'));
+                                          } else if (snapshot.hasError) {
+                                            return const Center(
+                                                child: Text(
+                                                    'Something went wrong'));
+                                          } else if (snapshot.connectionState ==
+                                              ConnectionState.waiting) {
+                                            return const Center(
+                                                child:
+                                                    CircularProgressIndicator());
+                                          }
+
+                                          dynamic data12 = snapshot.data;
+                                          return Center(
+                                            child: MaterialButton(
+                                                minWidth: 200,
+                                                color: isHighest
+                                                    ? Colors.green[800]
+                                                    : Colors.blue[800],
+                                                onPressed: (() async {
+                                                  await FirebaseFirestore
+                                                      .instance
+                                                      .collection('Unit')
+                                                      .doc(data.docs[index].id)
+                                                      .update({
+                                                    'status': 'Order',
+                                                    'newPrice': (data12['num'] *
+                                                            data.docs[index]
+                                                                ['total']) +
+                                                        data.docs[index]
+                                                            ['total']
+                                                  });
+
+                                                  ScaffoldMessenger.of(context)
+                                                      .showSnackBar(SnackBar(
+                                                          content: TextRegular(
+                                                              text:
+                                                                  'Added to Order',
+                                                              fontSize: 18,
+                                                              color: Colors
+                                                                  .white)));
+                                                }),
+                                                child: TextRegular(
+                                                    text: 'Add to Order',
+                                                    fontSize: 12,
+                                                    color: Colors.white)),
+                                          );
+                                        }),
+                                    const SizedBox(
+                                      height: 10,
+                                    ),
+                                    Center(
+                                      child: MaterialButton(
+                                          minWidth: 200,
+                                          color: Colors.red,
+                                          onPressed: (() {
+                                            FirebaseFirestore.instance
+                                                .collection('Items')
+                                                .doc(data.docs[index].id)
+                                                .delete();
+                                          }),
+                                          child: TextRegular(
+                                              text: 'Delete',
+                                              fontSize: 12,
+                                              color: Colors.white)),
+                                    )
+                                  ],
+                                ),
                               ),
                             ),
                           ),
-                        ),
-                      ),
-                    ),
-                  ),
+                        );
+                      })),
                 ),
               );
             }),
