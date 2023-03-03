@@ -354,6 +354,7 @@ class _SupplierTabState extends State<SupplierTab> {
                   ? FirebaseFirestore.instance
                       .collection('Unit')
                       .where('supplierId', isEqualTo: id)
+                      .where('status', isEqualTo: 'Stored')
                       .snapshots()
                   : null,
               builder: (BuildContext context,
@@ -444,61 +445,64 @@ class _SupplierTabState extends State<SupplierTab> {
                                         ],
                                       ),
                                       const Divider(),
-                                      SingleChildScrollView(
-                                        child: SizedBox(
-                                          height: 160,
-                                          child: DataTable(columns: [
-                                            DataColumn(
-                                                label: TextBold(
-                                                    text: 'Item',
-                                                    fontSize: 14,
-                                                    color: Colors.black)),
-                                            DataColumn(
-                                                label: TextBold(
-                                                    text: 'Qty',
-                                                    fontSize: 14,
-                                                    color: Colors.black)),
-                                            DataColumn(
-                                                label: TextBold(
-                                                    text: 'Kind',
-                                                    fontSize: 14,
-                                                    color: Colors.black)),
-                                            DataColumn(
-                                                label: TextBold(
-                                                    text: 'Price',
-                                                    fontSize: 14,
-                                                    color: Colors.black)),
-                                          ], rows: [
-                                            for (int i = 0;
-                                                i < units.length;
-                                                i++)
-                                              DataRow(cells: [
-                                                DataCell(
-                                                  TextRegular(
-                                                      text: units[i]['desc'],
-                                                      fontSize: 12,
-                                                      color: Colors.black),
-                                                ),
-                                                DataCell(
-                                                  TextRegular(
-                                                      text: units[i]['qty'],
-                                                      fontSize: 12,
-                                                      color: Colors.black),
-                                                ),
-                                                DataCell(
-                                                  TextRegular(
-                                                      text: units[i]['kind'],
-                                                      fontSize: 12,
-                                                      color: Colors.black),
-                                                ),
-                                                DataCell(
-                                                  TextRegular(
-                                                      text: units[i]['price'],
-                                                      fontSize: 12,
-                                                      color: Colors.black),
-                                                ),
-                                              ])
-                                          ]),
+                                      SizedBox(
+                                        height: 130,
+                                        child: SingleChildScrollView(
+                                          child: SizedBox(
+                                            height: 160,
+                                            child: DataTable(columns: [
+                                              DataColumn(
+                                                  label: TextBold(
+                                                      text: 'Item',
+                                                      fontSize: 14,
+                                                      color: Colors.black)),
+                                              DataColumn(
+                                                  label: TextBold(
+                                                      text: 'Qty',
+                                                      fontSize: 14,
+                                                      color: Colors.black)),
+                                              DataColumn(
+                                                  label: TextBold(
+                                                      text: 'Kind',
+                                                      fontSize: 14,
+                                                      color: Colors.black)),
+                                              DataColumn(
+                                                  label: TextBold(
+                                                      text: 'Price',
+                                                      fontSize: 14,
+                                                      color: Colors.black)),
+                                            ], rows: [
+                                              for (int i = 0;
+                                                  i < units.length;
+                                                  i++)
+                                                DataRow(cells: [
+                                                  DataCell(
+                                                    TextRegular(
+                                                        text: units[i]['desc'],
+                                                        fontSize: 12,
+                                                        color: Colors.black),
+                                                  ),
+                                                  DataCell(
+                                                    TextRegular(
+                                                        text: units[i]['qty'],
+                                                        fontSize: 12,
+                                                        color: Colors.black),
+                                                  ),
+                                                  DataCell(
+                                                    TextRegular(
+                                                        text: units[i]['kind'],
+                                                        fontSize: 12,
+                                                        color: Colors.black),
+                                                  ),
+                                                  DataCell(
+                                                    TextRegular(
+                                                        text: units[i]['price'],
+                                                        fontSize: 12,
+                                                        color: Colors.black),
+                                                  ),
+                                                ])
+                                            ]),
+                                          ),
                                         ),
                                       ),
                                       const Divider(),

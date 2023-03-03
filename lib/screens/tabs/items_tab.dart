@@ -116,6 +116,7 @@ class _ItemsTabState extends State<ItemsTab> {
                       isGreaterThanOrEqualTo: toBeginningOfSentenceCase(search))
                   .where('unitName',
                       isLessThan: '${toBeginningOfSentenceCase(search)}z')
+                  .where('status', isEqualTo: 'Stored')
                   .snapshots(),
               builder: (BuildContext context,
                   AsyncSnapshot<QuerySnapshot> snapshot) {
