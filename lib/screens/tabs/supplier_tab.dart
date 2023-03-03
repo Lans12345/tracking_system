@@ -926,6 +926,16 @@ class _SupplierTabState extends State<SupplierTab> {
                                                               int.parse(
                                                                   qtyController[
                                                                           i]
+                                                                      .text),
+                                                          'newPrice': (double.parse(
+                                                                      priceController[
+                                                                              i]
+                                                                          .text) *
+                                                                  data12[
+                                                                      'num']) +
+                                                              int.parse(
+                                                                  priceController[
+                                                                          i]
                                                                       .text)
                                                         });
 
