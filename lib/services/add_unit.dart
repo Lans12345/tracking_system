@@ -13,7 +13,12 @@ Future addUnit(supplierId, unit, unitName, ownName, plateNumber, total,
     'plateNumber': plateNumber,
     'total': total,
     'supplierName': supplierName,
-    'status': 'Stored'
+    'status': 'Stored',
+    'dateTime': DateTime.now(),
+    'wayBillNo': '',
+    'balance': '',
+    'courier': '',
+    'paymentMode': '',
   };
 
   await docUser.set(json);
