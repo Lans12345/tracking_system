@@ -13,6 +13,7 @@ Future addUnit(supplierId, unit, unitName, ownName, plateNumber, total,
     'plateNumber': plateNumber,
     'total': total,
     'supplierName': supplierName,
+    'status': 'Stored'
   };
 
   await docUser.set(json);
