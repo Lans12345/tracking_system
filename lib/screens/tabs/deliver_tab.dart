@@ -260,7 +260,7 @@ class _DeliverTabState extends State<DeliverTab> {
                                     ),
                                     const Divider(),
                                     SizedBox(
-                                      height: 80,
+                                      height: 120,
                                       child: SingleChildScrollView(
                                         child: SizedBox(
                                           height: 150,
@@ -320,62 +320,6 @@ class _DeliverTabState extends State<DeliverTab> {
                                       ),
                                     ),
                                     const Divider(),
-                                    const SizedBox(
-                                      height: 10,
-                                    ),
-                                    StreamBuilder<DocumentSnapshot>(
-                                        stream: FirebaseFirestore.instance
-                                            .collection('Tool')
-                                            .doc('percent')
-                                            .snapshots(),
-                                        builder: (context,
-                                            AsyncSnapshot<DocumentSnapshot>
-                                                snapshot) {
-                                          if (!snapshot.hasData) {
-                                            return const Center(
-                                                child: Text('Loading'));
-                                          } else if (snapshot.hasError) {
-                                            return const Center(
-                                                child: Text(
-                                                    'Something went wrong'));
-                                          } else if (snapshot.connectionState ==
-                                              ConnectionState.waiting) {
-                                            return const Center(
-                                                child:
-                                                    CircularProgressIndicator());
-                                          }
-
-                                          dynamic data12 = snapshot.data;
-                                          return Center(
-                                            child: MaterialButton(
-                                                minWidth: 200,
-                                                color: isHighest
-                                                    ? Colors.green[800]
-                                                    : Colors.blue[800],
-                                                onPressed: (() async {
-                                                  await FirebaseFirestore
-                                                      .instance
-                                                      .collection('Unit')
-                                                      .doc(data.docs[index].id)
-                                                      .update({
-                                                    'status': 'Deliver',
-                                                  });
-
-                                                  ScaffoldMessenger.of(context)
-                                                      .showSnackBar(SnackBar(
-                                                          content: TextRegular(
-                                                              text:
-                                                                  'Added to Deliver',
-                                                              fontSize: 18,
-                                                              color: Colors
-                                                                  .white)));
-                                                }),
-                                                child: TextRegular(
-                                                    text: 'Add to Deliver',
-                                                    fontSize: 12,
-                                                    color: Colors.white)),
-                                          );
-                                        }),
                                     const SizedBox(
                                       height: 10,
                                     ),
