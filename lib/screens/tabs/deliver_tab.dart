@@ -1,5 +1,6 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
+import 'package:tracking_system/services/add_item.dart';
 import 'package:tracking_system/utils/colors.dart';
 import 'package:tracking_system/widgets/text_widget.dart';
 import 'package:intl/intl.dart' show toBeginningOfSentenceCase;
@@ -261,61 +262,174 @@ class _DeliverTabState extends State<DeliverTab> {
                                     const Divider(),
                                     SizedBox(
                                       height: 120,
-                                      child: SingleChildScrollView(
-                                        child: SizedBox(
-                                          height: 150,
-                                          child: DataTable(columns: [
-                                            DataColumn(
-                                                label: TextBold(
-                                                    text: 'Item',
-                                                    fontSize: 14,
-                                                    color: Colors.black)),
-                                            DataColumn(
-                                                label: TextBold(
-                                                    text: 'Qty',
-                                                    fontSize: 14,
-                                                    color: Colors.black)),
-                                            DataColumn(
-                                                label: TextBold(
-                                                    text: 'Kind',
-                                                    fontSize: 14,
-                                                    color: Colors.black)),
-                                            DataColumn(
-                                                label: TextBold(
-                                                    text: 'Price',
-                                                    fontSize: 14,
-                                                    color: Colors.black)),
-                                          ], rows: [
-                                            for (int i = 0;
-                                                i < units.length;
-                                                i++)
-                                              DataRow(cells: [
-                                                DataCell(
-                                                  TextRegular(
-                                                      text: units[i]['desc'],
-                                                      fontSize: 12,
-                                                      color: Colors.black),
-                                                ),
-                                                DataCell(
-                                                  TextRegular(
-                                                      text: units[i]['qty'],
-                                                      fontSize: 12,
-                                                      color: Colors.black),
-                                                ),
-                                                DataCell(
-                                                  TextRegular(
-                                                      text: units[i]['kind'],
-                                                      fontSize: 12,
-                                                      color: Colors.black),
-                                                ),
-                                                DataCell(
-                                                  TextRegular(
-                                                      text: units[i]['price'],
-                                                      fontSize: 12,
-                                                      color: Colors.black),
-                                                ),
-                                              ])
-                                          ]),
+                                      child: Scrollbar(
+                                        controller: scrollController,
+                                        child: SingleChildScrollView(
+                                          controller: scrollController,
+                                          scrollDirection: Axis.horizontal,
+                                          child: SingleChildScrollView(
+                                            scrollDirection: Axis.vertical,
+                                            child: SizedBox(
+                                              height: 150,
+                                              child: DataTable(columns: [
+                                                DataColumn(
+                                                    label: TextBold(
+                                                        text: 'Item',
+                                                        fontSize: 14,
+                                                        color: Colors.black)),
+                                                DataColumn(
+                                                    label: TextBold(
+                                                        text: 'Qty',
+                                                        fontSize: 14,
+                                                        color: Colors.black)),
+                                                DataColumn(
+                                                    label: TextBold(
+                                                        text: 'Kind',
+                                                        fontSize: 14,
+                                                        color: Colors.black)),
+                                                DataColumn(
+                                                    label: TextBold(
+                                                        text: 'Price',
+                                                        fontSize: 14,
+                                                        color: Colors.black)),
+                                                DataColumn(
+                                                    label: TextBold(
+                                                        text: '',
+                                                        fontSize: 14,
+                                                        color: Colors.black)),
+                                                DataColumn(
+                                                    label: TextBold(
+                                                        text: '',
+                                                        fontSize: 14,
+                                                        color: Colors.black)),
+                                              ], rows: [
+                                                for (int i = 0;
+                                                    i < units.length;
+                                                    i++)
+                                                  DataRow(cells: [
+                                                    DataCell(
+                                                      TextRegular(
+                                                          text: units[i]
+                                                              ['desc'],
+                                                          fontSize: 12,
+                                                          color: Colors.black),
+                                                    ),
+                                                    DataCell(
+                                                      TextRegular(
+                                                          text: units[i]['qty'],
+                                                          fontSize: 12,
+                                                          color: Colors.black),
+                                                    ),
+                                                    DataCell(
+                                                      TextRegular(
+                                                          text: units[i]
+                                                              ['kind'],
+                                                          fontSize: 12,
+                                                          color: Colors.black),
+                                                    ),
+                                                    DataCell(
+                                                      TextRegular(
+                                                          text: units[i]
+                                                              ['price'],
+                                                          fontSize: 12,
+                                                          color: Colors.black),
+                                                    ),
+                                                    DataCell(MaterialButton(
+                                                        color: Colors.blue,
+                                                        onPressed: (() async {
+                                                          addItem(
+                                                              'Done',
+                                                              units[i]['desc'],
+                                                              units[i]['price'],
+                                                              units[i]['qty'],
+                                                              units[i]['kind'],
+                                                              data.docs[index][
+                                                                  'supplierName'],
+                                                              data.docs[index][
+                                                                  'supplierId'],
+                                                              data.docs[index]
+                                                                  ['unitName'],
+                                                              '',
+                                                              courier,
+                                                              data.docs[index]
+                                                                  ['wayBillNo'],
+                                                              data.docs[index]
+                                                                  ['balance'],
+                                                              data.docs[index]
+                                                                  ['ownName'],
+                                                              units[i]
+                                                                  ['newPrice']);
+
+                                                          await FirebaseFirestore
+                                                              .instance
+                                                              .collection(
+                                                                  'Unit')
+                                                              .doc(data
+                                                                  .docs[index]
+                                                                  .id)
+                                                              .update({
+                                                            'unit': FieldValue
+                                                                .arrayRemove([
+                                                              data.docs[index]
+                                                                  ['unit'][i]
+                                                            ])
+                                                          });
+                                                        }),
+                                                        child: TextRegular(
+                                                            text: 'Done',
+                                                            fontSize: 12,
+                                                            color:
+                                                                Colors.white))),
+                                                    DataCell(MaterialButton(
+                                                        color: Colors.red,
+                                                        onPressed: (() async {
+                                                          addItem(
+                                                              'Return',
+                                                              units[i]['desc'],
+                                                              units[i]['price'],
+                                                              units[i]['qty'],
+                                                              units[i]['kind'],
+                                                              data.docs[index][
+                                                                  'supplierName'],
+                                                              data.docs[index][
+                                                                  'supplierId'],
+                                                              data.docs[index]
+                                                                  ['unitName'],
+                                                              '',
+                                                              courier,
+                                                              data.docs[index]
+                                                                  ['wayBillNo'],
+                                                              data.docs[index]
+                                                                  ['balance'],
+                                                              data.docs[index]
+                                                                  ['ownName'],
+                                                              units[i]
+                                                                  ['newPrice']);
+
+                                                          await FirebaseFirestore
+                                                              .instance
+                                                              .collection(
+                                                                  'Unit')
+                                                              .doc(data
+                                                                  .docs[index]
+                                                                  .id)
+                                                              .update({
+                                                            'unit': FieldValue
+                                                                .arrayRemove([
+                                                              data.docs[index]
+                                                                  ['unit'][i]
+                                                            ])
+                                                          });
+                                                        }),
+                                                        child: TextRegular(
+                                                            text: 'Return',
+                                                            fontSize: 12,
+                                                            color:
+                                                                Colors.white))),
+                                                  ])
+                                              ]),
+                                            ),
+                                          ),
                                         ),
                                       ),
                                     ),
