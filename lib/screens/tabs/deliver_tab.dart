@@ -443,7 +443,7 @@ class _DeliverTabState extends State<DeliverTab> {
                                           color: Colors.red,
                                           onPressed: (() {
                                             FirebaseFirestore.instance
-                                                .collection('Items')
+                                                .collection('Unit')
                                                 .doc(data.docs[index].id)
                                                 .delete();
                                           }),
