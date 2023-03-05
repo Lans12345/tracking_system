@@ -4,8 +4,6 @@ import 'package:tracking_system/utils/colors.dart';
 import 'package:tracking_system/widgets/text_widget.dart';
 import 'package:intl/intl.dart' show toBeginningOfSentenceCase;
 
-import '../../services/add_item.dart';
-
 class ItemsTab extends StatefulWidget {
   @override
   State<ItemsTab> createState() => _ItemsTabState();
@@ -116,6 +114,7 @@ class _ItemsTabState extends State<ItemsTab> {
                       isGreaterThanOrEqualTo: toBeginningOfSentenceCase(search))
                   .where('unitName',
                       isLessThan: '${toBeginningOfSentenceCase(search)}z')
+                  .where('status', isEqualTo: 'Stored')
                   .snapshots(),
               builder: (BuildContext context,
                   AsyncSnapshot<QuerySnapshot> snapshot) {
@@ -214,61 +213,64 @@ class _ItemsTabState extends State<ItemsTab> {
                                         height: 5,
                                       ),
                                       const Divider(),
-                                      SingleChildScrollView(
-                                        child: SizedBox(
-                                          height: 130,
-                                          child: DataTable(columns: [
-                                            DataColumn(
-                                                label: TextBold(
-                                                    text: 'Item',
-                                                    fontSize: 14,
-                                                    color: Colors.black)),
-                                            DataColumn(
-                                                label: TextBold(
-                                                    text: 'Qty',
-                                                    fontSize: 14,
-                                                    color: Colors.black)),
-                                            DataColumn(
-                                                label: TextBold(
-                                                    text: 'Kind',
-                                                    fontSize: 14,
-                                                    color: Colors.black)),
-                                            DataColumn(
-                                                label: TextBold(
-                                                    text: 'Price',
-                                                    fontSize: 14,
-                                                    color: Colors.black)),
-                                          ], rows: [
-                                            for (int i = 0;
-                                                i < units.length;
-                                                i++)
-                                              DataRow(cells: [
-                                                DataCell(
-                                                  TextRegular(
-                                                      text: units[i]['desc'],
-                                                      fontSize: 12,
-                                                      color: Colors.black),
-                                                ),
-                                                DataCell(
-                                                  TextRegular(
-                                                      text: units[i]['qty'],
-                                                      fontSize: 12,
-                                                      color: Colors.black),
-                                                ),
-                                                DataCell(
-                                                  TextRegular(
-                                                      text: units[i]['kind'],
-                                                      fontSize: 12,
-                                                      color: Colors.black),
-                                                ),
-                                                DataCell(
-                                                  TextRegular(
-                                                      text: units[i]['price'],
-                                                      fontSize: 12,
-                                                      color: Colors.black),
-                                                ),
-                                              ])
-                                          ]),
+                                      SizedBox(
+                                        height: 130,
+                                        child: SingleChildScrollView(
+                                          child: SizedBox(
+                                            height: 150,
+                                            child: DataTable(columns: [
+                                              DataColumn(
+                                                  label: TextBold(
+                                                      text: 'Item',
+                                                      fontSize: 14,
+                                                      color: Colors.black)),
+                                              DataColumn(
+                                                  label: TextBold(
+                                                      text: 'Qty',
+                                                      fontSize: 14,
+                                                      color: Colors.black)),
+                                              DataColumn(
+                                                  label: TextBold(
+                                                      text: 'Kind',
+                                                      fontSize: 14,
+                                                      color: Colors.black)),
+                                              DataColumn(
+                                                  label: TextBold(
+                                                      text: 'Price',
+                                                      fontSize: 14,
+                                                      color: Colors.black)),
+                                            ], rows: [
+                                              for (int i = 0;
+                                                  i < units.length;
+                                                  i++)
+                                                DataRow(cells: [
+                                                  DataCell(
+                                                    TextRegular(
+                                                        text: units[i]['desc'],
+                                                        fontSize: 12,
+                                                        color: Colors.black),
+                                                  ),
+                                                  DataCell(
+                                                    TextRegular(
+                                                        text: units[i]['qty'],
+                                                        fontSize: 12,
+                                                        color: Colors.black),
+                                                  ),
+                                                  DataCell(
+                                                    TextRegular(
+                                                        text: units[i]['kind'],
+                                                        fontSize: 12,
+                                                        color: Colors.black),
+                                                  ),
+                                                  DataCell(
+                                                    TextRegular(
+                                                        text: units[i]['price'],
+                                                        fontSize: 12,
+                                                        color: Colors.black),
+                                                  ),
+                                                ])
+                                            ]),
+                                          ),
                                         ),
                                       ),
                                       const Divider(),
@@ -305,34 +307,15 @@ class _ItemsTabState extends State<ItemsTab> {
                                                   color: isHighest
                                                       ? Colors.green[800]
                                                       : Colors.blue[800],
-                                                  onPressed: (() {
-                                                    for (int i = 0;
-                                                        i < units.length;
-                                                        i++) {
-                                                      double newPri = units[i]
-                                                              ['total'] *
-                                                          data12['num'];
-                                                      addItem(
-                                                          'To Canvass',
-                                                          units[i]['desc'],
-                                                          units[i]['price'],
-                                                          units[i]['qty'],
-                                                          units[i]['kind'],
-                                                          data.docs[index]
-                                                              ['supplierName'],
-                                                          data.docs[index]
-                                                              ['supplierId'],
-                                                          data.docs[index]
-                                                              ['unitName'],
-                                                          '',
-                                                          '',
-                                                          '',
-                                                          '',
-                                                          units[i]['desc'],
-                                                          newPri
-                                                              .toStringAsFixed(
-                                                                  2));
-                                                    }
+                                                  onPressed: (() async {
+                                                    await FirebaseFirestore
+                                                        .instance
+                                                        .collection('Unit')
+                                                        .doc(
+                                                            data.docs[index].id)
+                                                        .update({
+                                                      'status': 'Canvass'
+                                                    });
 
                                                     ScaffoldMessenger.of(
                                                             context)
