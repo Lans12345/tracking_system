@@ -18,6 +18,8 @@ class _OrderTabState extends State<OrderTab> {
 
   late List<bool> check = [];
 
+  var dropValue3 = 0;
+
   var paymentModes = ['COD', 'Bank Payment'];
 
   var search = '';
@@ -233,61 +235,100 @@ class _OrderTabState extends State<OrderTab> {
                                     const Divider(),
                                     SizedBox(
                                       height: 110,
-                                      child: SingleChildScrollView(
-                                        child: SizedBox(
-                                          height: 150,
-                                          child: DataTable(columns: [
-                                            DataColumn(
-                                                label: TextBold(
-                                                    text: 'Item',
-                                                    fontSize: 14,
-                                                    color: Colors.black)),
-                                            DataColumn(
-                                                label: TextBold(
-                                                    text: 'Qty',
-                                                    fontSize: 14,
-                                                    color: Colors.black)),
-                                            DataColumn(
-                                                label: TextBold(
-                                                    text: 'Kind',
-                                                    fontSize: 14,
-                                                    color: Colors.black)),
-                                            DataColumn(
-                                                label: TextBold(
-                                                    text: 'Price',
-                                                    fontSize: 14,
-                                                    color: Colors.black)),
-                                          ], rows: [
-                                            for (int i = 0;
-                                                i < units.length;
-                                                i++)
-                                              DataRow(cells: [
-                                                DataCell(
-                                                  TextRegular(
-                                                      text: units[i]['desc'],
-                                                      fontSize: 12,
-                                                      color: Colors.black),
-                                                ),
-                                                DataCell(
-                                                  TextRegular(
-                                                      text: units[i]['qty'],
-                                                      fontSize: 12,
-                                                      color: Colors.black),
-                                                ),
-                                                DataCell(
-                                                  TextRegular(
-                                                      text: units[i]['kind'],
-                                                      fontSize: 12,
-                                                      color: Colors.black),
-                                                ),
-                                                DataCell(
-                                                  TextRegular(
-                                                      text: units[i]['price'],
-                                                      fontSize: 12,
-                                                      color: Colors.black),
-                                                ),
-                                              ])
-                                          ]),
+                                      child: Scrollbar(
+                                        controller: scrollController,
+                                        child: SingleChildScrollView(
+                                          controller: scrollController,
+                                          scrollDirection: Axis.horizontal,
+                                          child: SingleChildScrollView(
+                                            scrollDirection: Axis.vertical,
+                                            child: SizedBox(
+                                              height: 150,
+                                              child: DataTable(columns: [
+                                                DataColumn(
+                                                    label: TextBold(
+                                                        text: 'Item',
+                                                        fontSize: 14,
+                                                        color: Colors.black)),
+                                                DataColumn(
+                                                    label: TextBold(
+                                                        text: 'Qty',
+                                                        fontSize: 14,
+                                                        color: Colors.black)),
+                                                DataColumn(
+                                                    label: TextBold(
+                                                        text: 'Kind',
+                                                        fontSize: 14,
+                                                        color: Colors.black)),
+                                                DataColumn(
+                                                    label: TextBold(
+                                                        text: 'Price',
+                                                        fontSize: 14,
+                                                        color: Colors.black)),
+                                                DataColumn(
+                                                    label: TextBold(
+                                                        text: '',
+                                                        fontSize: 14,
+                                                        color: Colors.black)),
+                                              ], rows: [
+                                                for (int i = 0;
+                                                    i < units.length;
+                                                    i++)
+                                                  DataRow(cells: [
+                                                    DataCell(
+                                                      TextRegular(
+                                                          text: units[i]
+                                                              ['desc'],
+                                                          fontSize: 12,
+                                                          color: Colors.black),
+                                                    ),
+                                                    DataCell(
+                                                      TextRegular(
+                                                          text: units[i]['qty'],
+                                                          fontSize: 12,
+                                                          color: Colors.black),
+                                                    ),
+                                                    DataCell(
+                                                      TextRegular(
+                                                          text: units[i]
+                                                              ['kind'],
+                                                          fontSize: 12,
+                                                          color: Colors.black),
+                                                    ),
+                                                    DataCell(
+                                                      TextRegular(
+                                                          text: units[i]
+                                                              ['price'],
+                                                          fontSize: 12,
+                                                          color: Colors.black),
+                                                    ),
+                                                    DataCell(MaterialButton(
+                                                        color: Colors.red,
+                                                        onPressed: (() async {
+                                                          await FirebaseFirestore
+                                                              .instance
+                                                              .collection(
+                                                                  'Unit')
+                                                              .doc(data
+                                                                  .docs[index]
+                                                                  .id)
+                                                              .update({
+                                                            'unit': FieldValue
+                                                                .arrayRemove([
+                                                              data.docs[index]
+                                                                  ['unit'][i]
+                                                            ])
+                                                          });
+                                                        }),
+                                                        child: TextRegular(
+                                                            text: 'Remove',
+                                                            fontSize: 12,
+                                                            color:
+                                                                Colors.white))),
+                                                  ])
+                                              ]),
+                                            ),
+                                          ),
                                         ),
                                       ),
                                     ),
@@ -356,7 +397,10 @@ class _OrderTabState extends State<OrderTab> {
                                                               .docs[index].id)
                                                           .update({
                                                         'status': 'Ship',
-                                                        'balance': int.parse(dp)
+                                                        'balance':
+                                                            int.parse(dp),
+                                                        'paymentMode':
+                                                            paymentMode
                                                       });
 
                                                       ScaffoldMessenger.of(
@@ -410,7 +454,7 @@ class _OrderTabState extends State<OrderTab> {
           child: Container(
             height: 80,
             margin: const EdgeInsets.only(left: 30, right: 30, bottom: 20),
-            width: 380,
+            width: 650,
             color: Colors.grey[300],
             child: Padding(
               padding: const EdgeInsets.only(
@@ -444,6 +488,37 @@ class _OrderTabState extends State<OrderTab> {
                                 border: InputBorder.none),
                           )),
                     ],
+                  ),
+                  const SizedBox(
+                    width: 20,
+                  ),
+                  Container(
+                    width: 280,
+                    height: 35,
+                    color: Colors.white,
+                    child: Padding(
+                      padding: const EdgeInsets.only(left: 50, right: 50),
+                      child: DropdownButton(
+                          value: dropValue3,
+                          items: [
+                            for (int i = 0; i < paymentModes.length; i++)
+                              DropdownMenuItem(
+                                onTap: () {
+                                  paymentMode = paymentModes[i];
+                                },
+                                value: i,
+                                child: TextRegular(
+                                    text: paymentModes[i],
+                                    fontSize: 12,
+                                    color: Colors.black),
+                              ),
+                          ],
+                          onChanged: ((value) {
+                            setState(() {
+                              dropValue3 = int.parse(value.toString());
+                            });
+                          })),
+                    ),
                   ),
                 ],
               ),

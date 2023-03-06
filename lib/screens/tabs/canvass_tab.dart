@@ -166,61 +166,100 @@ class _CanvassTabState extends State<CanvassTab> {
                                     const Divider(),
                                     SizedBox(
                                       height: 130,
-                                      child: SingleChildScrollView(
-                                        child: SizedBox(
-                                          height: 150,
-                                          child: DataTable(columns: [
-                                            DataColumn(
-                                                label: TextBold(
-                                                    text: 'Item',
-                                                    fontSize: 14,
-                                                    color: Colors.black)),
-                                            DataColumn(
-                                                label: TextBold(
-                                                    text: 'Qty',
-                                                    fontSize: 14,
-                                                    color: Colors.black)),
-                                            DataColumn(
-                                                label: TextBold(
-                                                    text: 'Kind',
-                                                    fontSize: 14,
-                                                    color: Colors.black)),
-                                            DataColumn(
-                                                label: TextBold(
-                                                    text: 'Price',
-                                                    fontSize: 14,
-                                                    color: Colors.black)),
-                                          ], rows: [
-                                            for (int i = 0;
-                                                i < units.length;
-                                                i++)
-                                              DataRow(cells: [
-                                                DataCell(
-                                                  TextRegular(
-                                                      text: units[i]['desc'],
-                                                      fontSize: 12,
-                                                      color: Colors.black),
-                                                ),
-                                                DataCell(
-                                                  TextRegular(
-                                                      text: units[i]['qty'],
-                                                      fontSize: 12,
-                                                      color: Colors.black),
-                                                ),
-                                                DataCell(
-                                                  TextRegular(
-                                                      text: units[i]['kind'],
-                                                      fontSize: 12,
-                                                      color: Colors.black),
-                                                ),
-                                                DataCell(
-                                                  TextRegular(
-                                                      text: units[i]['price'],
-                                                      fontSize: 12,
-                                                      color: Colors.black),
-                                                ),
-                                              ])
-                                          ]),
+                                      child: Scrollbar(
+                                        controller: scrollController,
+                                        child: SingleChildScrollView(
+                                          controller: scrollController,
+                                          scrollDirection: Axis.horizontal,
+                                          child: SingleChildScrollView(
+                                            scrollDirection: Axis.vertical,
+                                            child: SizedBox(
+                                              height: 150,
+                                              child: DataTable(columns: [
+                                                DataColumn(
+                                                    label: TextBold(
+                                                        text: 'Item',
+                                                        fontSize: 14,
+                                                        color: Colors.black)),
+                                                DataColumn(
+                                                    label: TextBold(
+                                                        text: 'Qty',
+                                                        fontSize: 14,
+                                                        color: Colors.black)),
+                                                DataColumn(
+                                                    label: TextBold(
+                                                        text: 'Kind',
+                                                        fontSize: 14,
+                                                        color: Colors.black)),
+                                                DataColumn(
+                                                    label: TextBold(
+                                                        text: 'Price',
+                                                        fontSize: 14,
+                                                        color: Colors.black)),
+                                                DataColumn(
+                                                    label: TextBold(
+                                                        text: '',
+                                                        fontSize: 14,
+                                                        color: Colors.black)),
+                                              ], rows: [
+                                                for (int i = 0;
+                                                    i < units.length;
+                                                    i++)
+                                                  DataRow(cells: [
+                                                    DataCell(
+                                                      TextRegular(
+                                                          text: units[i]
+                                                              ['desc'],
+                                                          fontSize: 12,
+                                                          color: Colors.black),
+                                                    ),
+                                                    DataCell(
+                                                      TextRegular(
+                                                          text: units[i]['qty'],
+                                                          fontSize: 12,
+                                                          color: Colors.black),
+                                                    ),
+                                                    DataCell(
+                                                      TextRegular(
+                                                          text: units[i]
+                                                              ['kind'],
+                                                          fontSize: 12,
+                                                          color: Colors.black),
+                                                    ),
+                                                    DataCell(
+                                                      TextRegular(
+                                                          text: units[i]
+                                                              ['price'],
+                                                          fontSize: 12,
+                                                          color: Colors.black),
+                                                    ),
+                                                    DataCell(MaterialButton(
+                                                        color: Colors.red,
+                                                        onPressed: (() async {
+                                                          await FirebaseFirestore
+                                                              .instance
+                                                              .collection(
+                                                                  'Unit')
+                                                              .doc(data
+                                                                  .docs[index]
+                                                                  .id)
+                                                              .update({
+                                                            'unit': FieldValue
+                                                                .arrayRemove([
+                                                              data.docs[index]
+                                                                  ['unit'][i]
+                                                            ])
+                                                          });
+                                                        }),
+                                                        child: TextRegular(
+                                                            text: 'Remove',
+                                                            fontSize: 12,
+                                                            color:
+                                                                Colors.white))),
+                                                  ])
+                                              ]),
+                                            ),
+                                          ),
                                         ),
                                       ),
                                     ),

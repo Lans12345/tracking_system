@@ -131,7 +131,7 @@ class _ShipTabState extends State<ShipTab> {
                                   children: [
                                     TextBold(
                                         text: data.docs[index]['supplierName'],
-                                        fontSize: 18,
+                                        fontSize: 14,
                                         color: Colors.black),
                                     const SizedBox(
                                       height: 10,
@@ -142,11 +142,11 @@ class _ShipTabState extends State<ShipTab> {
                                       children: [
                                         TextBold(
                                             text: 'Unit Name',
-                                            fontSize: 14,
+                                            fontSize: 12,
                                             color: Colors.black),
                                         TextRegular(
                                             text: data.docs[index]['unitName'],
-                                            fontSize: 12,
+                                            fontSize: 10,
                                             color: Colors.black)
                                       ],
                                     ),
@@ -159,12 +159,12 @@ class _ShipTabState extends State<ShipTab> {
                                       children: [
                                         TextBold(
                                             text: 'Plate Number',
-                                            fontSize: 14,
+                                            fontSize: 12,
                                             color: Colors.black),
                                         TextRegular(
                                             text: data.docs[index]
                                                 ['plateNumber'],
-                                            fontSize: 12,
+                                            fontSize: 10,
                                             color: Colors.black)
                                       ],
                                     ),
@@ -177,11 +177,11 @@ class _ShipTabState extends State<ShipTab> {
                                       children: [
                                         TextBold(
                                             text: 'Owner Name',
-                                            fontSize: 14,
+                                            fontSize: 12,
                                             color: Colors.black),
                                         TextRegular(
                                             text: data.docs[index]['ownName'],
-                                            fontSize: 12,
+                                            fontSize: 10,
                                             color: Colors.black)
                                       ],
                                     ),
@@ -194,12 +194,12 @@ class _ShipTabState extends State<ShipTab> {
                                       children: [
                                         TextBold(
                                             text: 'Total',
-                                            fontSize: 14,
+                                            fontSize: 12,
                                             color: Colors.black),
                                         TextRegular(
                                             text: data.docs[index]['total']
                                                 .toString(),
-                                            fontSize: 12,
+                                            fontSize: 10,
                                             color: Colors.black)
                                       ],
                                     ),
@@ -212,12 +212,31 @@ class _ShipTabState extends State<ShipTab> {
                                       children: [
                                         TextBold(
                                             text: 'Partial Payment',
-                                            fontSize: 14,
+                                            fontSize: 12,
                                             color: Colors.black),
                                         TextRegular(
                                             text: data.docs[index]['balance']
                                                 .toString(),
+                                            fontSize: 10,
+                                            color: Colors.black)
+                                      ],
+                                    ),
+                                    const SizedBox(
+                                      height: 5,
+                                    ),
+                                    Row(
+                                      mainAxisAlignment:
+                                          MainAxisAlignment.spaceBetween,
+                                      children: [
+                                        TextBold(
+                                            text: 'Payment Mode',
                                             fontSize: 12,
+                                            color: Colors.black),
+                                        TextRegular(
+                                            text: data.docs[index]
+                                                    ['paymentMode']
+                                                .toString(),
+                                            fontSize: 10,
                                             color: Colors.black)
                                       ],
                                     ),
@@ -230,12 +249,12 @@ class _ShipTabState extends State<ShipTab> {
                                       children: [
                                         TextBold(
                                             text: 'Total w/ %',
-                                            fontSize: 14,
+                                            fontSize: 12,
                                             color: Colors.black),
                                         TextRegular(
                                             text: data.docs[index]['newPrice']
                                                 .toString(),
-                                            fontSize: 12,
+                                            fontSize: 10,
                                             color: Colors.black)
                                       ],
                                     ),
